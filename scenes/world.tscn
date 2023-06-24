@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b2nirh036ket0"]
+[gd_scene load_steps=6 format=3 uid="uid://b2nirh036ket0"]
 
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_bcl7q"]
 [ext_resource type="PackedScene" uid="uid://dkr12d528ypo0" path="res://entities/character/character.tscn" id="1_cnybd"]
+[ext_resource type="PackedScene" uid="uid://dvw4wy2xvdnxq" path="res://entities/enemy/enemy.tscn" id="3_h1m5e"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ccynb"]
 size = Vector3(64, 0.5, 64)
@@ -25,3 +26,14 @@ shape = SubResource("ConvexPolygonShape3D_50tbi")
 
 [node name="Character" parent="." instance=ExtResource("1_cnybd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.13461, 0)
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="Enemy1" parent="Enemies" instance=ExtResource("3_h1m5e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.543, 4.19093, -18.2011)
+
+[node name="Enemy2" parent="Enemies" instance=ExtResource("3_h1m5e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.9987, 7.36506, -18.2011)
+
+[node name="Enemy3" parent="Enemies" instance=ExtResource("3_h1m5e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6102, 2.62836, -18.2011)

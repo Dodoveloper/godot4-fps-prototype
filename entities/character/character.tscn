@@ -1,87 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://dkr12d528ypo0"]
+[gd_scene load_steps=7 format=3 uid="uid://dkr12d528ypo0"]
 
 [ext_resource type="Script" path="res://character.gd" id="1_34b7t"]
-[ext_resource type="Script" path="res://entities/character/weapon.gd" id="2_j2vkq"]
+[ext_resource type="PackedScene" uid="uid://hfrop8mvtgwq" path="res://entities/weapon/weapon.tscn" id="2_i21ft"]
+[ext_resource type="Texture2D" uid="uid://cd20o131uytum" path="res://interfaces/hud/assets/crosshair_circle.png" id="3_kwdui"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_i3sya"]
 height = 3.0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bp4pk"]
 height = 3.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lpi0f"]
-albedo_color = Color(0.454902, 0.227451, 0.32549, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_h0f21"]
-material = SubResource("StandardMaterial3D_lpi0f")
-size = Vector3(0.1, 0.2, 1.5)
-
-[sub_resource type="Animation" id="Animation_1m87s"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("./MeshInstance3D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("MeshInstance3D:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_kuhos"]
-resource_name = "firing"
-length = 0.08
-step = 0.01
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("./MeshInstance3D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.04, 0.08),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.15), Vector3(0, 0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_2tnem"]
-resource_name = "reloading"
-length = 1.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.9, 1, 1.1, 1.2),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0.785398, 0, -0.349066), Vector3(0.785398, 0, -0.349066), Vector3(-0.174533, 0, 0), Vector3(0.0872665, 0, 0), Vector3(0, 0, 0)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_32dod"]
-_data = {
-"RESET": SubResource("Animation_1m87s"),
-"firing": SubResource("Animation_kuhos"),
-"reloading": SubResource("Animation_2tnem")
-}
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_0pspf"]
 height = 0.1
@@ -107,31 +34,27 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0.6, -1)
 text = "FPS"
 
 [node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0976247, -0.21224, 0)
 target_position = Vector3(0, 0, -100)
 
-[node name="Weapon" type="Node3D" parent="Head/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, -0.22, -0.12)
-script = ExtResource("2_j2vkq")
+[node name="Weapon" parent="Head/Camera3D" instance=ExtResource("2_i21ft")]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Head/Camera3D/Weapon"]
-mesh = SubResource("BoxMesh_h0f21")
-
-[node name="FireRateTimer" type="Timer" parent="Head/Camera3D/Weapon"]
-one_shot = true
-
-[node name="ReloadTimer" type="Timer" parent="Head/Camera3D/Weapon"]
-one_shot = true
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Head/Camera3D/Weapon"]
-libraries = {
-"": SubResource("AnimationLibrary_32dod")
-}
+[node name="Crosshair" type="TextureRect" parent="Head/Camera3D"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_kwdui")
 
 [node name="Pivot" type="Node3D" parent="."]
 
 [node name="Foot" type="CollisionShape3D" parent="Pivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.44989, 0)
 shape = SubResource("CylinderShape3D_0pspf")
-
-[connection signal="timeout" from="Head/Camera3D/Weapon/FireRateTimer" to="Head/Camera3D/Weapon" method="_on_fire_rate_timer_timeout"]
-[connection signal="timeout" from="Head/Camera3D/Weapon/ReloadTimer" to="Head/Camera3D/Weapon" method="_on_reload_timer_timeout"]
