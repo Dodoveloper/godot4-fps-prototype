@@ -27,6 +27,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00123, 0)
 [node name="Camera3D" type="Camera3D" parent="Head"]
 current = true
 
+[node name="Label3D" type="Label3D" parent="Head/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.46866)
+text = "HELLOOOOOOOOOOOOOOO"
+
 [node name="Pivot" type="Node3D" parent="."]
 
 [node name="Foot" type="CollisionShape3D" parent="Pivot"]

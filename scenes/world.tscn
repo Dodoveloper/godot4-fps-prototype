@@ -1,26 +1,27 @@
-[gd_scene load_steps=4 format=3 uid="uid://b2nirh036ket0"]
+[gd_scene load_steps=5 format=3 uid="uid://b2nirh036ket0"]
 
+[ext_resource type="Script" path="res://scenes/world.gd" id="1_bcl7q"]
 [ext_resource type="PackedScene" uid="uid://dkr12d528ypo0" path="res://entities/character/character.tscn" id="1_cnybd"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ccynb"]
-size = Vector3(64, 1, 64)
+size = Vector3(64, 0.5, 64)
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_4s3fs"]
-points = PackedVector3Array(-32, -0.5, -32, -32, 0.5, -32, 32, -0.5, -32, -32, -0.5, 32, -32, 0.5, 32, 32, 0.5, -32, 32, -0.5, 32, 32, 0.5, 32)
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_50tbi"]
+points = PackedVector3Array(-32, -0.25, -32, -32, 0.25, -32, 32, -0.25, -32, -32, -0.25, 32, -32, 0.25, 32, 32, 0.25, -32, 32, -0.25, 32, 32, 0.25, 32)
 
 [node name="World" type="Node3D"]
+script = ExtResource("1_bcl7q")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 mesh = SubResource("BoxMesh_ccynb")
 skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-shape = SubResource("ConvexPolygonShape3D_4s3fs")
+shape = SubResource("ConvexPolygonShape3D_50tbi")
 
 [node name="Character" parent="." instance=ExtResource("1_cnybd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.88639, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.13461, 0)
