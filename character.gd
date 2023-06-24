@@ -1,12 +1,14 @@
 extends CharacterBody3D
 
 
+const MAX_X_ROTATION := 80  # degrees
+
 @export var speed := 10
 @export var acceleration := 4
 # Get the gravity from the project settings to be synced with RigidBody nodes.
-@export var gravity := 9.8
+@export var gravity := 20
 @export var mouse_sentitivity := 0.15
-@export var jump_power := 30
+@export var jump_power := 10
 
 var camera_x_rotation := 0.0
 
@@ -26,13 +28,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		var x_delta: float = event.relative.y * mouse_sentitivity
 		# clamp camera x rotation to up and down
 		var target_x_rotation := camera_x_rotation + x_delta
-		if target_x_rotation > -90 and target_x_rotation < 90:
+		if target_x_rotation > -MAX_X_ROTATION and target_x_rotation < MAX_X_ROTATION:
 			camera.rotate_x(deg_to_rad(-x_delta))
 			camera_x_rotation = target_x_rotation
 
 
 func _physics_process(delta: float) -> void:
 	label.text = str(Engine.get_frames_per_second())
+	# apply gravity
+	velocity.y -= gravity * delta
 	# get the input direction
 	var direction := Vector3.ZERO
 	if Input.is_action_pressed("move_forward"):
@@ -46,10 +50,8 @@ func _physics_process(delta: float) -> void:
 	direction = direction.normalized()
 	# handle movement and acceleration
 	velocity = velocity.lerp(direction * speed, acceleration * delta)
-	# apply gravity
-#	velocity.y -= gravity * delta
 	# jumping
 	if Input.is_action_just_pressed("ui_select") and is_on_floor():
 		velocity.y += jump_power
-	
+
 	move_and_slide()
