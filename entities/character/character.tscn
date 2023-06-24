@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://dkr12d528ypo0"]
 
 [ext_resource type="Script" path="res://character.gd" id="1_34b7t"]
+[ext_resource type="PackedScene" uid="uid://g0wap7e024se" path="res://interfaces/hud/hud.tscn" id="2_bkkgn"]
 [ext_resource type="PackedScene" uid="uid://hfrop8mvtgwq" path="res://entities/weapon/weapon.tscn" id="2_i21ft"]
-[ext_resource type="Texture2D" uid="uid://cd20o131uytum" path="res://interfaces/hud/assets/crosshair_circle.png" id="3_kwdui"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_i3sya"]
 height = 3.0
@@ -29,29 +29,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00123, 0)
 [node name="Camera3D" type="Camera3D" parent="Head"]
 current = true
 
-[node name="Label3D" type="Label3D" parent="Head/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0.6, -1)
-text = "FPS"
+[node name="HUD" parent="Head/Camera3D" instance=ExtResource("2_bkkgn")]
 
 [node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0976247, -0.21224, 0)
 target_position = Vector3(0, 0, -100)
 
 [node name="Weapon" parent="Head/Camera3D" instance=ExtResource("2_i21ft")]
-
-[node name="Crosshair" type="TextureRect" parent="Head/Camera3D"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -24.0
-offset_top = -24.0
-offset_right = 24.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("3_kwdui")
 
 [node name="Pivot" type="Node3D" parent="."]
 

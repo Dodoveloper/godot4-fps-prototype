@@ -1,3 +1,4 @@
+class_name Weapon
 extends Node3D
 
 
@@ -6,11 +7,15 @@ extends Node3D
 @export var reload_time := 1.2
 @export var raycast_path: NodePath
 
-var cur_ammo := mag_size
+var cur_ammo := mag_size:
+	set(value):
+		cur_ammo = value
+		ammo_label.text = str(value)
 var can_fire := true
 var is_reloading := false
 
 @onready var raycast := get_node(raycast_path) as RayCast3D
+@onready var ammo_label := $AmmoLabel as Label3D
 @onready var fire_rate_timer := $FireRateTimer as Timer
 @onready var reload_timer := $ReloadTimer as Timer
 @onready var anim_player := $AnimationPlayer as AnimationPlayer

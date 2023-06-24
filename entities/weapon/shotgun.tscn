@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://r2rr0bfvfmcu"]
+
+[ext_resource type="PackedScene" uid="uid://hfrop8mvtgwq" path="res://entities/weapon/weapon.tscn" id="1_oikoo"]
+[ext_resource type="Script" path="res://entities/weapon/shotgun.gd" id="2_edd0e"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lpi0f"]
+albedo_color = Color(0.454902, 0.227451, 0.32549, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_utc7o"]
+material = SubResource("StandardMaterial3D_lpi0f")
+size = Vector3(0.1, 0.2, 1.5)
+
+[node name="Shotgun" instance=ExtResource("1_oikoo")]
+script = ExtResource("2_edd0e")
+fire_range = 10
+fire_rate = 1.0
+mag_size = 5
+reload_time = 1.0
+
+[node name="MeshInstance3D" parent="." index="0"]
+mesh = SubResource("BoxMesh_utc7o")

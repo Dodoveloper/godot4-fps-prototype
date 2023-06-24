@@ -14,7 +14,7 @@ var camera_x_rotation := 0.0
 
 @onready var head := $Head as Node3D
 @onready var camera := $Head/Camera3D as Camera3D
-@onready var label := $Head/Camera3D/Label3D as Label3D
+@onready var hud := $Head/Camera3D/HUD as Hud
 
 
 func _ready() -> void:
@@ -34,7 +34,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	label.text = str(Engine.get_frames_per_second())
 	# apply gravity
 	velocity.y -= gravity * delta
 	# get the input direction

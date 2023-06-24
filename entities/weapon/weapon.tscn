@@ -6,6 +6,7 @@
 albedo_color = Color(0.454902, 0.227451, 0.32549, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_h0f21"]
+resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_lpi0f")
 size = Vector3(0.1, 0.2, 1.5)
 
@@ -14,7 +15,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("./MeshInstance3D:position")
+tracks/0/path = NodePath("MeshInstance3D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -43,7 +44,7 @@ step = 0.01
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("./MeshInstance3D:position")
+tracks/0/path = NodePath("MeshInstance3D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -70,6 +71,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_32dod"]
+resource_local_to_scene = true
 _data = {
 "RESET": SubResource("Animation_1m87s"),
 "firing": SubResource("Animation_kuhos"),
@@ -83,6 +85,12 @@ raycast_path = NodePath("../RayCast3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_h0f21")
+
+[node name="AmmoLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04, 0.15, 0.01)
+pixel_size = 0.0004
+text = "30"
+font_size = 64
 
 [node name="FireRateTimer" type="Timer" parent="."]
 one_shot = true
