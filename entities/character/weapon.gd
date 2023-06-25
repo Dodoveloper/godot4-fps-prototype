@@ -2,6 +2,7 @@ class_name Weapon
 extends Node3D
 
 
+@export var damage := 10
 @export var fire_rate := 0.08
 @export var mag_size := 30
 @export var reload_time := 1.2
@@ -32,7 +33,6 @@ func _process(_delta: float) -> void:
 
 
 func _shoot() -> void:
-	print("Firing!")
 	can_fire = false
 	cur_ammo -= 1
 	_check_collision()

@@ -1,13 +1,38 @@
-[gd_scene load_steps=3 format=3 uid="uid://dvw4wy2xvdnxq"]
+[gd_scene load_steps=6 format=3 uid="uid://dvw4wy2xvdnxq"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_twgmj"]
+[ext_resource type="Script" path="res://entities/enemy/enemy.gd" id="1_xqyyb"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_dw0so"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_75cep"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_1ju31"]
+material = SubResource("StandardMaterial3D_75cep")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hxdi3"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_w1ct3"]
+size = Vector3(0.25, 0.25, 0.25)
 
 [node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
+script = ExtResource("1_xqyyb")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("SphereMesh_twgmj")
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_1ju31")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_dw0so")
+shape = SubResource("CapsuleShape3D_hxdi3")
+
+[node name="Nose" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, -8.74228e-08, 0, -3.82137e-15, 4.37114e-08, -1, 8.74228e-08, -1, -4.37114e-08, 0, 0.368499, -0.601234)
+mesh = SubResource("PrismMesh_w1ct3")
+
+[node name="DetectorArea3D" type="Area3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, 0, -0.531334)
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="DetectorArea3D"]
+transform = Transform3D(0.999999, 0.000451471, -0.0010114, -0.000449169, 0.999997, 0.0022951, 0.00101243, -0.00229465, 0.999997, 0, 0, 0)
+polygon = PackedVector2Array(0, 0, 15, 6, 15, -6)
+
+[connection signal="body_entered" from="DetectorArea3D" to="." method="_on_detector_area_3d_body_entered"]
+[connection signal="body_exited" from="DetectorArea3D" to="." method="_on_detector_area_3d_body_exited"]

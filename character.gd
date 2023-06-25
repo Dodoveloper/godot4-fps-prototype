@@ -1,3 +1,4 @@
+class_name Character
 extends CharacterBody3D
 
 
@@ -5,11 +6,11 @@ const MAX_X_ROTATION := 80  # degrees
 
 @export var speed := 10
 @export var acceleration := 4
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-@export var gravity := 20
 @export var mouse_sentitivity := 0.15
 @export var jump_power := 10
 
+# Get the gravity from the project settings to be synced with RigidBody nodes.
+var gravity: float = ProjectSettings.get("physics/3d/default_gravity")
 var camera_x_rotation := 0.0
 
 @onready var head := $Head as Node3D
