@@ -2,11 +2,18 @@ class_name Weapon
 extends Node3D
 
 
+const ADS_LERP_SPEED := 20
+
 @export var damage := 10
 @export var fire_rate := 0.08
 @export var mag_size := 30
 @export var reload_time := 1.2
 @export var raycast_path: NodePath
+@export var gun_camera_path: NodePath
+@export var default_position: Vector3
+@export var ads_position: Vector3
+@export var default_fov := 75.0
+@export var ads_fov := 55.0
 
 var cur_ammo := mag_size:
 	set(value):
@@ -16,13 +23,21 @@ var can_fire := true
 var is_reloading := false
 
 @onready var raycast := get_node(raycast_path) as RayCast3D
+@onready var gun_camera := get_node(gun_camera_path) as Camera3D
 @onready var ammo_label := $MeshInstance3D/AmmoLabel as Label3D
 @onready var fire_rate_timer := $FireRateTimer as Timer
 @onready var reload_timer := $ReloadTimer as Timer
 @onready var anim_player := $AnimationPlayer as AnimationPlayer
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	if not is_reloading:
+		if Input.is_action_pressed("ads"):
+			position = position.lerp(ads_position, ADS_LERP_SPEED * delta)
+			gun_camera.fov = lerpf(gun_camera.fov, ads_fov, ADS_LERP_SPEED * delta)
+		else:
+			position = position.lerp(default_position, ADS_LERP_SPEED * delta)
+			gun_camera.fov = lerpf(gun_camera.fov, default_fov, ADS_LERP_SPEED * delta)
 	if Input.is_action_pressed("fire1") and can_fire and not is_reloading:
 		if cur_ammo:
 			_shoot()
