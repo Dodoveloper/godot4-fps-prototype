@@ -112,3 +112,5 @@ cull_mask = 2
 current = true
 script = ExtResource("4_e2r84")
 camera_path = NodePath("../../../Head/Camera3D")
+
+[connection signal="ads_toggled" from="Head/Camera3D/Weapon" to="Head/Camera3D/HUD" method="_on_weapon_ads_toggled"]

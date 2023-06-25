@@ -96,11 +96,10 @@ layers = 2
 mesh = ExtResource("2_keprt")
 
 [node name="AmmoLabel" type="Label3D" parent="MeshInstance3D"]
-transform = Transform3D(-0.111111, 0, 9.71364e-09, 0, 0.111111, 0, -9.71364e-09, 0, -0.111111, 0.001, 0.017, -0.021)
+transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 8.46001e-10, 0.017, -0.0206663)
 layers = 2
-pixel_size = 0.0004
+pixel_size = 0.0001
 text = "30"
-font_size = 64
 
 [node name="FireRateTimer" type="Timer" parent="."]
 one_shot = true

@@ -2,6 +2,8 @@ class_name Weapon
 extends Node3D
 
 
+signal ads_toggled(enabled: bool)
+
 const ADS_LERP_SPEED := 20
 
 @export var damage := 10
@@ -35,9 +37,11 @@ func _process(delta: float) -> void:
 		if Input.is_action_pressed("ads"):
 			position = position.lerp(ads_position, ADS_LERP_SPEED * delta)
 			camera.fov = lerpf(camera.fov, ads_fov, ADS_LERP_SPEED * delta)
+			ads_toggled.emit(true)
 		else:
 			position = position.lerp(default_position, ADS_LERP_SPEED * delta)
 			camera.fov = lerpf(camera.fov, default_fov, ADS_LERP_SPEED * delta)
+			ads_toggled.emit(false)
 	if Input.is_action_pressed("fire1") and can_fire and not is_reloading:
 		if cur_ammo:
 			_shoot()
