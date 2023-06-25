@@ -77,7 +77,7 @@ target_position = Vector3(0, 0, -100)
 collision_mask = 4
 
 [node name="Weapon" parent="Head/Camera3D" instance=ExtResource("3_yiye0")]
-gun_camera_path = NodePath("../../../SubViewportContainer/SubViewport/GunCamera3D")
+camera_path = NodePath("..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Head/Camera3D"]
 libraries = {
@@ -107,6 +107,8 @@ size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="GunCamera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 cull_mask = 2
+current = true
 script = ExtResource("4_e2r84")
 camera_path = NodePath("../../../Head/Camera3D")

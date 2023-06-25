@@ -97,6 +97,7 @@ mesh = ExtResource("2_keprt")
 
 [node name="AmmoLabel" type="Label3D" parent="MeshInstance3D"]
 transform = Transform3D(-0.111111, 0, 9.71364e-09, 0, 0.111111, 0, -9.71364e-09, 0, -0.111111, 0.001, 0.017, -0.021)
+layers = 2
 pixel_size = 0.0004
 text = "30"
 font_size = 64
