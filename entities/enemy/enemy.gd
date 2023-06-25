@@ -19,7 +19,7 @@ func _physics_process(delta: float) -> void:
 	if target:
 		var result := space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
 				global_transform.origin, target.global_transform.origin))
-		if result.collider is Character:
+		if result.collider is Player:
 			look_at(target.global_transform.origin)
 			_set_body_albedo(Color.RED)
 			# move to target
@@ -36,12 +36,12 @@ func _set_body_albedo(color: Color) -> void:
 
 
 func _on_detector_area_3d_body_entered(body: Node3D) -> void:
-	if body is Character:
+	if body is Player:
 		target = body
 		_set_body_albedo(Color.RED)
 
 
 func _on_detector_area_3d_body_exited(body: Node3D) -> void:
-	if body is Character:
+	if body is Player:
 		target = null
 		_set_body_albedo(Color.GREEN)

@@ -45,6 +45,7 @@ glow_enabled = true
 script = ExtResource("1_bcl7q")
 
 [node name="Ground" type="StaticBody3D" parent="."]
+collision_mask = 7
 metadata/_edit_lock_ = true
 metadata/_edit_group_ = true
 
@@ -59,6 +60,7 @@ shape = SubResource("ConvexPolygonShape3D_50tbi")
 
 [node name="Wall1" type="StaticBody3D" parent="Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, 31.75)
+collision_mask = 7
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
@@ -71,6 +73,7 @@ shape = SubResource("BoxShape3D_pe1oo")
 
 [node name="Wall2" type="StaticBody3D" parent="Room"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -31.75, 2.75, 0)
+collision_mask = 7
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
@@ -83,6 +86,7 @@ shape = SubResource("BoxShape3D_pe1oo")
 
 [node name="Wall3" type="StaticBody3D" parent="Room"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 31.75, 2.75, 0)
+collision_mask = 7
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
@@ -95,6 +99,7 @@ shape = SubResource("BoxShape3D_pe1oo")
 
 [node name="Wall4" type="StaticBody3D" parent="Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -31.75)
+collision_mask = 7
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
@@ -107,6 +112,7 @@ shape = SubResource("BoxShape3D_pe1oo")
 
 [node name="Ramp" type="StaticBody3D" parent="Room"]
 transform = Transform3D(0.777201, 0, -0.629253, 0, 1, 0, 0.629253, 0, 0.777201, 6.5, 1.5, 6.5)
+collision_mask = 7
 metadata/_edit_group_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Room/Ramp"]
@@ -117,6 +123,7 @@ shape = SubResource("ConvexPolygonShape3D_xmy0b")
 
 [node name="Wall5" type="StaticBody3D" parent="Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -0.637535)
+collision_mask = 7
 metadata/_edit_group_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Room/Wall5"]

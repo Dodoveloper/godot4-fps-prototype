@@ -89,7 +89,7 @@ script = ExtResource("1_vuet4")
 raycast_path = NodePath("../RayCast3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(-9, 0, -7.86805e-07, 0, 9, 0, 7.86805e-07, 0, -9, 0, 0, 0)
+transform = Transform3D(-9, 0, 2.28166e-05, 0, 9, 0, -2.28166e-05, 0, -9, 0, 0, 0)
 mesh = ExtResource("2_keprt")
 
 [node name="AmmoLabel" type="Label3D" parent="MeshInstance3D"]

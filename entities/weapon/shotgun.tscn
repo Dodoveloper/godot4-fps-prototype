@@ -11,7 +11,6 @@ material = SubResource("StandardMaterial3D_lpi0f")
 size = Vector3(0.1, 0.2, 1.5)
 
 [node name="Shotgun" instance=ExtResource("1_oikoo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, -0.22, -0.375)
 script = ExtResource("2_edd0e")
 fire_range = 10
 fire_rate = 1.0
@@ -19,5 +18,5 @@ mag_size = 5
 reload_time = 1.0
 
 [node name="MeshInstance3D" parent="." index="0"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+transform = Transform3D(-1, 0, 2.53518e-06, 0, 1, 0, -2.53518e-06, 0, -1, 0, 0, 0)
 mesh = SubResource("BoxMesh_utc7o")
