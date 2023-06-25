@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dkr12d528ypo0"]
+[gd_scene load_steps=8 format=3 uid="uid://dkr12d528ypo0"]
 
 [ext_resource type="Script" path="res://character.gd" id="1_34b7t"]
 [ext_resource type="PackedScene" uid="uid://g0wap7e024se" path="res://interfaces/hud/hud.tscn" id="2_bkkgn"]
 [ext_resource type="PackedScene" uid="uid://hfrop8mvtgwq" path="res://entities/weapon/weapon.tscn" id="2_i21ft"]
+[ext_resource type="Script" path="res://entities/character/gun_camera/gun_camera.gd" id="4_yoaxe"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_i3sya"]
 height = 3.0
@@ -62,5 +63,7 @@ handle_input_locally = false
 size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
-[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+[node name="GunCamera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
 cull_mask = 2
+script = ExtResource("4_yoaxe")
+camera_path = NodePath("../../../Head/Camera3D")
