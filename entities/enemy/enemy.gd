@@ -2,32 +2,46 @@ extends CharacterBody3D
 
 
 @export var health := 100
+@export var speed := 7.5
 
 var gravity: float = ProjectSettings.get("physics/3d/default_gravity")
 var target: Node3D
 
+@onready var space_state := get_world_3d().direct_space_state
 @onready var body_mesh := $Body as MeshInstance3D
 
 
-func _ready() -> void:
-	pass
-
-
 func _physics_process(delta: float) -> void:
+	var direction := Vector3.ZERO
 	# apply gravity
 	velocity.y -= gravity * delta
+	# look at the player while checking if there is a line of sight
 	if target:
-		look_at(target.global_transform.origin)
+		var result := space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
+				global_transform.origin, target.global_transform.origin))
+		if result.collider is Character:
+			look_at(target.global_transform.origin)
+			_set_body_albedo(Color.RED)
+			# move to target
+			direction = (target.transform.origin - transform.origin).normalized()
+		else:
+			_set_body_albedo(Color.GREEN)
+	velocity.x = direction.x * speed
+	velocity.z = direction.z * speed
 	move_and_slide()
+
+
+func _set_body_albedo(color: Color) -> void:
+	(body_mesh.get_active_material(0) as StandardMaterial3D).albedo_color = color
 
 
 func _on_detector_area_3d_body_entered(body: Node3D) -> void:
 	if body is Character:
 		target = body
-		(body_mesh.get_active_material(0) as StandardMaterial3D).albedo_color = Color.RED
+		_set_body_albedo(Color.RED)
 
 
 func _on_detector_area_3d_body_exited(body: Node3D) -> void:
 	if body is Character:
 		target = null
-		(body_mesh.get_active_material(0) as StandardMaterial3D).albedo_color = Color.GREEN
+		_set_body_albedo(Color.GREEN)
