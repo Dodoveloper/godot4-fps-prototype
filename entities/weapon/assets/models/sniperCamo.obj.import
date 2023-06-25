@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://beamrmryefwky"
+path="res://.godot/imported/sniperCamo.obj-274c2b2f53008a7a3c6c53c8f8b7570c.mesh"
+
+[deps]
+
+files=["res://.godot/imported/sniperCamo.obj-274c2b2f53008a7a3c6c53c8f8b7570c.mesh"]
+
+source_file="res://entities/weapon/assets/models/sniperCamo.obj"
+dest_files=["res://.godot/imported/sniperCamo.obj-274c2b2f53008a7a3c6c53c8f8b7570c.mesh", "res://.godot/imported/sniperCamo.obj-274c2b2f53008a7a3c6c53c8f8b7570c.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

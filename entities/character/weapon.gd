@@ -16,7 +16,7 @@ var can_fire := true
 var is_reloading := false
 
 @onready var raycast := get_node(raycast_path) as RayCast3D
-@onready var ammo_label := $AmmoLabel as Label3D
+@onready var ammo_label := $MeshInstance3D/AmmoLabel as Label3D
 @onready var fire_rate_timer := $FireRateTimer as Timer
 @onready var reload_timer := $ReloadTimer as Timer
 @onready var anim_player := $AnimationPlayer as AnimationPlayer

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cnipyjo3jn5oa"
+path="res://.godot/imported/grenadeSmoke.obj-13129959a139d4a776a52cb64874e0e2.mesh"
+
+[deps]
+
+files=["res://.godot/imported/grenadeSmoke.obj-13129959a139d4a776a52cb64874e0e2.mesh"]
+
+source_file="res://entities/weapon/assets/models/grenadeSmoke.obj"
+dest_files=["res://.godot/imported/grenadeSmoke.obj-13129959a139d4a776a52cb64874e0e2.mesh", "res://.godot/imported/grenadeSmoke.obj-13129959a139d4a776a52cb64874e0e2.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
