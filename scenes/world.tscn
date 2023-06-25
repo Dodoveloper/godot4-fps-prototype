@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://b2nirh036ket0"]
 
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_bcl7q"]
-[ext_resource type="PackedScene" uid="uid://dkr12d528ypo0" path="res://entities/character/character.tscn" id="1_cnybd"]
+[ext_resource type="PackedScene" uid="uid://dkr12d528ypo0" path="res://entities/player/player.tscn" id="1_cnybd"]
 [ext_resource type="PackedScene" uid="uid://dvw4wy2xvdnxq" path="res://entities/enemy/enemy.tscn" id="3_h1m5e"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ccynb"]

@@ -15,6 +15,7 @@ var camera_x_rotation := 0.0
 
 @onready var head := $Head as Node3D
 @onready var camera := $Head/Camera3D as Camera3D
+@onready var cam_anim_player := $Head/Camera3D/AnimationPlayer as AnimationPlayer
 @onready var hud := $Head/Camera3D/HUD as Hud
 
 
@@ -53,5 +54,8 @@ func _physics_process(delta: float) -> void:
 	# jumping
 	if Input.is_action_just_pressed("ui_select") and is_on_floor():
 		velocity.y += jump_power
+	# head bob animation
+	if direction != Vector3.ZERO:
+		cam_anim_player.play("head_bobbing")
 
 	move_and_slide()

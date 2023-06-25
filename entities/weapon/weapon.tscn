@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://hfrop8mvtgwq"]
 
-[ext_resource type="Script" path="res://entities/character/weapon.gd" id="1_vuet4"]
+[ext_resource type="Script" path="res://entities/player/weapon.gd" id="1_m2ill"]
 [ext_resource type="ArrayMesh" uid="uid://bw8edkxwsjefb" path="res://entities/weapon/assets/models/machinegun.obj" id="2_keprt"]
 
 [sub_resource type="Animation" id="Animation_1m87s"]
@@ -85,7 +85,7 @@ _data = {
 
 [node name="Weapon" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, -0.22, -0.375)
-script = ExtResource("1_vuet4")
+script = ExtResource("1_m2ill")
 raycast_path = NodePath("../RayCast3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
