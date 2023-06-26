@@ -19,8 +19,8 @@ size = Vector3(64, 6, 0.5)
 [sub_resource type="PrismMesh" id="PrismMesh_tul5f"]
 size = Vector3(8, 4, 4)
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_xmy0b"]
-points = PackedVector3Array(1.72333, -2, -2, 0.112056, 1.88794, 1.88794, 0.112056, 1.88794, -1.82445, -4.06349, -1.80877, 2.12698, 4.06349, -1.80918, 2.12698, -4.06349, -1.80877, -2.06349, 4.06349, -1.80918, -2.06349, -3.81722, -1.93651, 2, -0.112721, 1.88728, 1.88728, 3.81722, -1.93612, 2, -3.94036, -2, -2, -0.112721, 1.88728, -1.82379, 3.94036, -1.9996, -2, 1.66947, -1.93651, 2)
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_a07vn"]
+data = PackedVector3Array(0, 2, 2, 4, -2, 2, -4, -2, 2, 0, 2, -2, -4, -2, -2, 4, -2, -2, 0, 2, 2, 0, 2, -2, 4, -2, 2, 0, 2, -2, 4, -2, -2, 4, -2, 2, 0, 2, -2, 0, 2, 2, -4, -2, -2, 0, 2, 2, -4, -2, 2, -4, -2, -2, -4, -2, 2, 4, -2, 2, -4, -2, -2, 4, -2, 2, 4, -2, -2, -4, -2, -2)
 
 [sub_resource type="BoxMesh" id="BoxMesh_let4w"]
 size = Vector3(20, 6, 0.5)
@@ -119,7 +119,7 @@ metadata/_edit_group_ = true
 mesh = SubResource("PrismMesh_tul5f")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Ramp"]
-shape = SubResource("ConvexPolygonShape3D_xmy0b")
+shape = SubResource("ConcavePolygonShape3D_a07vn")
 
 [node name="Wall5" type="StaticBody3D" parent="Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, -0.637535)
