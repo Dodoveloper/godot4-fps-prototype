@@ -113,5 +113,14 @@ current = true
 script = ExtResource("4_e2r84")
 camera_path = NodePath("../../../Head/Camera3D")
 
+[node name="SprintTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="SprintCooldown" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="ads_toggled" from="Head/Camera3D/Weapon" to="Head/Camera3D/HUD" method="_on_weapon_ads_toggled"]
 [connection signal="has_shot" from="Head/Camera3D/Weapon" to="." method="_on_weapon_has_shot"]
+[connection signal="timeout" from="SprintTimer" to="." method="_on_sprint_timer_timeout"]
+[connection signal="timeout" from="SprintCooldown" to="." method="_on_sprint_cooldown_timeout"]
