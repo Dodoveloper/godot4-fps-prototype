@@ -135,7 +135,7 @@ skeleton = NodePath("../..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, 0)
 shape = SubResource("BoxShape3D_n2has")
 
-[node name="Character" parent="." instance=ExtResource("1_cnybd")]
+[node name="Player" parent="." instance=ExtResource("1_cnybd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.13461, 0)
 
 [node name="Enemies" type="Node3D" parent="."]
@@ -164,6 +164,8 @@ transform = Transform3D(-0.996287, 0, 0.0860951, 0, 1, 0, -0.0860951, 0, -0.9962
 [node name="Enemy8" parent="Enemies" instance=ExtResource("3_h1m5e")]
 transform = Transform3D(-0.154072, 0, 0.98806, 0, 1, 0, -0.98806, 0, -0.154072, 23.9303, 2.03002, 2.41479)
 
+[node name="Decals" type="Node3D" parent="."]
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.0218772, -0.464997, 0.885042, 0.0114907, 0.885312, 0.464855, -0.999695, 9.30435e-10, 0.0247113, 48.7779, 22.5789, 1.87348)
 shadow_enabled = true
@@ -171,3 +173,5 @@ shadow_normal_bias = 0.1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ywp5y")
+
+[connection signal="has_shot" from="Player" to="." method="_on_player_has_shot"]

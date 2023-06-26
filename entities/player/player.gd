@@ -2,6 +2,8 @@ class_name Player
 extends CharacterBody3D
 
 
+signal has_shot(raycast: RayCast3D)
+
 const MAX_X_ROTATION := 80  # degrees
 
 @export var speed := 10
@@ -17,6 +19,7 @@ var camera_x_rotation := 0.0
 @onready var camera := $Head/Camera3D as Camera3D
 @onready var cam_anim_player := $Head/Camera3D/AnimationPlayer as AnimationPlayer
 @onready var hud := $Head/Camera3D/HUD as Hud
+@onready var raycast := $Head/Camera3D/RayCast3D as RayCast3D
 
 
 func _ready() -> void:
@@ -59,3 +62,8 @@ func _physics_process(delta: float) -> void:
 		cam_anim_player.play("head_bobbing")
 
 	move_and_slide()
+
+
+func _on_weapon_has_shot() -> void:
+	if raycast.get_collider():
+		has_shot.emit(raycast)

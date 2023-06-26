@@ -3,6 +3,7 @@ extends Node3D
 
 
 signal ads_toggled(enabled: bool)
+signal has_shot()
 
 const ADS_LERP_SPEED := 20
 
@@ -57,6 +58,7 @@ func _shoot() -> void:
 	_check_collision()
 	fire_rate_timer.start(fire_rate)
 	anim_player.play("firing")
+	has_shot.emit()
 
 
 func _reload() -> void:
