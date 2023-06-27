@@ -7,7 +7,7 @@ signal has_shot(raycast: RayCast3D)
 const MAX_X_ROTATION := 80  # degrees
 
 @export var default_speed := 10
-@export var sprint_speed := 20
+@export var sprint_speed := 15
 @export var acceleration := 4
 @export var mouse_sentitivity := 0.15
 @export var jump_power := 10
@@ -16,6 +16,8 @@ const MAX_X_ROTATION := 80  # degrees
 var gravity: float = ProjectSettings.get("physics/3d/default_gravity")
 var camera_x_rotation := 0.0
 var speed: int
+var is_sprinting := false:
+	set = _set_is_sprinting
 var can_sprint := true
 
 @onready var head := $Head as Node3D
@@ -23,16 +25,19 @@ var can_sprint := true
 @onready var cam_anim_player := $Head/Camera3D/AnimationPlayer as AnimationPlayer
 @onready var hud := $Head/Camera3D/HUD as Hud
 @onready var raycast := $Head/Camera3D/RayCast3D as RayCast3D
+@onready var weapon := $Head/Camera3D/Weapon as Weapon
 @onready var sprint_timer := $SprintTimer as Timer
 @onready var sprint_cooldown := $SprintCooldown as Timer
 
 
 func _ready() -> void:
+	speed = default_speed
 	# lock mouse to the window
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# mouse movement
 	if event is InputEventMouseMotion:
 		head.rotate_y(deg_to_rad(-event.relative.x * mouse_sentitivity))
 		var x_delta: float = event.relative.y * mouse_sentitivity
@@ -41,18 +46,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		if target_x_rotation > -MAX_X_ROTATION and target_x_rotation < MAX_X_ROTATION:
 			camera.rotate_x(deg_to_rad(-x_delta))
 			camera_x_rotation = target_x_rotation
-	if Input.is_action_just_pressed("sprint"):
-		sprint_timer.start()
-	elif Input.is_action_just_released("sprint"):
-		sprint_cooldown.start(sprint_timer.time_left)
-		sprint_timer.stop()
+	# sprinting
+	if Input.is_action_just_pressed("sprint") and can_sprint:
+		is_sprinting = true
+	elif Input.is_action_just_released("sprint") and is_sprinting:
+		is_sprinting = false
 
 
 func _physics_process(delta: float) -> void:
-	speed = default_speed
 	# apply gravity
 	velocity.y -= gravity * delta
-	# get the input direction
+	# get the input direction (WASD)
 	var direction := Vector3.ZERO
 	if Input.is_action_pressed("move_forward"):
 		direction -= head.transform.basis.z
@@ -63,9 +67,6 @@ func _physics_process(delta: float) -> void:
 	elif Input.is_action_pressed("move_right"):
 		direction += head.transform.basis.x
 	direction = direction.normalized()
-	# sprinting
-	if Input.is_action_pressed("sprint") and can_sprint:
-		speed = sprint_speed
 	# jumping
 	if Input.is_action_just_pressed("ui_select") and is_on_floor():
 		velocity.y += jump_power
@@ -78,6 +79,19 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
+func _set_is_sprinting(value: bool) -> void:
+	is_sprinting = value
+	weapon.is_sprinting = value
+	if value:
+		speed = sprint_speed
+		sprint_timer.start()
+	else:
+		speed = default_speed
+		sprint_cooldown.start(sprint_timer.wait_time - sprint_timer.time_left)
+		sprint_timer.stop()
+		print("sprint cooldown: ", sprint_cooldown.wait_time)
+
+
 func _on_weapon_has_shot() -> void:
 	if raycast.get_collider():
 		has_shot.emit(raycast)
@@ -85,9 +99,8 @@ func _on_weapon_has_shot() -> void:
 
 func _on_sprint_timer_timeout() -> void:
 	can_sprint = false
-	sprint_cooldown.start(sprint_timer.wait_time)
+	is_sprinting = false
 	print("sprint timeout")
-	
 
 
 func _on_sprint_cooldown_timeout() -> void:

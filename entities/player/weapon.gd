@@ -24,6 +24,8 @@ var cur_ammo := mag_size:
 		ammo_label.text = str(value)
 var can_fire := true
 var is_reloading := false
+var is_sprinting := false:
+	set = _set_is_sprinting
 
 @onready var raycast := get_node(raycast_path) as RayCast3D
 @onready var camera := get_node(camera_path) as Camera3D
@@ -48,7 +50,7 @@ func _process(delta: float) -> void:
 			_shoot()
 		else:
 			_reload()
-	elif Input.is_action_just_pressed("reload") and not is_reloading:
+	elif Input.is_action_just_pressed("reload") and not is_reloading and not is_sprinting:
 		_reload()
 
 
@@ -76,6 +78,12 @@ func _check_collision() -> void:
 		if collider.is_in_group("enemies"):
 			collider.queue_free()
 			print("Killed ", collider.name)
+
+
+func _set_is_sprinting(value: bool) -> void:
+	is_sprinting = value
+	can_fire = not is_sprinting
+	anim_player.play("sprinting" if is_sprinting else "RESET")
 
 
 func _on_fire_rate_timer_timeout() -> void:
