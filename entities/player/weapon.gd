@@ -21,13 +21,17 @@ const SWAY_LERP := 5
 @export var ads_fov := 55.0
 @export var sway_left: Vector3
 @export var sway_right: Vector3
-@export var sway_normal: Vector3
+@export var sway_default: Vector3
 
 var cur_ammo := mag_size:
 	set(value):
 		cur_ammo = value
 		ammo_label.text = str(value)
 var can_fire := true
+var is_aiming := false:
+	set(value):
+		is_aiming = value
+		ads_toggled.emit(value)
 var is_reloading := false
 var is_sprinting := false:
 	set = _set_is_sprinting
@@ -54,17 +58,17 @@ func _process(delta: float) -> void:
 		elif mouse_movement < -SWAY_TRESHOLD:
 			rotation = rotation.lerp(sway_right, SWAY_LERP * delta)
 		else:
-			rotation = rotation.lerp(sway_normal, SWAY_LERP * delta)
+			rotation = rotation.lerp(sway_default, SWAY_LERP * delta)
 	# states
 	if not is_reloading:
 		if Input.is_action_pressed("ads"):
 			position = position.lerp(ads_position, ADS_LERP_SPEED * delta)
 			camera.fov = lerpf(camera.fov, ads_fov, ADS_LERP_SPEED * delta)
-			ads_toggled.emit(true)
+			is_aiming = true
 		else:
 			position = position.lerp(default_position, ADS_LERP_SPEED * delta)
 			camera.fov = lerpf(camera.fov, default_fov, ADS_LERP_SPEED * delta)
-			ads_toggled.emit(false)
+			is_aiming = false
 	if Input.is_action_pressed("fire1") and can_fire and not is_reloading:
 		if cur_ammo:
 			_shoot()
@@ -86,7 +90,6 @@ func _shoot() -> void:
 func _reload() -> void:
 	if cur_ammo == mag_size:
 		return
-	print("Reloading")
 	is_reloading = true
 	reload_timer.start(reload_time)
 	anim_player.play("reloading")
@@ -97,13 +100,12 @@ func _check_collision() -> void:
 		var collider := raycast.get_collider()
 		if collider.is_in_group("enemies"):
 			collider.queue_free()
-			print("Killed ", collider.name)
 
 
 func _set_is_sprinting(value: bool) -> void:
 	is_sprinting = value
 	can_fire = not is_sprinting
-	anim_player.play("sprinting" if is_sprinting else "holding")
+	anim_player.play("sprinting" if is_sprinting else "holding", 0.2)
 
 
 func _on_fire_rate_timer_timeout() -> void:
@@ -111,6 +113,5 @@ func _on_fire_rate_timer_timeout() -> void:
 
 
 func _on_reload_timer_timeout() -> void:
-	print("Reloaded")
 	is_reloading = false
 	cur_ammo = mag_size
