@@ -1,7 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://dkr12d528ypo0"]
+[gd_scene load_steps=16 format=3 uid="uid://dkr12d528ypo0"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_sbhg4"]
+[ext_resource type="Script" path="res://entities/fsm/fsm.gd" id="2_u3mif"]
 [ext_resource type="PackedScene" uid="uid://g0wap7e024se" path="res://interfaces/hud/hud.tscn" id="2_wmwnf"]
+[ext_resource type="Script" path="res://entities/player/states/idle.gd" id="3_sdfdx"]
 [ext_resource type="PackedScene" uid="uid://hfrop8mvtgwq" path="res://entities/weapon/weapon.tscn" id="3_yiye0"]
 [ext_resource type="Script" path="res://entities/player/gun_camera/gun_camera.gd" id="4_e2r84"]
 
@@ -188,6 +190,12 @@ _data = {
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_sbhg4")
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2_u3mif")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("3_sdfdx")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_i3sya")

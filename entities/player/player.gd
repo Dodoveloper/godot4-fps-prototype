@@ -14,6 +14,7 @@ const MAX_X_ROTATION := 80  # degrees
 @export var jump_power := 10
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
+var direction := Vector3.ZERO
 var gravity: float = ProjectSettings.get("physics/3d/default_gravity")
 var camera_x_rotation := 0.0
 var speed: int
@@ -94,7 +95,6 @@ func _physics_process(delta: float) -> void:
 			speed = default_speed
 			is_crouching = false
 	# get the input direction (WASD)
-	var direction := Vector3.ZERO
 	if Input.is_action_pressed("move_forward"):
 		direction -= head.transform.basis.z
 	elif Input.is_action_pressed("move_backwards"):
