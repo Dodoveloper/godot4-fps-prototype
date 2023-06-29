@@ -20,7 +20,8 @@ var speed: int
 var can_sprint := true
 var is_sprinting := false:
 	set = _set_is_sprinting
-var is_crouching := false
+var is_crouching := false:
+	set = _set_is_crouching
 
 @onready var mesh_instance := $MeshInstance3D as MeshInstance3D
 @onready var collision := $CollisionShape3D as CollisionShape3D
@@ -123,6 +124,14 @@ func _set_is_sprinting(value: bool) -> void:
 		sprint_cooldown.start(sprint_timer.wait_time - sprint_timer.time_left)
 		sprint_timer.stop()
 		print("sprint cooldown: ", sprint_cooldown.wait_time)
+
+
+func _set_is_crouching(value: bool) -> void:
+	is_crouching = value
+	can_sprint = not is_crouching
+	# interrupt sprint
+	if is_crouching and is_sprinting:
+		is_sprinting = false
 
 
 func _on_weapon_has_shot() -> void:
