@@ -4,6 +4,7 @@ extends Node3D
 
 signal ads_toggled(enabled: bool)
 signal has_shot()
+signal has_reloaded()
 
 const ADS_LERP_SPEED := 20
 const SWAY_TRESHOLD := 5
@@ -26,15 +27,27 @@ const SWAY_LERP := 5
 var cur_ammo := mag_size:
 	set(value):
 		cur_ammo = value
-		ammo_label.text = str(value)
-var can_fire := true
+		ammo_label.text = str(cur_ammo)
+var can_aim := true
+var can_shoot := true
+var can_reload := false
 var is_aiming := false:
 	set(value):
 		is_aiming = value
-		ads_toggled.emit(value)
-var is_reloading := false
+		ads_toggled.emit(is_aiming)
+var is_reloading := false:
+	set(value):
+		is_reloading = value
+		can_shoot = not is_reloading
+		can_aim = not is_reloading
 var is_sprinting := false:
-	set = _set_is_sprinting
+	set(value):
+		is_sprinting = value
+		print("sprinting: ", is_sprinting)
+		can_shoot = not is_sprinting
+		can_aim = not is_sprinting
+		can_reload = not is_sprinting
+		anim_player.play("sprinting" if is_sprinting else "holding", 0.2)
 var mouse_movement: float
 
 @onready var raycast := get_node(raycast_path) as RayCast3D
@@ -59,27 +72,26 @@ func _process(delta: float) -> void:
 			rotation = rotation.lerp(sway_right, SWAY_LERP * delta)
 		else:
 			rotation = rotation.lerp(sway_default, SWAY_LERP * delta)
-	# states
-	if not is_reloading:
-		if Input.is_action_pressed("ads"):
-			position = position.lerp(ads_position, ADS_LERP_SPEED * delta)
-			camera.fov = lerpf(camera.fov, ads_fov, ADS_LERP_SPEED * delta)
-			is_aiming = true
-		else:
-			position = position.lerp(default_position, ADS_LERP_SPEED * delta)
-			camera.fov = lerpf(camera.fov, default_fov, ADS_LERP_SPEED * delta)
-			is_aiming = false
-	if Input.is_action_pressed("fire1") and can_fire and not is_reloading:
-		if cur_ammo:
-			_shoot()
-		else:
-			_reload()
-	elif Input.is_action_just_pressed("reload") and not is_reloading and not is_sprinting:
-		_reload()
 
 
-func _shoot() -> void:
-	can_fire = false
+func aim(delta: float) -> void:
+	if not can_aim:
+		return
+	position = position.lerp(ads_position, ADS_LERP_SPEED * delta)
+	camera.fov = lerpf(camera.fov, ads_fov, ADS_LERP_SPEED * delta)
+	is_aiming = true
+
+
+func un_aim(delta: float) -> void:
+	position = position.lerp(default_position, ADS_LERP_SPEED * delta)
+	camera.fov = lerpf(camera.fov, default_fov, ADS_LERP_SPEED * delta)
+	is_aiming = false
+
+
+func shoot() -> void:
+	if not can_shoot:
+		return
+	can_shoot = false
 	cur_ammo -= 1
 	_check_collision()
 	fire_rate_timer.start(fire_rate)
@@ -87,10 +99,11 @@ func _shoot() -> void:
 	has_shot.emit()
 
 
-func _reload() -> void:
-	if cur_ammo == mag_size:
+func reload() -> void:
+	if cur_ammo == mag_size or not can_reload:
 		return
 	is_reloading = true
+	print("reloading: ", is_reloading)
 	reload_timer.start(reload_time)
 	anim_player.play("reloading")
 
@@ -102,16 +115,11 @@ func _check_collision() -> void:
 			collider.queue_free()
 
 
-func _set_is_sprinting(value: bool) -> void:
-	is_sprinting = value
-	can_fire = not is_sprinting
-	anim_player.play("sprinting" if is_sprinting else "holding", 0.2)
-
-
 func _on_fire_rate_timer_timeout() -> void:
-	can_fire = true
+	can_shoot = true
 
 
 func _on_reload_timer_timeout() -> void:
 	is_reloading = false
 	cur_ammo = mag_size
+	has_reloaded.emit()

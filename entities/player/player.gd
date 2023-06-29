@@ -17,9 +17,9 @@ const MAX_X_ROTATION := 80  # degrees
 var gravity: float = ProjectSettings.get("physics/3d/default_gravity")
 var camera_x_rotation := 0.0
 var speed: int
+var can_sprint := true
 var is_sprinting := false:
 	set = _set_is_sprinting
-var can_sprint := true
 var is_crouching := false
 
 @onready var mesh_instance := $MeshInstance3D as MeshInstance3D
@@ -55,6 +55,25 @@ func _unhandled_input(event: InputEvent) -> void:
 		is_sprinting = true
 	elif Input.is_action_just_released("sprint") and is_sprinting:
 		is_sprinting = false
+
+
+func _process(delta: float) -> void:
+	# aiming
+	if Input.is_action_pressed("ads"):
+		weapon.aim(delta)
+	else:
+		weapon.un_aim(delta)
+	# firing
+	if Input.is_action_pressed("fire1"):
+		if weapon.cur_ammo:
+			weapon.shoot()
+		else:
+			can_sprint = false
+			weapon.reload()
+	# reloading
+	elif Input.is_action_just_pressed("reload"):
+		can_sprint = false
+		weapon.reload()
 
 
 func _physics_process(delta: float) -> void:
@@ -95,8 +114,8 @@ func _physics_process(delta: float) -> void:
 
 func _set_is_sprinting(value: bool) -> void:
 	is_sprinting = value
-	weapon.is_sprinting = value
-	if value:
+	weapon.is_sprinting = is_sprinting
+	if is_sprinting:
 		speed = sprint_speed
 		sprint_timer.start()
 	else:
@@ -120,3 +139,7 @@ func _on_sprint_timer_timeout() -> void:
 func _on_sprint_cooldown_timeout() -> void:
 	can_sprint = true
 	print("sprint cooldown timeout")
+
+
+func _on_weapon_has_reloaded() -> void:
+	can_sprint = true
