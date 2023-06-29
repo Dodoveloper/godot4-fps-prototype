@@ -6,5 +6,6 @@ func enter() -> void:
 
 
 func update(delta: float) -> void:
-	if get_normalized_direction():
-		finished.emit("walk" if not Input.is_action_pressed("sprint") else "sprint")
+	if _get_normalized_direction():
+		finished.emit("sprint" if Input.is_action_pressed("sprint") else "walk")
+	_move(delta)

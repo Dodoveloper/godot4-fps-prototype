@@ -8,7 +8,7 @@ func handle_input(event: InputEvent) -> InputEvent:
 	return super(event)
 
 
-func get_normalized_direction() -> Vector3:
+func _get_normalized_direction() -> Vector3:
 	var direction := Vector3.ZERO
 	if Input.is_action_pressed("move_forward"):
 		direction -= (owner as Player).head.transform.basis.z
@@ -22,7 +22,7 @@ func get_normalized_direction() -> Vector3:
 
 
 func _move(delta: float) -> void:
-	(owner as Player).velocity.y -= (owner as Player).gravity * delta
+	var direction := _get_normalized_direction()
 	(owner as Player).velocity = (owner as Player).velocity.lerp(
-			get_normalized_direction() * (owner as Player).speed,
+			direction * (owner as Player).speed,
 			(owner as Player).acceleration * delta)

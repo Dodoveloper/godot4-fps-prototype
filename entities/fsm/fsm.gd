@@ -13,13 +13,6 @@ var states_map := {}
 var is_input_blocked := false
 
 
-func _ready() -> void:
-	for state_node in get_children():
-		(state_node as State).finished.connect(_change_state)
-		states_map[String(state_node.name).to_lower()] = state_node
-	initialize(start_state_path)
-
-
 func _physics_process(delta: float) -> void:
 	current_state.update(delta)
 

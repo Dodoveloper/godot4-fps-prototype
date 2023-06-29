@@ -32,8 +32,6 @@ var is_crouching := false:
 @onready var hud := $Head/Camera3D/HUD as Hud
 @onready var raycast := $Head/Camera3D/RayCast3D as RayCast3D
 @onready var weapon := $Head/Camera3D/Weapon as Weapon
-@onready var sprint_timer := $SprintTimer as Timer
-@onready var sprint_cooldown := $SprintCooldown as Timer
 
 
 func _ready() -> void:
@@ -52,11 +50,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		if target_x_rotation > -MAX_X_ROTATION and target_x_rotation < MAX_X_ROTATION:
 			camera.rotate_x(deg_to_rad(-x_delta))
 			camera_x_rotation = target_x_rotation
-	# sprinting
-	if Input.is_action_just_pressed("sprint") and can_sprint:
-		is_sprinting = true
-	elif Input.is_action_just_released("sprint") and is_sprinting:
-		is_sprinting = false
 
 
 func _process(delta: float) -> void:
@@ -94,18 +87,6 @@ func _physics_process(delta: float) -> void:
 			anim_player.play_backwards("player/crouch")
 			speed = default_speed
 			is_crouching = false
-	# get the input direction (WASD)
-	if Input.is_action_pressed("move_forward"):
-		direction -= head.transform.basis.z
-	elif Input.is_action_pressed("move_backwards"):
-		direction += head.transform.basis.z
-	if Input.is_action_pressed("move_left"):
-		direction -= head.transform.basis.x
-	elif Input.is_action_pressed("move_right"):
-		direction += head.transform.basis.x
-	direction = direction.normalized()
-	# handle movement and acceleration
-	velocity = velocity.lerp(direction * speed, acceleration * delta)
 	# head bob animation
 #	if direction != Vector3.ZERO:
 #		anim_player.play("camera/head_bobbing")
@@ -116,14 +97,6 @@ func _physics_process(delta: float) -> void:
 func _set_is_sprinting(value: bool) -> void:
 	is_sprinting = value
 	weapon.is_sprinting = is_sprinting
-	if is_sprinting:
-		speed = sprint_speed
-		sprint_timer.start()
-	else:
-		speed = default_speed
-		sprint_cooldown.start(sprint_timer.wait_time - sprint_timer.time_left)
-		sprint_timer.stop()
-		print("sprint cooldown: ", sprint_cooldown.wait_time)
 
 
 func _set_is_crouching(value: bool) -> void:
@@ -139,12 +112,6 @@ func _on_weapon_has_shot() -> void:
 		has_shot.emit(raycast)
 
 
-func _on_sprint_timer_timeout() -> void:
-	can_sprint = false
-	is_sprinting = false
-	print("sprint timeout")
-
-
 func _on_sprint_cooldown_timeout() -> void:
 	can_sprint = true
 	print("sprint cooldown timeout")
@@ -152,3 +119,7 @@ func _on_sprint_cooldown_timeout() -> void:
 
 func _on_weapon_has_reloaded() -> void:
 	can_sprint = true
+
+
+func _on_state_machine_state_changed(states_stack) -> void:
+	hud.state_label.text = (states_stack[0] as State).name
