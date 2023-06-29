@@ -8,6 +8,7 @@ const MAX_X_ROTATION := 80  # degrees
 
 @export var default_speed := 10
 @export var sprint_speed := 15
+@export var crouch_speed := 6
 @export var acceleration := 4
 @export var mouse_sentitivity := 0.15
 @export var jump_power := 10
@@ -19,10 +20,13 @@ var speed: int
 var is_sprinting := false:
 	set = _set_is_sprinting
 var can_sprint := true
+var is_crouching := false
 
+@onready var mesh_instance := $MeshInstance3D as MeshInstance3D
+@onready var collision := $CollisionShape3D as CollisionShape3D
 @onready var head := $Head as Node3D
 @onready var camera := $Head/Camera3D as Camera3D
-@onready var cam_anim_player := $Head/Camera3D/AnimationPlayer as AnimationPlayer
+@onready var anim_player := $AnimationPlayer as AnimationPlayer
 @onready var hud := $Head/Camera3D/HUD as Hud
 @onready var raycast := $Head/Camera3D/RayCast3D as RayCast3D
 @onready var weapon := $Head/Camera3D/Weapon as Weapon
@@ -56,6 +60,19 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	# apply gravity
 	velocity.y -= gravity * delta
+	# jumping
+	if Input.is_action_just_pressed("ui_select") and is_on_floor():
+		velocity.y += jump_power
+	# crouching
+	if Input.is_action_just_pressed("crouch") and is_on_floor():
+		if not is_crouching:
+			anim_player.play("player/crouch")
+			speed = crouch_speed
+			is_crouching = true
+		else:
+			anim_player.play_backwards("player/crouch")
+			speed = default_speed
+			is_crouching = false
 	# get the input direction (WASD)
 	var direction := Vector3.ZERO
 	if Input.is_action_pressed("move_forward"):
@@ -67,14 +84,11 @@ func _physics_process(delta: float) -> void:
 	elif Input.is_action_pressed("move_right"):
 		direction += head.transform.basis.x
 	direction = direction.normalized()
-	# jumping
-	if Input.is_action_just_pressed("ui_select") and is_on_floor():
-		velocity.y += jump_power
 	# handle movement and acceleration
 	velocity = velocity.lerp(direction * speed, acceleration * delta)
 	# head bob animation
-	if direction != Vector3.ZERO:
-		cam_anim_player.play("head_bobbing")
+#	if direction != Vector3.ZERO:
+#		anim_player.play("camera/head_bobbing")
 
 	move_and_slide()
 
