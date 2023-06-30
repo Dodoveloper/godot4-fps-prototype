@@ -18,12 +18,10 @@ var direction := Vector3.ZERO
 var gravity: float = ProjectSettings.get("physics/3d/default_gravity")
 var camera_x_rotation := 0.0
 var speed: int
-var can_sprint := true
-var is_sprinting := false:
-	set = _set_is_sprinting
 var is_crouching := false:
 	set = _set_is_crouching
 
+@onready var fsm := $StateMachine as PlayerStateMachine
 @onready var mesh_instance := $MeshInstance3D as MeshInstance3D
 @onready var collision := $CollisionShape3D as CollisionShape3D
 @onready var head := $Head as Node3D
@@ -63,11 +61,9 @@ func _process(delta: float) -> void:
 		if weapon.cur_ammo:
 			weapon.shoot()
 		else:
-			can_sprint = false
 			weapon.reload()
 	# reloading
 	elif Input.is_action_just_pressed("reload"):
-		can_sprint = false
 		weapon.reload()
 
 
@@ -94,17 +90,8 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-func _set_is_sprinting(value: bool) -> void:
-	is_sprinting = value
-	weapon.is_sprinting = is_sprinting
-
-
 func _set_is_crouching(value: bool) -> void:
 	is_crouching = value
-	can_sprint = not is_crouching
-	# interrupt sprint
-	if is_crouching and is_sprinting:
-		is_sprinting = false
 
 
 func _on_weapon_has_shot() -> void:
@@ -112,13 +99,8 @@ func _on_weapon_has_shot() -> void:
 		has_shot.emit(raycast)
 
 
-func _on_sprint_cooldown_timeout() -> void:
-	can_sprint = true
-	print("sprint cooldown timeout")
-
-
 func _on_weapon_has_reloaded() -> void:
-	can_sprint = true
+	pass
 
 
 func _on_state_machine_state_changed(states_stack) -> void:

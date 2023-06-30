@@ -7,5 +7,8 @@ func enter() -> void:
 
 func update(delta: float) -> void:
 	if _get_normalized_direction():
-		finished.emit("sprint" if Input.is_action_pressed("sprint") else "walk")
+		if Input.is_action_pressed("sprint") and (owner as Player).fsm.can_sprint:
+			finished.emit("sprint")
+		else:
+			finished.emit("walk")
 	_move(delta)

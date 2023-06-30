@@ -43,7 +43,6 @@ var is_reloading := false:
 var is_sprinting := false:
 	set(value):
 		is_sprinting = value
-		print("sprinting: ", is_sprinting)
 		can_shoot = not is_sprinting
 		can_aim = not is_sprinting
 		can_reload = not is_sprinting

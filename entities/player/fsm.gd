@@ -1,3 +1,4 @@
+class_name PlayerStateMachine
 extends StateMachine
 
 
@@ -24,5 +25,6 @@ func _on_sprint_cooldown_timeout() -> void:
 
 
 func _on_sprint_exited(wait_time: float, time_left: float) -> void:
+	can_sprint = false
 	sprint_cooldown.start(wait_time - time_left)
 	print("sprint cooldown: ", sprint_cooldown.wait_time)

@@ -11,7 +11,7 @@ func enter() -> void:
 func handle_input(event: InputEvent) -> InputEvent:
 	if event.is_action_pressed("crouch"):
 		finished.emit("crouch")
-	elif event.is_action_pressed("sprint"):
+	elif event.is_action_pressed("sprint") and (owner as Player).fsm.can_sprint:
 		finished.emit("sprint")
 	return super(event)
 
