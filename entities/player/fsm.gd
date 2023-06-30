@@ -19,6 +19,12 @@ func _ready() -> void:
 	sprint_cooldown.timeout.connect(_on_sprint_cooldown_timeout)
 
 
+func _change_state(state_name: String) -> void:
+	if state_name == "sprint" and not can_sprint:
+		return
+	super(state_name)
+
+
 func _on_sprint_cooldown_timeout() -> void:
 	can_sprint = true
 	print("sprint cooldown timeout")

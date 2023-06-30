@@ -11,7 +11,6 @@ const MAX_X_ROTATION := 80  # degrees
 @export var crouch_speed := 6
 @export var acceleration := 4
 @export var mouse_sentitivity := 0.15
-@export var jump_power := 10
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var direction := Vector3.ZERO
@@ -70,9 +69,6 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	# apply gravity
 	velocity.y -= gravity * delta
-	# jumping
-	if Input.is_action_just_pressed("ui_select") and is_on_floor():
-		velocity.y += jump_power
 	# crouching
 	if Input.is_action_just_pressed("crouch") and is_on_floor():
 		if not is_crouching:

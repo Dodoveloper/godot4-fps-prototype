@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dkr12d528ypo0"]
+[gd_scene load_steps=19 format=3 uid="uid://dkr12d528ypo0"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_sbhg4"]
 [ext_resource type="Script" path="res://entities/player/fsm.gd" id="2_4arxr"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://entities/player/gun_camera/gun_camera.gd" id="4_e2r84"]
 [ext_resource type="Script" path="res://entities/player/states/walk.gd" id="4_wg1ks"]
 [ext_resource type="Script" path="res://entities/player/states/sprint.gd" id="5_4taip"]
+[ext_resource type="Script" path="res://entities/player/states/jump.gd" id="5_rtd2e"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_i3sya"]
 height = 3.0
@@ -202,6 +203,9 @@ script = ExtResource("3_sdfdx")
 
 [node name="Walk" type="Node" parent="StateMachine"]
 script = ExtResource("4_wg1ks")
+
+[node name="Jump" type="Node" parent="StateMachine"]
+script = ExtResource("5_rtd2e")
 
 [node name="Sprint" type="Node" parent="StateMachine"]
 script = ExtResource("5_4taip")
