@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dkr12d528ypo0"]
+[gd_scene load_steps=20 format=3 uid="uid://dkr12d528ypo0"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_sbhg4"]
 [ext_resource type="Script" path="res://entities/player/fsm.gd" id="2_4arxr"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://entities/player/states/walk.gd" id="4_wg1ks"]
 [ext_resource type="Script" path="res://entities/player/states/sprint.gd" id="5_4taip"]
 [ext_resource type="Script" path="res://entities/player/states/jump.gd" id="5_rtd2e"]
+[ext_resource type="Script" path="res://entities/player/states/crouch.gd" id="7_po5wv"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_i3sya"]
 height = 3.0
@@ -213,6 +214,9 @@ script = ExtResource("5_4taip")
 [node name="Duration" type="Timer" parent="StateMachine/Sprint"]
 wait_time = 3.0
 one_shot = true
+
+[node name="Crouch" type="Node" parent="StateMachine"]
+script = ExtResource("7_po5wv")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_i3sya")

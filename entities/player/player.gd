@@ -6,9 +6,6 @@ signal has_shot(raycast: RayCast3D)
 
 const MAX_X_ROTATION := 80  # degrees
 
-@export var default_speed := 10
-@export var sprint_speed := 15
-@export var crouch_speed := 6
 @export var acceleration := 4
 @export var mouse_sentitivity := 0.15
 
@@ -17,8 +14,6 @@ var direction := Vector3.ZERO
 var gravity: float = ProjectSettings.get("physics/3d/default_gravity")
 var camera_x_rotation := 0.0
 var speed: int
-var is_crouching := false:
-	set = _set_is_crouching
 
 @onready var fsm := $StateMachine as PlayerStateMachine
 @onready var mesh_instance := $MeshInstance3D as MeshInstance3D
@@ -32,7 +27,6 @@ var is_crouching := false:
 
 
 func _ready() -> void:
-	speed = default_speed
 	# lock mouse to the window
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -69,25 +63,11 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	# apply gravity
 	velocity.y -= gravity * delta
-	# crouching
-	if Input.is_action_just_pressed("crouch") and is_on_floor():
-		if not is_crouching:
-			anim_player.play("player/crouch")
-			speed = crouch_speed
-			is_crouching = true
-		else:
-			anim_player.play_backwards("player/crouch")
-			speed = default_speed
-			is_crouching = false
 	# head bob animation
 #	if direction != Vector3.ZERO:
 #		anim_player.play("camera/head_bobbing")
 
 	move_and_slide()
-
-
-func _set_is_crouching(value: bool) -> void:
-	is_crouching = value
 
 
 func _on_weapon_has_shot() -> void:
