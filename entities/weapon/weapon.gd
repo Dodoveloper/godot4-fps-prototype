@@ -28,12 +28,9 @@ var cur_ammo := mag_size:
 		cur_ammo = value
 		ammo_label.text = str(cur_ammo)
 var can_sprint := true
-var is_sprinting := false:
-	set(value):
-		is_sprinting = value
-		anim_player.play("sprinting", 0.2)
 var mouse_movement: float
 
+@onready var fsm := $StateMachine as WeaponStateMachine
 @onready var raycast := get_node(raycast_path) as RayCast3D
 @onready var camera := get_node(camera_path) as Camera3D
 @onready var ammo_label := $MeshInstance3D/AmmoLabel as Label3D
@@ -54,6 +51,10 @@ func _process(delta: float) -> void:
 			rotation = rotation.lerp(sway_right, SWAY_LERP * delta)
 		else:
 			rotation = rotation.lerp(sway_default, SWAY_LERP * delta)
+
+
+func set_sprinting(value: bool) -> void:
+	anim_player.play("sprinting" if value else "holding", 0.2)
 
 
 func is_mag_full() -> bool:

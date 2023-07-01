@@ -16,7 +16,7 @@ func exit() -> void:
 func handle_input(event: InputEvent) -> InputEvent:
 	if event.is_action_pressed("crouch"):
 		finished.emit("idle" if not _get_normalized_direction() else "walk")
-	elif event.is_action_pressed("sprint"):
+	elif event.is_action_pressed("sprint") and (owner as Player).weapon.can_sprint:
 		finished.emit("sprint")
 	return super(event)
 

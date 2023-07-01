@@ -13,7 +13,7 @@ func handle_input(event: InputEvent) -> InputEvent:
 
 func update(delta: float) -> void:
 	if _get_normalized_direction():
-		if Input.is_action_pressed("sprint"):
+		if Input.is_action_pressed("sprint") and (owner as Player).weapon.can_sprint:
 			finished.emit("sprint")
 		else:
 			finished.emit("walk")
