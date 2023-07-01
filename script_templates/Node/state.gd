@@ -1,12 +1,10 @@
 extends State
 
 
-# Initialize the state. E.g. change the animation
 func enter() -> void:
 	return
 
 
-# Clean up the state. Reinitialize values like a timer
 func exit() -> void:
 	return
 

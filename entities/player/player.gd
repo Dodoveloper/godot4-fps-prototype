@@ -43,18 +43,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			camera_x_rotation = target_x_rotation
 
 
-func _process(_delta: float) -> void:
-	# firing
-	if Input.is_action_pressed("fire1"):
-		if weapon.cur_ammo:
-			weapon.shoot()
-		else:
-			weapon.reload()
-	# reloading
-	elif Input.is_action_just_pressed("reload"):
-		weapon.reload()
-
-
 func _physics_process(delta: float) -> void:
 	# apply gravity
 	velocity.y -= gravity * delta

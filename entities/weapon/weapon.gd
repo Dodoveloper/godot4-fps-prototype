@@ -15,6 +15,10 @@ const SWAY_LERP := 5
 @export var reload_time := 1.2
 @export var raycast_path: NodePath
 @export var camera_path: NodePath
+@export var ads_position: Vector3
+@export var default_position: Vector3
+@export var ads_fov := 55.0
+@export var default_fov := 75.0
 @export var sway_left: Vector3
 @export var sway_right: Vector3
 @export var sway_default: Vector3
@@ -23,28 +27,16 @@ var cur_ammo := mag_size:
 	set(value):
 		cur_ammo = value
 		ammo_label.text = str(cur_ammo)
-var can_aim := true
-var can_shoot := true
-var can_reload := false
-var is_reloading := false:
-	set(value):
-		is_reloading = value
-		can_shoot = not is_reloading
-		can_aim = not is_reloading
+var can_sprint := true
 var is_sprinting := false:
 	set(value):
 		is_sprinting = value
-		can_shoot = not is_sprinting
-		can_aim = not is_sprinting
-		can_reload = not is_sprinting
 		anim_player.play("sprinting", 0.2)
 var mouse_movement: float
 
 @onready var raycast := get_node(raycast_path) as RayCast3D
 @onready var camera := get_node(camera_path) as Camera3D
 @onready var ammo_label := $MeshInstance3D/AmmoLabel as Label3D
-@onready var fire_rate_timer := $FireRateTimer as Timer
-@onready var reload_timer := $ReloadTimer as Timer
 @onready var anim_player := $AnimationPlayer as AnimationPlayer
 
 
@@ -64,40 +56,15 @@ func _process(delta: float) -> void:
 			rotation = rotation.lerp(sway_default, SWAY_LERP * delta)
 
 
-func shoot() -> void:
-	if not can_shoot:
-		return
-	can_shoot = false
-	cur_ammo -= 1
-	_check_collision()
-	fire_rate_timer.start(fire_rate)
-	anim_player.play("firing")
-	has_shot.emit()
+func is_mag_full() -> bool:
+	return cur_ammo == mag_size
 
 
-func reload() -> void:
-	if cur_ammo == mag_size or not can_reload:
-		return
-	is_reloading = true
-	print("reloading: ", is_reloading)
-	reload_timer.start(reload_time)
-	anim_player.play("reloading")
-
-
-func _check_collision() -> void:
+func check_collision() -> void:
 	if raycast.is_colliding():
 		var collider := raycast.get_collider()
 		if collider.is_in_group("enemies"):
 			collider.queue_free()
-
-
-func _on_fire_rate_timer_timeout() -> void:
-	can_shoot = true
-
-
-func _on_reload_timer_timeout() -> void:
-	is_reloading = false
-	cur_ammo = mag_size
 
 
 func _on_state_machine_state_changed(states_stack: Array) -> void:
