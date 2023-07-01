@@ -4,9 +4,8 @@ extends Node3D
 
 signal ads_toggled(enabled: bool)
 signal has_shot()
-signal has_reloaded()
+signal state_changed(states_stack: Array)
 
-const ADS_LERP_SPEED := 20
 const SWAY_TRESHOLD := 5
 const SWAY_LERP := 5
 
@@ -16,10 +15,6 @@ const SWAY_LERP := 5
 @export var reload_time := 1.2
 @export var raycast_path: NodePath
 @export var camera_path: NodePath
-@export var default_position: Vector3
-@export var ads_position: Vector3
-@export var default_fov := 75.0
-@export var ads_fov := 55.0
 @export var sway_left: Vector3
 @export var sway_right: Vector3
 @export var sway_default: Vector3
@@ -31,10 +26,6 @@ var cur_ammo := mag_size:
 var can_aim := true
 var can_shoot := true
 var can_reload := false
-var is_aiming := false:
-	set(value):
-		is_aiming = value
-		ads_toggled.emit(is_aiming)
 var is_reloading := false:
 	set(value):
 		is_reloading = value
@@ -46,7 +37,7 @@ var is_sprinting := false:
 		can_shoot = not is_sprinting
 		can_aim = not is_sprinting
 		can_reload = not is_sprinting
-		anim_player.play("sprinting" if is_sprinting else "holding", 0.2)
+		anim_player.play("sprinting", 0.2)
 var mouse_movement: float
 
 @onready var raycast := get_node(raycast_path) as RayCast3D
@@ -71,20 +62,6 @@ func _process(delta: float) -> void:
 			rotation = rotation.lerp(sway_right, SWAY_LERP * delta)
 		else:
 			rotation = rotation.lerp(sway_default, SWAY_LERP * delta)
-
-
-func aim(delta: float) -> void:
-	if not can_aim:
-		return
-	position = position.lerp(ads_position, ADS_LERP_SPEED * delta)
-	camera.fov = lerpf(camera.fov, ads_fov, ADS_LERP_SPEED * delta)
-	is_aiming = true
-
-
-func un_aim(delta: float) -> void:
-	position = position.lerp(default_position, ADS_LERP_SPEED * delta)
-	camera.fov = lerpf(camera.fov, default_fov, ADS_LERP_SPEED * delta)
-	is_aiming = false
 
 
 func shoot() -> void:
@@ -121,4 +98,7 @@ func _on_fire_rate_timer_timeout() -> void:
 func _on_reload_timer_timeout() -> void:
 	is_reloading = false
 	cur_ammo = mag_size
-	has_reloaded.emit()
+
+
+func _on_state_machine_state_changed(states_stack: Array) -> void:
+	state_changed.emit(states_stack)

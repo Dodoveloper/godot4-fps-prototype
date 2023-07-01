@@ -1,7 +1,7 @@
 [gd_scene load_steps=20 format=3 uid="uid://dkr12d528ypo0"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_sbhg4"]
-[ext_resource type="Script" path="res://entities/player/fsm.gd" id="2_4arxr"]
+[ext_resource type="Script" path="res://entities/player/player_fsm.gd" id="2_mmcdy"]
 [ext_resource type="PackedScene" uid="uid://g0wap7e024se" path="res://interfaces/hud/hud.tscn" id="2_wmwnf"]
 [ext_resource type="Script" path="res://entities/player/states/idle.gd" id="3_sdfdx"]
 [ext_resource type="PackedScene" uid="uid://hfrop8mvtgwq" path="res://entities/weapon/weapon.tscn" id="3_yiye0"]
@@ -196,7 +196,7 @@ collision_mask = 5
 script = ExtResource("1_sbhg4")
 
 [node name="StateMachine" type="Node" parent="."]
-script = ExtResource("2_4arxr")
+script = ExtResource("2_mmcdy")
 start_state_path = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateMachine"]
@@ -281,5 +281,5 @@ libraries = {
 [connection signal="exited" from="StateMachine/Sprint" to="StateMachine" method="_on_sprint_exited"]
 [connection signal="timeout" from="StateMachine/Sprint/Duration" to="StateMachine/Sprint" method="_on_duration_timeout"]
 [connection signal="ads_toggled" from="Head/Camera3D/Weapon" to="Head/Camera3D/HUD" method="_on_weapon_ads_toggled"]
-[connection signal="has_reloaded" from="Head/Camera3D/Weapon" to="." method="_on_weapon_has_reloaded"]
 [connection signal="has_shot" from="Head/Camera3D/Weapon" to="." method="_on_weapon_has_shot"]
+[connection signal="state_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_state_changed"]

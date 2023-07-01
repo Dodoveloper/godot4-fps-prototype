@@ -1,7 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://hfrop8mvtgwq"]
+[gd_scene load_steps=12 format=3 uid="uid://hfrop8mvtgwq"]
 
 [ext_resource type="Script" path="res://entities/weapon/weapon.gd" id="1_jqdj6"]
+[ext_resource type="Script" path="res://entities/weapon/weapon_fsm.gd" id="2_kcga0"]
 [ext_resource type="ArrayMesh" uid="uid://bw8edkxwsjefb" path="res://entities/weapon/assets/models/machinegun.obj" id="2_keprt"]
+[ext_resource type="Script" path="res://entities/weapon/states/idle.gd" id="3_5otlh"]
+[ext_resource type="Script" path="res://entities/weapon/states/aim.gd" id="4_6jeal"]
 
 [sub_resource type="Animation" id="Animation_1m87s"]
 resource_name = "RESET"
@@ -160,10 +163,20 @@ _data = {
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, -0.22, -0.375)
 script = ExtResource("1_jqdj6")
 raycast_path = NodePath("../RayCast3D")
-default_position = Vector3(0.18, -0.22, -0.375)
-ads_position = Vector3(0, -0.19, -0.345)
 sway_left = Vector3(0, 0.1, 0)
 sway_right = Vector3(0, -0.1, 0)
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2_kcga0")
+start_state_path = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("3_5otlh")
+
+[node name="Aim" type="Node" parent="StateMachine"]
+script = ExtResource("4_6jeal")
+ads_position = Vector3(0, -0.19, -0.345)
+default_position = Vector3(0.18, -0.22, -0.375)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-9, 0, 2.28166e-05, 0, 9, 0, -2.28166e-05, 0, -9, 0, 0, 0)
@@ -191,5 +204,6 @@ libraries = {
 "": SubResource("AnimationLibrary_32dod")
 }
 
+[connection signal="state_changed" from="StateMachine" to="." method="_on_state_machine_state_changed"]
 [connection signal="timeout" from="FireRateTimer" to="." method="_on_fire_rate_timer_timeout"]
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

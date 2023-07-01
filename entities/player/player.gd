@@ -43,12 +43,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			camera_x_rotation = target_x_rotation
 
 
-func _process(delta: float) -> void:
-	# aiming
-	if Input.is_action_pressed("ads"):
-		weapon.aim(delta)
-	else:
-		weapon.un_aim(delta)
+func _process(_delta: float) -> void:
 	# firing
 	if Input.is_action_pressed("fire1"):
 		if weapon.cur_ammo:
@@ -66,7 +61,7 @@ func _physics_process(delta: float) -> void:
 	# head bob animation
 #	if direction != Vector3.ZERO:
 #		anim_player.play("camera/head_bobbing")
-
+	
 	move_and_slide()
 
 
@@ -75,9 +70,9 @@ func _on_weapon_has_shot() -> void:
 		has_shot.emit(raycast)
 
 
-func _on_weapon_has_reloaded() -> void:
-	pass
+func _on_state_machine_state_changed(states_stack: Array) -> void:
+	hud.player_state_label.text = (states_stack[0] as State).name
 
 
-func _on_state_machine_state_changed(states_stack) -> void:
-	hud.state_label.text = (states_stack[0] as State).name
+func _on_weapon_state_changed(states_stack: Array) -> void:
+	hud.weapon_state_label.text = (states_stack[0] as State).name

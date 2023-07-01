@@ -4,7 +4,8 @@ extends Control
 
 @onready var crosshair := $Crosshair as TextureRect
 @onready var fps_label := $FpsLabel as Label
-@onready var state_label := $StateLabel as Label
+@onready var player_state_label := $PlayerStateLabel as Label
+@onready var weapon_state_label := $WeaponStateLabel as Label
 
 
 func _process(_delta: float) -> void:
