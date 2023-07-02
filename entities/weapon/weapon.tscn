@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://hfrop8mvtgwq"]
+[gd_scene load_steps=14 format=3 uid="uid://hfrop8mvtgwq"]
 
 [ext_resource type="Script" path="res://entities/weapon/weapon.gd" id="1_jqdj6"]
+[ext_resource type="PackedScene" uid="uid://hjnl72g4qbay" path="res://entities/weapon/assets/spray_paths/assault_rifle.tscn" id="2_7hjqu"]
 [ext_resource type="Script" path="res://entities/weapon/weapon_fsm.gd" id="2_kcga0"]
 [ext_resource type="ArrayMesh" uid="uid://bw8edkxwsjefb" path="res://entities/weapon/assets/models/machinegun.obj" id="2_keprt"]
 [ext_resource type="Script" path="res://entities/weapon/states/idle.gd" id="3_5otlh"]
@@ -168,6 +169,9 @@ ads_position = Vector3(0, -0.19, -0.345)
 default_position = Vector3(0.18, -0.22, -0.375)
 sway_left = Vector3(0, 0.1, 0)
 sway_right = Vector3(0, -0.1, 0)
+spray_path = ExtResource("2_7hjqu")
+max_horizontal_recoil = 0.05
+max_vertical_recoil = 0.1
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_kcga0")

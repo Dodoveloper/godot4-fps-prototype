@@ -15,6 +15,7 @@ var gravity: float = ProjectSettings.get("physics/3d/default_gravity")
 var camera_x_rotation := 0.0
 var speed: int
 
+# Nodes
 @onready var fsm := $StateMachine as PlayerStateMachine
 @onready var mesh_instance := $MeshInstance3D as MeshInstance3D
 @onready var collision := $CollisionShape3D as CollisionShape3D
@@ -24,6 +25,8 @@ var speed: int
 @onready var hud := $Head/Camera3D/HUD as Hud
 @onready var raycast := $Head/Camera3D/RayCast3D as RayCast3D
 @onready var weapon := $Head/Camera3D/Weapon as Weapon
+# Variables
+@onready var default_camera_position := raycast.position
 
 
 func _ready() -> void:
@@ -53,7 +56,13 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-func _on_weapon_has_shot() -> void:
+func _on_weapon_has_shot(h_recoil: float, v_recoil: float) -> void:
+	var target_camera_position := raycast.position + Vector3(h_recoil, v_recoil, 0.0)
+	# apply recoil
+	var tween := create_tween()
+	tween.tween_property(raycast, "position", target_camera_position, 0.1)
+	tween.tween_property(raycast, "position", default_camera_position, 0.1)
+	# decal code
 	if raycast.get_collider():
 		has_shot.emit(raycast)
 

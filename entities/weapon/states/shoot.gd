@@ -3,6 +3,7 @@ extends WeaponAimable
 
 var can_shoot := true
 
+@onready var rng := RandomNumberGenerator.new()
 @onready var fire_rate_timer := $FireRateTimer as Timer
 
 
@@ -30,7 +31,10 @@ func _shoot() -> void:
 	weapon.check_collision()
 	fire_rate_timer.start(weapon.fire_rate)
 	weapon.anim_player.play("firing")
-	weapon.has_shot.emit()
+	# recoil
+	var horizontal_recoil := rng.randfn(0.0, weapon.max_horizontal_recoil)
+	var vertical_recoil := rng.randfn(0.0, weapon.max_vertical_recoil)
+	weapon.has_shot.emit(horizontal_recoil, vertical_recoil)
 
 
 func _on_fire_rate_timer_timeout() -> void:
