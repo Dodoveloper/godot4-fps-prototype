@@ -12,10 +12,7 @@ func enter() -> void:
 
 func exit() -> void:
 	(owner as Weapon).can_sprint = true
-
-
-func _on_animation_finished() -> void:
-	return
+	reload_timer.stop()
 
 
 func _on_reload_timer_timeout() -> void:
