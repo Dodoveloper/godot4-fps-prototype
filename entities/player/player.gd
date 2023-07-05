@@ -26,7 +26,7 @@ var speed: int
 @onready var raycast := $Head/Camera3D/RayCast3D as RayCast3D
 @onready var weapon := $Head/Camera3D/Weapon as Weapon
 # Variables
-@onready var default_camera_position := raycast.position
+@onready var default_head_rotation := head.rotation
 
 
 func _ready() -> void:
@@ -56,12 +56,15 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-func _on_weapon_has_shot(h_recoil: float, v_recoil: float) -> void:
-	var target_camera_position := raycast.position + Vector3(h_recoil, v_recoil, 0.0)
-	# apply recoil
-	var tween := create_tween()
-	tween.tween_property(raycast, "position", target_camera_position, 0.1)
-	tween.tween_property(raycast, "position", default_camera_position, 0.1)
+func _on_weapon_has_shot(spray_curve: Curve2D, cur_ammo: int) -> void:
+	var point_count := spray_curve.point_count
+	var count: int = min(weapon.mag_size - weapon.cur_ammo, point_count - 1)
+	var spray_position := spray_curve.get_point_position(count)
+	print("spray position for index %d is " % count, spray_position)
+	var target_head_rotation := Vector2.ZERO
+	target_head_rotation.x = head.rotation.x + spray_position.x
+	target_head_rotation.y = head.rotation.y + spray_position.y
+	# TODO: apply recoil
 	# decal code
 	if raycast.get_collider():
 		has_shot.emit(raycast)

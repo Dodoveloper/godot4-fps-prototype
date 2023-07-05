@@ -2,9 +2,26 @@ extends WeaponAimable
 
 
 var can_shoot := true
+var heat_increase_tween: Tween
+var heat_decrease_tween: Tween
 
 @onready var rng := RandomNumberGenerator.new()
 @onready var fire_rate_timer := $FireRateTimer as Timer
+
+
+func enter() -> void:
+	if heat_decrease_tween:
+		heat_decrease_tween.kill()
+	heat_increase_tween = create_tween()
+	heat_increase_tween.tween_property(weapon, "heat", weapon.max_heat, 1.0)
+
+
+# Clean up the state. Reinitialize values like a timer
+func exit() -> void:
+	var decrease_duration := heat_increase_tween.get_total_elapsed_time()
+	heat_increase_tween.kill()
+	heat_decrease_tween = create_tween()
+	heat_decrease_tween.tween_property(weapon, "heat", 0, decrease_duration / 2.0)
 
 
 func handle_input(event: InputEvent) -> InputEvent:
@@ -32,9 +49,7 @@ func _shoot() -> void:
 	fire_rate_timer.start(weapon.fire_rate)
 	weapon.anim_player.play("firing")
 	# recoil
-	var horizontal_recoil := rng.randfn(0.0, weapon.max_horizontal_recoil)
-	var vertical_recoil := rng.randfn(0.0, weapon.max_vertical_recoil)
-	weapon.has_shot.emit(horizontal_recoil, vertical_recoil)
+	weapon.has_shot.emit(weapon.spray_curve, weapon.cur_ammo)
 
 
 func _on_fire_rate_timer_timeout() -> void:

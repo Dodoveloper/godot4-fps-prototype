@@ -1,9 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://b2nirh036ket0"]
+[gd_scene load_steps=19 format=3 uid="uid://b2nirh036ket0"]
 
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_bcl7q"]
 [ext_resource type="PackedScene" uid="uid://dkr12d528ypo0" path="res://entities/player/player.tscn" id="1_cnybd"]
 [ext_resource type="Texture2D" uid="uid://dqs0yu35p1nsn" path="res://scenes/assets/texture_08.png" id="2_nkr6u"]
 [ext_resource type="PackedScene" uid="uid://dvw4wy2xvdnxq" path="res://entities/enemy/enemy.tscn" id="3_h1m5e"]
+[ext_resource type="Texture2D" uid="uid://18xwg6u8ycyc" path="res://scenes/assets/texture_03.png" id="3_rntiq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2ngr2"]
 albedo_texture = ExtResource("2_nkr6u")
@@ -16,7 +17,12 @@ size = Vector3(64, 0.5, 64)
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_50tbi"]
 points = PackedVector3Array(-32, -0.25, -32, -32, 0.25, -32, 32, -0.25, -32, -32, -0.25, 32, -32, 0.25, 32, 32, 0.25, -32, 32, -0.25, 32, 32, 0.25, 32)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57ghv"]
+albedo_texture = ExtResource("3_rntiq")
+uv1_scale = Vector3(32, 2, 8)
+
 [sub_resource type="BoxMesh" id="BoxMesh_hq2rc"]
+material = SubResource("StandardMaterial3D_57ghv")
 size = Vector3(64, 6, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pe1oo"]

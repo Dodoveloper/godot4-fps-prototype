@@ -169,9 +169,7 @@ ads_position = Vector3(0, -0.19, -0.345)
 default_position = Vector3(0.18, -0.22, -0.375)
 sway_left = Vector3(0, 0.1, 0)
 sway_right = Vector3(0, -0.1, 0)
-spray_path = ExtResource("2_7hjqu")
-max_horizontal_recoil = 0.05
-max_vertical_recoil = 0.1
+spray_scene = ExtResource("2_7hjqu")
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_kcga0")

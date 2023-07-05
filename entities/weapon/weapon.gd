@@ -3,8 +3,9 @@ extends Node3D
 
 
 signal ads_toggled(enabled: bool)
-signal has_shot(h_recoil, v_recoil)
+signal has_shot(spray_curve: Curve2D, cur_ammo: int)
 signal state_changed(states_stack: Array)
+signal heat_changed(value: int)
 
 const SWAY_TRESHOLD := 5
 const SWAY_LERP := 5
@@ -22,9 +23,8 @@ const SWAY_LERP := 5
 @export var sway_left: Vector3
 @export var sway_right: Vector3
 @export var sway_default: Vector3
-@export var spray_path: PackedScene
-@export var max_horizontal_recoil := 0.1
-@export var max_vertical_recoil := 0.2
+@export var spray_scene: PackedScene
+@export var max_heat := 13
 
 var cur_ammo := mag_size:
 	set(value):
@@ -32,7 +32,13 @@ var cur_ammo := mag_size:
 		ammo_label.text = str(cur_ammo)
 var can_sprint := true
 var mouse_movement: float
+var spray_curve: Curve2D
+var heat := 0:
+	set(value):
+		heat = value
+		emit_signal("heat_changed", heat)
 
+@onready var heat_tween := create_tween()
 # Nodes
 @onready var fsm := $StateMachine as WeaponStateMachine
 @onready var raycast := get_node(raycast_path) as RayCast3D
@@ -42,9 +48,10 @@ var mouse_movement: float
 
 
 func _ready() -> void:
-	var spray := spray_path.instantiate() as Path2D
-	var spray_curve := spray.curve as Curve2D
-	print(spray_curve.point_count)
+	heat_tween.stop()
+	if spray_scene != null:
+		var spray := spray_scene.instantiate() as Path2D
+		spray_curve = spray.curve
 
 
 func _unhandled_input(event: InputEvent) -> void:

@@ -228,7 +228,6 @@ shape = SubResource("CapsuleShape3D_bp4pk")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
-cull_mask = 1048573
 current = true
 
 [node name="HUD" parent="Head/Camera3D" instance=ExtResource("2_wmwnf")]
@@ -282,4 +281,5 @@ libraries = {
 [connection signal="timeout" from="StateMachine/Sprint/Duration" to="StateMachine/Sprint" method="_on_duration_timeout"]
 [connection signal="ads_toggled" from="Head/Camera3D/Weapon" to="Head/Camera3D/HUD" method="_on_weapon_ads_toggled"]
 [connection signal="has_shot" from="Head/Camera3D/Weapon" to="." method="_on_weapon_has_shot"]
+[connection signal="heat_changed" from="Head/Camera3D/Weapon" to="Head/Camera3D/HUD" method="_on_weapon_heat_changed"]
 [connection signal="state_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_state_changed"]
