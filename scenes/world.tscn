@@ -148,7 +148,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, 0)
 shape = SubResource("BoxShape3D_n2has")
 
 [node name="Player" parent="." instance=ExtResource("1_cnybd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.13461, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.4388, 3.13461, 11.0927)
 
 [node name="Enemies" type="Node3D" parent="."]
 

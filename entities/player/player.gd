@@ -26,7 +26,7 @@ var speed: int
 @onready var raycast := $Head/Camera3D/RayCast3D as RayCast3D
 @onready var weapon := $Head/Camera3D/Weapon as Weapon
 # Variables
-@onready var default_head_rotation := head.rotation
+@onready var default_raycast_rotation := raycast.rotation
 
 
 func _ready() -> void:
@@ -56,18 +56,22 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-func _on_weapon_has_shot(spray_curve: Curve2D, cur_ammo: int) -> void:
-	var point_count := spray_curve.point_count
-	var count: int = min(weapon.mag_size - weapon.cur_ammo, point_count - 1)
+func _on_weapon_has_shot(spray_curve: Curve2D, _cur_ammo: int) -> void:
+	# apply recoil
+#	var point_count := spray_curve.point_count
+	var count: int = min(weapon.heat, weapon.max_heat)
 	var spray_position := spray_curve.get_point_position(count)
-	print("spray position for index %d is " % count, spray_position)
-	var target_head_rotation := Vector2.ZERO
-	target_head_rotation.x = head.rotation.x + spray_position.x
-	target_head_rotation.y = head.rotation.y + spray_position.y
-	# TODO: apply recoil
+#	print("spray position for index %d is " % count, spray_position)
+	var recoil_offset := Vector3(spray_position.x, -spray_position.y, 0) / 15.0
+	print("Recoil offset: ", recoil_offset)
+	raycast.look_at(raycast.get_collision_point() + recoil_offset)
+	raycast.force_raycast_update()
+	print("After shooting: ", raycast.rotation)
 	# decal code
 	if raycast.get_collider():
 		has_shot.emit(raycast)
+	raycast.rotation = default_raycast_rotation
+	raycast.force_raycast_update()
 
 
 func _on_state_machine_state_changed(states_stack: Array) -> void:
