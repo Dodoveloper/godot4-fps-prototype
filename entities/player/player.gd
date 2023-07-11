@@ -35,11 +35,11 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	# mouse movement
+	# mouse movement (left and right)
 	if event is InputEventMouseMotion:
 		head.rotate_y(deg_to_rad(-event.relative.x * mouse_sentitivity))
 		var x_delta: float = event.relative.y * mouse_sentitivity
-		# clamp camera x rotation to up and down
+		# camera x rotation (up and down, clamped)
 		var target_x_rotation := camera_x_rotation + x_delta
 		if target_x_rotation > -MAX_X_ROTATION and target_x_rotation < MAX_X_ROTATION:
 			camera.rotate_x(deg_to_rad(-x_delta))
@@ -58,20 +58,25 @@ func _physics_process(delta: float) -> void:
 
 func _on_weapon_has_shot(spray_curve: Curve2D, _cur_ammo: int) -> void:
 	# apply recoil
-#	var point_count := spray_curve.point_count
 	var count: int = min(weapon.heat, weapon.max_heat)
 	var spray_position := spray_curve.get_point_position(count)
-#	print("spray position for index %d is " % count, spray_position)
-	var recoil_offset := Vector3(spray_position.x, -spray_position.y, 0) / 15.0
+	var recoil_offset := Vector3(spray_position.x, -spray_position.y, 0) / 500.0
 	print("Recoil offset: ", recoil_offset)
-	raycast.look_at(raycast.get_collision_point() + recoil_offset)
-	raycast.force_raycast_update()
-	print("After shooting: ", raycast.rotation)
+	head.rotate_y(recoil_offset.x)
+	camera.rotate_x(recoil_offset.y)
 	# decal code
 	if raycast.get_collider():
 		has_shot.emit(raycast)
-	raycast.rotation = default_raycast_rotation
-	raycast.force_raycast_update()
+
+
+func _on_weapon_heat_changed(value: int) -> void:
+	if value == 0:
+#		head.rotation.y = 0.0
+#		head.force_update_transform()
+		camera.rotation.x = 0.0
+		camera.force_update_transform()
+		print("Resetting head and cam rotation to %.2f and %.2f" \
+				% [head.rotation.y, camera.rotation.x])
 
 
 func _on_state_machine_state_changed(states_stack: Array) -> void:
