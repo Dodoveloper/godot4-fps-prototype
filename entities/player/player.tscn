@@ -194,6 +194,7 @@ _data = {
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_sbhg4")
+mouse_sentitivity = 0.25
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_mmcdy")
@@ -282,6 +283,5 @@ libraries = {
 [connection signal="timeout" from="StateMachine/Sprint/Duration" to="StateMachine/Sprint" method="_on_duration_timeout"]
 [connection signal="ads_toggled" from="Head/Camera3D/Weapon" to="Head/Camera3D/HUD" method="_on_weapon_ads_toggled"]
 [connection signal="has_shot" from="Head/Camera3D/Weapon" to="." method="_on_weapon_has_shot"]
-[connection signal="heat_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_heat_changed"]
 [connection signal="heat_changed" from="Head/Camera3D/Weapon" to="Head/Camera3D/HUD" method="_on_weapon_heat_changed"]
 [connection signal="state_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_state_changed"]

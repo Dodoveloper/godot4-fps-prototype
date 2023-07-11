@@ -4,7 +4,7 @@ extends CharacterBody3D
 
 signal has_shot(raycast: RayCast3D)
 
-const MAX_X_ROTATION := 80  # degrees
+const MAX_X_ROTATION := deg_to_rad(80)
 
 @export var acceleration := 4
 @export var mouse_sentitivity := 0.15
@@ -13,6 +13,7 @@ const MAX_X_ROTATION := 80  # degrees
 var direction := Vector3.ZERO
 var gravity: float = ProjectSettings.get("physics/3d/default_gravity")
 var camera_x_rotation := 0.0
+var rotation_target = Vector2.ZERO
 var speed: int
 
 # Nodes
@@ -35,18 +36,19 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	# mouse movement (left and right)
 	if event is InputEventMouseMotion:
-		head.rotate_y(deg_to_rad(-event.relative.x * mouse_sentitivity))
-		var x_delta: float = event.relative.y * mouse_sentitivity
-		# camera x rotation (up and down, clamped)
-		var target_x_rotation := camera_x_rotation + x_delta
-		if target_x_rotation > -MAX_X_ROTATION and target_x_rotation < MAX_X_ROTATION:
-			camera.rotate_x(deg_to_rad(-x_delta))
-			camera_x_rotation = target_x_rotation
+		# mouse movement (left and right)
+		rotation_target.y = deg_to_rad(-event.relative.x * mouse_sentitivity)
+		# camera x rotation (up and down)
+		rotation_target.x = deg_to_rad(-event.relative.y * mouse_sentitivity)
 
 
 func _physics_process(delta: float) -> void:
+	var actual_rotation = Vector2.ZERO.lerp(rotation_target, 30 * delta)
+	rotation_target -= actual_rotation
+	head.rotate_y(actual_rotation.y)
+	camera.rotate_x(actual_rotation.x)
+	camera.rotation.x = clamp(camera.rotation.x, -MAX_X_ROTATION, MAX_X_ROTATION)
 	# apply gravity
 	velocity.y -= gravity * delta
 	# head bob animation
@@ -62,21 +64,13 @@ func _on_weapon_has_shot(spray_curve: Curve2D, _cur_ammo: int) -> void:
 	var spray_position := spray_curve.get_point_position(count)
 	var recoil_offset := Vector3(spray_position.x, -spray_position.y, 0) / 500.0
 	print("Recoil offset: ", recoil_offset)
-	head.rotate_y(recoil_offset.x)
-	camera.rotate_x(recoil_offset.y)
+	rotation_target.y += recoil_offset.x
+	rotation_target.x += recoil_offset.y
+#	head.rotation.y += recoil_offset.x
+#	camera.rotation.x += recoil_offset.y
 	# decal code
 	if raycast.get_collider():
 		has_shot.emit(raycast)
-
-
-func _on_weapon_heat_changed(value: int) -> void:
-	if value == 0:
-#		head.rotation.y = 0.0
-#		head.force_update_transform()
-		camera.rotation.x = 0.0
-		camera.force_update_transform()
-		print("Resetting head and cam rotation to %.2f and %.2f" \
-				% [head.rotation.y, camera.rotation.x])
 
 
 func _on_state_machine_state_changed(states_stack: Array) -> void:
