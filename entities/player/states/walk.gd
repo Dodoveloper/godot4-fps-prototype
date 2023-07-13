@@ -5,13 +5,14 @@ extends PlayerState
 
 
 func enter() -> void:
-	(owner as Player).speed = default_speed
+	player.speed = default_speed
+	player.max_recoil_randomness *= 1.5
 
 
 func handle_input(event: InputEvent) -> InputEvent:
 	if event.is_action_pressed("crouch"):
 		finished.emit("crouch")
-	elif event.is_action_pressed("sprint") and (owner as Player).weapon.can_sprint:
+	elif event.is_action_pressed("sprint") and player.weapon.can_sprint:
 		finished.emit("sprint")
 	return super(event)
 

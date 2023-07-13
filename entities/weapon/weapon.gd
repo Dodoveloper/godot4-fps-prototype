@@ -16,6 +16,7 @@ const SWAY_LERP := 5
 @export var fire_rate := 0.08
 @export var mag_size := 30
 @export var reload_time := 1.2
+@export var vertical_kick_factor := 0.006
 @export var raycast_path: NodePath
 @export var camera_path: NodePath
 @export var ads_position: Vector3

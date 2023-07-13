@@ -5,6 +5,7 @@ extends CharacterBody3D
 signal has_shot(raycast: RayCast3D)
 
 const MAX_X_ROTATION := deg_to_rad(80)
+const DEFAULT_MAX_RECOIL_RANDOMNESS := 2.0
 
 @export var acceleration := 4
 @export var mouse_sentitivity := 0.15
@@ -15,6 +16,8 @@ var gravity: float = ProjectSettings.get("physics/3d/default_gravity")
 var rotation_target = Vector2.ZERO
 var x_rot_before_shoot: float
 var speed: int
+var max_recoil_randomness := DEFAULT_MAX_RECOIL_RANDOMNESS
+var rng := RandomNumberGenerator.new()
 
 # Nodes
 @onready var fsm := $StateMachine as PlayerStateMachine
@@ -63,10 +66,12 @@ func _on_weapon_has_shot(spray_curve: Curve2D) -> void:
 	var count: int = min(weapon.heat, weapon.max_heat)
 	var spray_position := spray_curve.get_point_position(count)
 	var recoil_offset := Vector3(spray_position.x, -spray_position.y, 0)
-	print("Recoil offset: ", recoil_offset)
-	raycast.target_position.x = recoil_offset.x
-	raycast.target_position.y = recoil_offset.y
-	rotation_target.x += recoil_offset.y * 0.006
+#	print("Recoil offset: ", recoil_offset)
+	var rand_offset := rng.randf_range(-max_recoil_randomness, max_recoil_randomness)
+	raycast.target_position.x = recoil_offset.x + rand_offset
+	raycast.target_position.y = recoil_offset.y + rand_offset
+	# push the muzzle a bit higher
+	rotation_target.x += recoil_offset.y * weapon.vertical_kick_factor
 	# decal code
 	if raycast.get_collider():
 		has_shot.emit(raycast)

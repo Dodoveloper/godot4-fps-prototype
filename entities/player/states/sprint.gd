@@ -9,13 +9,13 @@ signal exited(wait_time: float, time_left: float)  # used for sprint cooldown
 
 
 func enter() -> void:
-	(owner as Player).speed = sprint_speed
-	(owner as Player).weapon.set_sprinting(true)
+	player.speed = sprint_speed
+	player.weapon.set_sprinting(true)
 	duration_timer.start()
 
 
 func exit() -> void:
-	(owner as Player).weapon.set_sprinting(false)
+	player.weapon.set_sprinting(false)
 	exited.emit(duration_timer.wait_time, duration_timer.time_left)
 	duration_timer.stop()
 
