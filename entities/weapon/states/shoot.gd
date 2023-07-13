@@ -14,6 +14,7 @@ func enter() -> void:
 		heat_decrease_tween.kill()
 	heat_increase_tween = create_tween()
 	heat_increase_tween.tween_property(weapon, "heat", weapon.max_heat, 1.0)
+	weapon.shoot_started.emit()
 
 
 # Clean up the state. Reinitialize values like a timer
@@ -22,6 +23,7 @@ func exit() -> void:
 	heat_increase_tween.kill()
 	heat_decrease_tween = create_tween()
 	heat_decrease_tween.tween_property(weapon, "heat", 0, decrease_duration / 2.0)
+	weapon.shoot_finished.emit()
 
 
 func handle_input(event: InputEvent) -> InputEvent:
@@ -49,7 +51,7 @@ func _shoot() -> void:
 	fire_rate_timer.start(weapon.fire_rate)
 	weapon.anim_player.play("firing")
 	# recoil
-	weapon.has_shot.emit(weapon.spray_curve, weapon.cur_ammo)
+	weapon.has_shot.emit(weapon.spray_curve)
 
 
 func _on_fire_rate_timer_timeout() -> void:

@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Interactive CV"
+config/tags=PackedStringArray("3d")
 run/main_scene="res://scenes/world.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"

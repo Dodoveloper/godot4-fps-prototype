@@ -12,8 +12,8 @@ const MAX_X_ROTATION := deg_to_rad(80)
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var direction := Vector3.ZERO
 var gravity: float = ProjectSettings.get("physics/3d/default_gravity")
-var camera_x_rotation := 0.0
 var rotation_target = Vector2.ZERO
+var x_rot_before_shoot: float
 var speed: int
 
 # Nodes
@@ -24,10 +24,10 @@ var speed: int
 @onready var camera := $Head/Camera3D as Camera3D
 @onready var anim_player := $AnimationPlayer as AnimationPlayer
 @onready var hud := $Head/Camera3D/HUD as Hud
-@onready var raycast := $Head/Camera3D/RayCast3D as RayCast3D
+@onready var raycast := $"%RayCast3D" as RayCast3D
 @onready var weapon := $Head/Camera3D/Weapon as Weapon
 # Variables
-@onready var default_raycast_rotation := raycast.rotation
+@onready var default_raycast_target_pos := raycast.target_position
 
 
 func _ready() -> void:
@@ -58,19 +58,33 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-func _on_weapon_has_shot(spray_curve: Curve2D, _cur_ammo: int) -> void:
+func _on_weapon_has_shot(spray_curve: Curve2D) -> void:
 	# apply recoil
 	var count: int = min(weapon.heat, weapon.max_heat)
 	var spray_position := spray_curve.get_point_position(count)
-	var recoil_offset := Vector3(spray_position.x, -spray_position.y, 0) / 500.0
+	var recoil_offset := Vector3(spray_position.x, -spray_position.y, 0)
 	print("Recoil offset: ", recoil_offset)
-	rotation_target.y += recoil_offset.x
-	rotation_target.x += recoil_offset.y
-#	head.rotation.y += recoil_offset.x
-#	camera.rotation.x += recoil_offset.y
+	raycast.target_position.x = recoil_offset.x
+	raycast.target_position.y = recoil_offset.y
+	rotation_target.x += recoil_offset.y * 0.006
 	# decal code
 	if raycast.get_collider():
 		has_shot.emit(raycast)
+
+
+func _on_weapon_heat_changed(value: int) -> void:
+	if value == 0:
+		raycast.target_position = default_raycast_target_pos
+		raycast.force_raycast_update()
+
+
+func _on_weapon_shoot_started() -> void:
+	x_rot_before_shoot = camera.rotation.x
+
+
+func _on_weapon_shoot_finished() -> void:
+	var tween := create_tween()
+	tween.tween_property(camera, "rotation:x", x_rot_before_shoot, weapon.fire_rate)
 
 
 func _on_state_machine_state_changed(states_stack: Array) -> void:

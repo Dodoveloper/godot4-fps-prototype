@@ -3,9 +3,11 @@ extends Node3D
 
 
 signal ads_toggled(enabled: bool)
-signal has_shot(spray_curve: Curve2D, cur_ammo: int)
+signal has_shot(spray_curve: Curve2D)
 signal state_changed(states_stack: Array)
 signal heat_changed(value: int)
+signal shoot_started()
+signal shoot_finished()
 
 const SWAY_TRESHOLD := 5
 const SWAY_LERP := 5

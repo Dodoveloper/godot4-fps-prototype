@@ -235,7 +235,7 @@ current = true
 [node name="HUD" parent="Head/Camera3D" instance=ExtResource("2_wmwnf")]
 
 [node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0976247, -0.1578, 0)
+unique_name_in_owner = true
 target_position = Vector3(0, 0, -100)
 collision_mask = 5
 
@@ -271,6 +271,8 @@ current = true
 script = ExtResource("4_e2r84")
 camera_path = NodePath("../../../Head/Camera3D")
 
+[node name="Timer" type="Timer" parent="."]
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_7pyrr"),
@@ -283,5 +285,8 @@ libraries = {
 [connection signal="timeout" from="StateMachine/Sprint/Duration" to="StateMachine/Sprint" method="_on_duration_timeout"]
 [connection signal="ads_toggled" from="Head/Camera3D/Weapon" to="Head/Camera3D/HUD" method="_on_weapon_ads_toggled"]
 [connection signal="has_shot" from="Head/Camera3D/Weapon" to="." method="_on_weapon_has_shot"]
+[connection signal="heat_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_heat_changed"]
 [connection signal="heat_changed" from="Head/Camera3D/Weapon" to="Head/Camera3D/HUD" method="_on_weapon_heat_changed"]
+[connection signal="shoot_finished" from="Head/Camera3D/Weapon" to="." method="_on_weapon_shoot_finished"]
+[connection signal="shoot_started" from="Head/Camera3D/Weapon" to="." method="_on_weapon_shoot_started"]
 [connection signal="state_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_state_changed"]
