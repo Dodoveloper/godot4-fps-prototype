@@ -10,19 +10,23 @@ var heat_decrease_tween: Tween
 
 
 func enter() -> void:
+	# handle heat
 	if heat_decrease_tween:
 		heat_decrease_tween.kill()
 	heat_increase_tween = create_tween()
 	heat_increase_tween.tween_property(weapon, "heat", weapon.max_heat, 1.0)
+	
 	weapon.shoot_started.emit()
 
 
 # Clean up the state. Reinitialize values like a timer
 func exit() -> void:
+	# handle heat
 	var decrease_duration := heat_increase_tween.get_total_elapsed_time()
 	heat_increase_tween.kill()
 	heat_decrease_tween = create_tween()
 	heat_decrease_tween.tween_property(weapon, "heat", 0, decrease_duration / 2.0)
+	
 	weapon.shoot_finished.emit()
 
 
@@ -52,6 +56,8 @@ func _shoot() -> void:
 	weapon.anim_player.play("firing")
 	# recoil
 	weapon.has_shot.emit(weapon.spray_curve)
+	# sound
+	weapon.audio.play()
 
 
 func _on_fire_rate_timer_timeout() -> void:

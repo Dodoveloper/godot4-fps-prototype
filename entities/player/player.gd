@@ -98,3 +98,7 @@ func _on_state_machine_state_changed(states_stack: Array) -> void:
 
 func _on_weapon_state_changed(states_stack: Array) -> void:
 	hud.weapon_state_label.text = (states_stack[0] as State).name
+
+
+func _on_weapon_ammo_changed(ammo: int) -> void:
+	hud.ammo_label.text = str(ammo)

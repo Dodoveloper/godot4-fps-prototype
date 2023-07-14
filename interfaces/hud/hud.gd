@@ -7,6 +7,7 @@ extends Control
 @onready var player_state_label := $PlayerStateLabel as Label
 @onready var weapon_state_label := $WeaponStateLabel as Label
 @onready var heat_label := $HeatLabel as Label
+@onready var ammo_label := $AmmoLabel as Label
 
 
 func _process(_delta: float) -> void:

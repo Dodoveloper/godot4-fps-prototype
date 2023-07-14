@@ -5,6 +5,7 @@ extends Node3D
 signal ads_toggled(enabled: bool)
 signal has_shot(spray_curve: Curve2D)
 signal state_changed(states_stack: Array)
+signal ammo_changed(ammo: int)
 signal heat_changed(value: int)
 signal shoot_started()
 signal shoot_finished()
@@ -32,7 +33,7 @@ const SWAY_LERP := 5
 var cur_ammo := mag_size:
 	set(value):
 		cur_ammo = value
-		ammo_label.text = str(cur_ammo)
+		ammo_changed.emit(cur_ammo)
 var can_sprint := true
 var mouse_movement: float
 var spray_curve: Curve2D
@@ -46,7 +47,7 @@ var heat := 0:
 @onready var fsm := $StateMachine as WeaponStateMachine
 @onready var raycast := get_node(raycast_path) as RayCast3D
 @onready var camera := get_node(camera_path) as Camera3D
-@onready var ammo_label := $MeshInstance3D/AmmoLabel as Label3D
+@onready var audio := $AudioStreamPlayer as AudioStreamPlayer
 @onready var anim_player := $AnimationPlayer as AnimationPlayer
 
 

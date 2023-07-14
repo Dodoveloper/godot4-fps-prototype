@@ -240,6 +240,7 @@ target_position = Vector3(0, 0, -100)
 collision_mask = 5
 
 [node name="Weapon" parent="Head/Camera3D" instance=ExtResource("3_yiye0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, -0.22, -0.375)
 camera_path = NodePath("..")
 
 [node name="Pivot" type="Node3D" parent="."]
@@ -284,6 +285,7 @@ libraries = {
 [connection signal="exited" from="StateMachine/Sprint" to="StateMachine" method="_on_sprint_exited"]
 [connection signal="timeout" from="StateMachine/Sprint/Duration" to="StateMachine/Sprint" method="_on_duration_timeout"]
 [connection signal="ads_toggled" from="Head/Camera3D/Weapon" to="Head/Camera3D/HUD" method="_on_weapon_ads_toggled"]
+[connection signal="ammo_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_ammo_changed"]
 [connection signal="has_shot" from="Head/Camera3D/Weapon" to="." method="_on_weapon_has_shot"]
 [connection signal="heat_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_heat_changed"]
 [connection signal="heat_changed" from="Head/Camera3D/Weapon" to="Head/Camera3D/HUD" method="_on_weapon_heat_changed"]
