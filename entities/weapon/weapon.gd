@@ -35,6 +35,7 @@ var cur_ammo := mag_size:
 		cur_ammo = value
 		ammo_changed.emit(cur_ammo)
 var can_sprint := true
+var is_player_walking := false  # TODO: consider adding a walk state
 var mouse_movement: float
 var spray_curve: Curve2D
 var heat := 0:

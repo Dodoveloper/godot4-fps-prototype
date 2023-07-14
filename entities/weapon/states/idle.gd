@@ -2,7 +2,7 @@ extends WeaponAimable
 
 
 func enter() -> void:
-	weapon.get_node("AnimationPlayer").play("holding")
+	(weapon.get_node("AnimationPlayer") as AnimationPlayer).play("idling", 0.2)
 
 
 func handle_input(event: InputEvent) -> InputEvent:

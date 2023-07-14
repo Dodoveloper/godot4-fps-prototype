@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://hfrop8mvtgwq"]
+[gd_scene load_steps=18 format=3 uid="uid://hfrop8mvtgwq"]
 
 [ext_resource type="Script" path="res://entities/weapon/weapon.gd" id="1_jqdj6"]
 [ext_resource type="PackedScene" uid="uid://hjnl72g4qbay" path="res://entities/weapon/assets/spray_paths/assault_rifle.tscn" id="2_7hjqu"]
@@ -169,19 +169,67 @@ tracks/1/keys = {
 "values": [Vector3(0, -0.485202, 0.466003), Vector3(0, -0.485202, -0.18675), Vector3(0, -0.485202, 0.466003)]
 }
 
+[sub_resource type="Animation" id="Animation_fgmfg"]
+resource_name = "idling"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AKM:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.2, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.01, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_jqvl8"]
+resource_name = "walking"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AKM:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.01, 0), Vector3(0, 0, 0), Vector3(0, -0.01, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/path = NodePath("AKM:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -1.5708, 0), Vector3(-0.0261799, -1.63188, -0.0785398), Vector3(0, -1.5708, 0), Vector3(0.0523599, -1.5708, 0.0680678), Vector3(0, -1.5708, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_32dod"]
 resource_local_to_scene = true
 _data = {
 "RESET": SubResource("Animation_1m87s"),
 "firing": SubResource("Animation_kuhos"),
 "holding": SubResource("Animation_iyd1j"),
+"idling": SubResource("Animation_fgmfg"),
 "reloading": SubResource("Animation_2tnem"),
-"sprinting": SubResource("Animation_m4b7b")
+"sprinting": SubResource("Animation_m4b7b"),
+"walking": SubResource("Animation_jqvl8")
 }
 
 [node name="Weapon" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13, -0.23, -0.36)
 script = ExtResource("1_jqdj6")
+vertical_kick_factor = 0.01
 raycast_path = NodePath("../RayCast3D")
 ads_position = Vector3(0, -0.165, -0.31)
 default_position = Vector3(0.13, -0.23, -0.36)
