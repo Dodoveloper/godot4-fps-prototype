@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://hfrop8mvtgwq"]
+[gd_scene load_steps=16 format=3 uid="uid://hfrop8mvtgwq"]
 
 [ext_resource type="Script" path="res://entities/weapon/weapon.gd" id="1_jqdj6"]
 [ext_resource type="PackedScene" uid="uid://hjnl72g4qbay" path="res://entities/weapon/assets/spray_paths/assault_rifle.tscn" id="2_7hjqu"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://entities/weapon/states/reload.gd" id="5_75rk3"]
 [ext_resource type="Script" path="res://entities/weapon/states/shoot.gd" id="5_ltief"]
 [ext_resource type="PackedScene" uid="uid://lfbaghj22jw7" path="res://entities/weapon/assets/models/AKM.glb" id="7_nqlu6"]
+[ext_resource type="AudioStream" uid="uid://by0mybqfl2lsa" path="res://entities/weapon/assets/sounds/reload.mp3" id="8_5ncij"]
 [ext_resource type="AudioStream" uid="uid://dlj8n8h2c78nj" path="res://entities/weapon/assets/sounds/gun_fire.wav" id="8_c4s3k"]
 
 [sub_resource type="Animation" id="Animation_1m87s"]
@@ -97,6 +98,7 @@ tracks/1/keys = {
 [sub_resource type="Animation" id="Animation_2tnem"]
 resource_name = "reloading"
 length = 1.2
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -104,7 +106,7 @@ tracks/0/path = NodePath("AKM:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.3, 0.9, 1, 1.1, 1.2),
+"times": PackedFloat32Array(0, 0.15, 0.25, 0.9, 1, 1.1, 1.2),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(0, -1.5708, 0), Vector3(0, -1.26013, 0.644027), Vector3(-0.466003, -1.26013, 0.644027), Vector3(-0.466003, -1.26013, 0.644027), Vector3(0, -1.26013, 0.644027), Vector3(0.0872665, -1.5708, 0), Vector3(0, -1.5708, 0)]
@@ -116,11 +118,26 @@ tracks/1/path = NodePath("AKM:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.3, 0.9, 1, 1.2),
+"times": PackedFloat32Array(0, 0.15, 0.25, 0.9, 1, 1.2),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(0, 0, 0), Vector3(0, -0.13, 0), Vector3(0, -0.14, 0), Vector3(0, -0.14, 0), Vector3(0, -0.13, 0), Vector3(0, 0, 0)]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Reload")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("8_5ncij")
+}],
+"times": PackedFloat32Array(0.1)
+}
+tracks/2/use_blend = true
 
 [sub_resource type="Animation" id="Animation_m4b7b"]
 resource_name = "sprinting"
@@ -201,8 +218,11 @@ layers = 2
 
 [node name="Camera3D" type="Camera3D" parent="Test"]
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="GunFIre" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_c4s3k")
+volume_db = -7.0
+
+[node name="Reload" type="AudioStreamPlayer" parent="."]
 volume_db = -7.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

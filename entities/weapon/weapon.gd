@@ -47,7 +47,7 @@ var heat := 0:
 @onready var fsm := $StateMachine as WeaponStateMachine
 @onready var raycast := get_node(raycast_path) as RayCast3D
 @onready var camera := get_node(camera_path) as Camera3D
-@onready var audio := $AudioStreamPlayer as AudioStreamPlayer
+@onready var gun_fire := $GunFIre as AudioStreamPlayer
 @onready var anim_player := $AnimationPlayer as AnimationPlayer
 
 

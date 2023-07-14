@@ -57,7 +57,7 @@ func _shoot() -> void:
 	# recoil
 	weapon.has_shot.emit(weapon.spray_curve)
 	# sound
-	weapon.audio.play()
+	weapon.gun_fire.play()
 
 
 func _on_fire_rate_timer_timeout() -> void:
