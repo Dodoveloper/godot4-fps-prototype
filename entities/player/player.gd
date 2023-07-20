@@ -7,7 +7,7 @@ signal has_shot(raycast: RayCast3D)
 const MAX_X_ROTATION := deg_to_rad(80)
 const DEFAULT_MAX_RECOIL_RANDOMNESS := 2.0
 const BOB_FREQUENCY := 1.0  # determines how often footsteps happen
-const BOB_AMPLITUDE := 0.08  # how far the camera will move
+const BOB_AMPLITUDE := 0.06  # how far the camera will move
 
 @export var acceleration := 4
 @export var mouse_sentitivity := 0.15
@@ -58,10 +58,18 @@ func _physics_process(delta: float) -> void:
 	# apply gravity
 	velocity.y -= gravity * delta
 	# head bob animation
-#	bob_time += velocity.length() * delta if is_on_floor() else 0.0
-#	camera.position = _calculate_head_bob(bob_time)
+	bob_time += velocity.length() * delta if is_on_floor() else 0.0
+	camera.position = _calculate_head_bob(bob_time)
 	
 	move_and_slide()
+
+
+func _calculate_head_bob(time: float) -> Vector3:
+	var camera_pos := Vector3.ZERO
+	camera_pos.y = sin(time * BOB_FREQUENCY) * BOB_AMPLITUDE
+	camera_pos.x = cos(time * BOB_FREQUENCY / 2.0) * BOB_AMPLITUDE
+	
+	return camera_pos
 
 
 func _on_weapon_has_shot(spray_curve: Curve2D) -> void:
@@ -78,13 +86,6 @@ func _on_weapon_has_shot(spray_curve: Curve2D) -> void:
 	# decal code
 	if raycast.get_collider():
 		has_shot.emit(raycast)
-
-
-func _calculate_head_bob(time: float) -> Vector3:
-	var camera_pos := Vector3.ZERO
-	camera_pos.y = sin(time * BOB_FREQUENCY) * BOB_AMPLITUDE
-	
-	return camera_pos
 
 
 func _on_weapon_heat_changed(value: int) -> void:
