@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dkr12d528ypo0"]
+[gd_scene load_steps=22 format=3 uid="uid://dkr12d528ypo0"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_sbhg4"]
 [ext_resource type="Script" path="res://entities/player/player_fsm.gd" id="2_mmcdy"]
@@ -10,12 +10,16 @@
 [ext_resource type="Script" path="res://entities/player/states/sprint.gd" id="5_4taip"]
 [ext_resource type="Script" path="res://entities/player/states/jump.gd" id="5_rtd2e"]
 [ext_resource type="Script" path="res://entities/player/states/crouch.gd" id="7_po5wv"]
+[ext_resource type="Script" path="res://entities/player/camera3d.gd" id="8_r6wnb"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_i3sya"]
 height = 3.0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bp4pk"]
 height = 3.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3aafk"]
+fractal_octaves = 4
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_0pspf"]
 height = 0.1
@@ -231,6 +235,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 [node name="Camera3D" type="Camera3D" parent="Head"]
 cull_mask = 1048573
 current = true
+script = ExtResource("8_r6wnb")
+max_y = 2.5
+max_z = 2.5
+noise = SubResource("FastNoiseLite_3aafk")
 
 [node name="HUD" parent="Head/Camera3D" instance=ExtResource("2_wmwnf")]
 

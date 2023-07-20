@@ -37,6 +37,7 @@ func handle_input(event: InputEvent) -> InputEvent:
 
 
 func update(_delta: float) -> void:
+	weapon.camera.add_trauma(0.05)
 	if Input.is_action_pressed("fire1"):
 		if weapon.cur_ammo:
 			_shoot()
