@@ -26,6 +26,5 @@ func _get_normalized_direction() -> Vector3:
 
 func _move(delta: float) -> void:
 	var direction := _get_normalized_direction()
-	player.velocity = player.velocity.lerp(
-			direction * player.speed,
+	player.velocity = player.velocity.lerp(direction * player.speed,
 			player.acceleration * delta)
