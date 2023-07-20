@@ -75,10 +75,6 @@ func _process(delta: float) -> void:
 			rotation = rotation.lerp(sway_default, SWAY_LERP * delta)
 
 
-func set_sprinting(value: bool) -> void:
-	anim_player.play("sprinting" if value else "holding", 0.2)
-
-
 func is_mag_full() -> bool:
 	return cur_ammo == mag_size
 

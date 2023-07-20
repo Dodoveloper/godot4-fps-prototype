@@ -10,7 +10,7 @@ func exit() -> void:
 
 
 func handle_input(event: InputEvent) -> InputEvent:
-	return event
+	return super(event)
 
 
 func update(_delta: float) -> void:

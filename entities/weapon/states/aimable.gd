@@ -7,6 +7,13 @@ const ADS_LERP_SPEED := 20
 @onready var weapon: Weapon = owner
 
 
+func handle_input(event: InputEvent) -> InputEvent:
+	if event.is_action_pressed("sprint"):
+		finished.emit("sprint")
+	
+	return super(event)
+
+
 func update(delta: float) -> void:
 	if Input.is_action_pressed("ads"):
 		weapon.ads_toggled.emit(true)
