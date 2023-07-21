@@ -37,7 +37,6 @@ func handle_input(event: InputEvent) -> InputEvent:
 
 
 func update(_delta: float) -> void:
-	weapon.camera.add_trauma(0.05)
 	if Input.is_action_pressed("fire1"):
 		if weapon.cur_ammo:
 			_shoot()
@@ -55,6 +54,8 @@ func _shoot() -> void:
 	weapon.check_collision()
 	fire_rate_timer.start(weapon.fire_rate)
 	weapon.anim_player.play("firing")
+	# screenshake
+	weapon.camera.add_trauma(weapon.screenshake_amount)
 	# recoil
 	weapon.has_shot.emit(weapon.spray_curve)
 	# sound

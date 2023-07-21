@@ -29,6 +29,7 @@ const SWAY_LERP := 5
 @export var sway_default: Vector3
 @export var spray_scene: PackedScene
 @export var max_heat := 13
+@export var screenshake_amount := 0.2
 
 var cur_ammo := mag_size:
 	set(value):
