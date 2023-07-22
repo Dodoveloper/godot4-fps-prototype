@@ -14,9 +14,5 @@ func _process(_delta: float) -> void:
 	fps_label.text = "FPS: %s" % [Engine.get_frames_per_second()]
 
 
-func _on_weapon_ads_toggled(enabled: bool) -> void:
-	crosshair.visible = not enabled
-
-
 func _on_weapon_heat_changed(value: int) -> void:
 	heat_label.text = str(value)
