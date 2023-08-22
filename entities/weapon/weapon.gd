@@ -54,7 +54,10 @@ var heat := 0:
 
 
 func _ready() -> void:
+	position = default_position
+	
 	heat_tween.stop()
+	
 	if spray_scene != null:
 		var spray := spray_scene.instantiate() as Path2D
 		spray_curve = spray.curve

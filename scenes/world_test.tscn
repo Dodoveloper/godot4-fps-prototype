@@ -1,0 +1,111 @@
+[gd_scene load_steps=14 format=3 uid="uid://dihghbgffioy8"]
+
+[ext_resource type="Material" uid="uid://dqyggwkbhvu1l" path="res://scenes/assets/floor_material.tres" id="1_5om1f"]
+[ext_resource type="Script" path="res://scenes/world.gd" id="1_wjb21"]
+[ext_resource type="PackedScene" uid="uid://dkr12d528ypo0" path="res://entities/player/player.tscn" id="2_e34my"]
+[ext_resource type="Texture2D" uid="uid://bfj7r6t8t674d" path="res://scenes/assets/texture_12.png" id="2_wjvth"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_8xr40"]
+material = ExtResource("1_5om1f")
+size = Vector3(64, 0.5, 128)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8ur2m"]
+size = Vector3(64, 0.5, 128)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57ghv"]
+albedo_color = Color(0.866667, 0.890196, 0.698039, 1)
+albedo_texture = ExtResource("2_wjvth")
+uv1_scale = Vector3(128, 6, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_uqbkb"]
+material = SubResource("StandardMaterial3D_57ghv")
+size = Vector3(64, 6, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8hx2u"]
+size = Vector3(128, 6, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_av1ul"]
+material = SubResource("StandardMaterial3D_57ghv")
+size = Vector3(128, 6, 0.5)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_61rke"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_cpa11"]
+sky_material = SubResource("ProceduralSkyMaterial_61rke")
+
+[sub_resource type="Environment" id="Environment_l52yn"]
+background_mode = 2
+sky = SubResource("Sky_cpa11")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="WorldTest" type="Node3D"]
+script = ExtResource("1_wjb21")
+
+[node name="Floor" type="StaticBody3D" parent="."]
+collision_mask = 3
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_8xr40")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_8ur2m")
+
+[node name="BoudingWalls" type="Node3D" parent="."]
+
+[node name="Wall1" type="StaticBody3D" parent="BoudingWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 63.75)
+collision_mask = 3
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BoudingWalls/Wall1"]
+mesh = SubResource("BoxMesh_uqbkb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoudingWalls/Wall1"]
+shape = SubResource("BoxShape3D_8hx2u")
+
+[node name="Wall2" type="StaticBody3D" parent="BoudingWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -63.75)
+collision_mask = 3
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BoudingWalls/Wall2"]
+mesh = SubResource("BoxMesh_uqbkb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoudingWalls/Wall2"]
+shape = SubResource("BoxShape3D_8hx2u")
+
+[node name="Wall3" type="StaticBody3D" parent="BoudingWalls"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 31.75, 3, 0)
+collision_mask = 3
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BoudingWalls/Wall3"]
+mesh = SubResource("BoxMesh_av1ul")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoudingWalls/Wall3"]
+shape = SubResource("BoxShape3D_8hx2u")
+
+[node name="Wall4" type="StaticBody3D" parent="BoudingWalls"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -31.75, 3, 0)
+collision_mask = 3
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BoudingWalls/Wall4"]
+mesh = SubResource("BoxMesh_av1ul")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoudingWalls/Wall4"]
+shape = SubResource("BoxShape3D_8hx2u")
+
+[node name="Player" parent="." instance=ExtResource("2_e34my")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.2392, 3.15479, 56.1203)
+
+[node name="Decals" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.493487, -0.826892, 0.269666, 0.0235947, 0.297208, 0.954521, -0.869433, 0.477406, -0.127158, 14.7779, 48.5789, 1.87348)
+shadow_enabled = true
+shadow_normal_bias = 0.1
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_l52yn")
+
+[connection signal="has_shot" from="Player" to="." method="_on_player_has_shot"]

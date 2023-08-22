@@ -4,12 +4,12 @@
 [ext_resource type="PackedScene" uid="uid://dkr12d528ypo0" path="res://entities/player/player.tscn" id="1_cnybd"]
 [ext_resource type="Texture2D" uid="uid://dqs0yu35p1nsn" path="res://scenes/assets/texture_08.png" id="2_nkr6u"]
 [ext_resource type="PackedScene" uid="uid://dvw4wy2xvdnxq" path="res://entities/enemy/enemy.tscn" id="3_h1m5e"]
-[ext_resource type="Texture2D" uid="uid://18xwg6u8ycyc" path="res://scenes/assets/texture_03.png" id="3_rntiq"]
+[ext_resource type="Texture2D" uid="uid://bfj7r6t8t674d" path="res://scenes/assets/texture_12.png" id="3_yckwj"]
 [ext_resource type="PackedScene" uid="uid://c5p36felxduqr" path="res://scenes/bullet_decal/bullet_decal.tscn" id="6_ado0t"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2ngr2"]
 albedo_texture = ExtResource("2_nkr6u")
-uv1_scale = Vector3(8, 8, 8)
+uv1_scale = Vector3(8, 6, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_ccynb"]
 material = SubResource("StandardMaterial3D_2ngr2")
@@ -19,8 +19,9 @@ size = Vector3(64, 0.5, 64)
 points = PackedVector3Array(-32, -0.25, -32, -32, 0.25, -32, 32, -0.25, -32, -32, -0.25, 32, -32, 0.25, 32, 32, 0.25, -32, 32, -0.25, 32, 32, 0.25, 32)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57ghv"]
-albedo_texture = ExtResource("3_rntiq")
-uv1_scale = Vector3(32, 2, 8)
+albedo_color = Color(0.866667, 0.890196, 0.698039, 1)
+albedo_texture = ExtResource("3_yckwj")
+uv1_scale = Vector3(128, 6, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_hq2rc"]
 material = SubResource("StandardMaterial3D_57ghv")
@@ -45,12 +46,12 @@ size = Vector3(20, 6, 0.5)
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 
-[sub_resource type="Sky" id="Sky_cpa11"]
+[sub_resource type="Sky" id="Sky_ta2n3"]
 sky_material = SubResource("ProceduralSkyMaterial_g5nm4")
 
 [sub_resource type="Environment" id="Environment_ywp5y"]
 background_mode = 2
-sky = SubResource("Sky_cpa11")
+sky = SubResource("Sky_ta2n3")
 tonemap_mode = 2
 glow_enabled = true
 
@@ -187,7 +188,7 @@ transform = Transform3D(0.0218772, -0.464997, 0.885042, 0.0114907, 0.885312, 0.4
 shadow_enabled = true
 shadow_normal_bias = 0.1
 
-[node name="fee" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ywp5y")
 
 [connection signal="has_shot" from="Player" to="." method="_on_player_has_shot"]
