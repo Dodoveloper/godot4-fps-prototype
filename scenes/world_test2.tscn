@@ -1,0 +1,88 @@
+[gd_scene load_steps=7 format=3 uid="uid://brt5g6t71wvit"]
+
+[ext_resource type="Script" path="res://scenes/world.gd" id="1_xbvh1"]
+[ext_resource type="Material" uid="uid://dqyggwkbhvu1l" path="res://scenes/assets/floor_material.tres" id="2_53bns"]
+[ext_resource type="PackedScene" uid="uid://dkr12d528ypo0" path="res://entities/player/player.tscn" id="4_6t4k5"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_61rke"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_cpa11"]
+sky_material = SubResource("ProceduralSkyMaterial_61rke")
+
+[sub_resource type="Environment" id="Environment_l52yn"]
+background_mode = 2
+sky = SubResource("Sky_cpa11")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="WorldTest2" type="Node3D"]
+script = ExtResource("1_xbvh1")
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+use_collision = true
+
+[node name="Floor" type="CSGBox3D" parent="CSGCombiner3D"]
+size = Vector3(64, 0.5, 96)
+material = ExtResource("2_53bns")
+
+[node name="Wall1" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 47)
+size = Vector3(64, 6, 1)
+
+[node name="Wall2" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -48)
+size = Vector3(64, 6, 1)
+
+[node name="Wall3" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 3, -0.5)
+size = Vector3(1, 6, 96)
+
+[node name="Wall4" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 3, -0.5)
+size = Vector3(1, 6, 96)
+
+[node name="Wall5" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 3, -6.5)
+size = Vector3(1, 6, 86)
+
+[node name="Wall6" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 3, -0.5)
+size = Vector3(1, 6, 72)
+
+[node name="Wall7" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 3, 36)
+size = Vector3(36, 6, 1)
+
+[node name="Wall8" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 3, -6)
+size = Vector3(36, 6, 1)
+
+[node name="Wall9" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 3, -36)
+size = Vector3(36, 6, 1)
+
+[node name="Stairs" type="CSGPolygon3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -36)
+polygon = PackedVector2Array(-10, 0, -10, 0, 17, 6, 17, 0)
+depth = 12.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 3, -6.5)
+size = Vector3(16.5, 6, 86)
+
+[node name="Player" parent="." instance=ExtResource("4_6t4k5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.2392, 3.15479, 45.1203)
+
+[node name="Decals" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.493487, -0.826892, 0.269666, 0.0235947, 0.297208, 0.954521, -0.869433, 0.477406, -0.127158, 14.7779, 48.5789, 1.87348)
+shadow_enabled = true
+shadow_normal_bias = 0.1
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_l52yn")
+
+[connection signal="has_shot" from="Player" to="." method="_on_player_has_shot"]

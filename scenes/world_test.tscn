@@ -1,9 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://dihghbgffioy8"]
+[gd_scene load_steps=18 format=3 uid="uid://dihghbgffioy8"]
 
 [ext_resource type="Material" uid="uid://dqyggwkbhvu1l" path="res://scenes/assets/floor_material.tres" id="1_5om1f"]
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_wjb21"]
 [ext_resource type="PackedScene" uid="uid://dkr12d528ypo0" path="res://entities/player/player.tscn" id="2_e34my"]
-[ext_resource type="Texture2D" uid="uid://bfj7r6t8t674d" path="res://scenes/assets/texture_12.png" id="2_wjvth"]
+[ext_resource type="Material" uid="uid://cmrq1lp2x1tmt" path="res://scenes/assets/wall_material.tres" id="3_w41yv"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_8xr40"]
 material = ExtResource("1_5om1f")
@@ -12,31 +12,26 @@ size = Vector3(64, 0.5, 128)
 [sub_resource type="BoxShape3D" id="BoxShape3D_8ur2m"]
 size = Vector3(64, 0.5, 128)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57ghv"]
-albedo_color = Color(0.866667, 0.890196, 0.698039, 1)
-albedo_texture = ExtResource("2_wjvth")
-uv1_scale = Vector3(128, 6, 1)
-
 [sub_resource type="BoxMesh" id="BoxMesh_uqbkb"]
-material = SubResource("StandardMaterial3D_57ghv")
+material = ExtResource("3_w41yv")
 size = Vector3(64, 6, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8hx2u"]
 size = Vector3(64, 6, 0.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_av1ul"]
-material = SubResource("StandardMaterial3D_57ghv")
+material = ExtResource("3_w41yv")
 size = Vector3(128, 6, 0.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_qajba"]
-material = SubResource("StandardMaterial3D_57ghv")
+material = ExtResource("3_w41yv")
 size = Vector3(112, 6, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_piu2y"]
 size = Vector3(112, 6, 0.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_omc84"]
-material = SubResource("StandardMaterial3D_57ghv")
+material = ExtResource("3_w41yv")
 size = Vector3(48, 6, 0.5)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ty4yj"]
