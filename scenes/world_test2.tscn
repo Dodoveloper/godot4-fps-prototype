@@ -1,8 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://brt5g6t71wvit"]
+[gd_scene load_steps=17 format=3 uid="uid://brt5g6t71wvit"]
 
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_xbvh1"]
 [ext_resource type="Material" uid="uid://dqyggwkbhvu1l" path="res://scenes/assets/floor_material.tres" id="2_53bns"]
+[ext_resource type="Script" path="res://addons/csg_mesher/src/CSGMesher.gd" id="2_cnet1"]
 [ext_resource type="PackedScene" uid="uid://dkr12d528ypo0" path="res://entities/player/player.tscn" id="4_6t4k5"]
+[ext_resource type="PackedScene" uid="uid://dvw4wy2xvdnxq" path="res://entities/enemy/enemy.tscn" id="4_e3umc"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_8ht4x"]
 size = Vector3(12, 6, 1)
@@ -101,6 +103,8 @@ script = ExtResource("1_xbvh1")
 [node name="CsgCombiner3D" type="CSGCombiner3D" parent="FirstFloor"]
 use_collision = true
 collision_mask = 3
+script = ExtResource("2_cnet1")
+make = 2
 
 [node name="Floor" type="CSGBox3D" parent="FirstFloor/CsgCombiner3D"]
 size = Vector3(64, 0.5, 96)
@@ -164,6 +168,7 @@ size = Vector3(2, 2.5, 12)
 [node name="Door1" type="CharacterBody3D" parent="FirstFloor"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -19, 3, 41.5)
 collision_mask = 3
+metadata/_edit_group_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="FirstFloor/Door1"]
 mesh = SubResource("BoxMesh_8ht4x")
@@ -174,12 +179,67 @@ shape = SubResource("ConvexPolygonShape3D_asyr7")
 [node name="Door2" type="CharacterBody3D" parent="FirstFloor"]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -25.5, 3, -36)
 collision_mask = 3
+metadata/_edit_group_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="FirstFloor/Door2"]
 mesh = SubResource("BoxMesh_p80qc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FirstFloor/Door2"]
 shape = SubResource("ConvexPolygonShape3D_suepl")
+
+[node name="EnemiesRoom1" type="Node3D" parent="FirstFloor"]
+
+[node name="Enemy" parent="FirstFloor/EnemiesRoom1" instance=ExtResource("4_e3umc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 5)
+speed = 0.0
+
+[node name="Enemy2" parent="FirstFloor/EnemiesRoom1" instance=ExtResource("4_e3umc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 2, 18)
+speed = 0.0
+
+[node name="Enemy3" parent="FirstFloor/EnemiesRoom1" instance=ExtResource("4_e3umc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, 22)
+speed = 0.0
+
+[node name="Enemy4" parent="FirstFloor/EnemiesRoom1" instance=ExtResource("4_e3umc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 2, 18)
+speed = 0.0
+
+[node name="Enemy5" parent="FirstFloor/EnemiesRoom1" instance=ExtResource("4_e3umc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2, 10)
+speed = 0.0
+
+[node name="Enemy6" parent="FirstFloor/EnemiesRoom1" instance=ExtResource("4_e3umc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2, 26)
+speed = 0.0
+
+[node name="Enemy7" parent="FirstFloor/EnemiesRoom1" instance=ExtResource("4_e3umc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, 26)
+speed = 0.0
+
+[node name="Enemy8" parent="FirstFloor/EnemiesRoom1" instance=ExtResource("4_e3umc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 2, 0)
+speed = 0.0
+
+[node name="Enemy9" parent="FirstFloor/EnemiesRoom1" instance=ExtResource("4_e3umc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, 13)
+speed = 0.0
+
+[node name="Enemy10" parent="FirstFloor/EnemiesRoom1" instance=ExtResource("4_e3umc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 17)
+speed = 0.0
+
+[node name="Enemy11" parent="FirstFloor/EnemiesRoom1" instance=ExtResource("4_e3umc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 3)
+speed = 0.0
+
+[node name="Enemy12" parent="FirstFloor/EnemiesRoom1" instance=ExtResource("4_e3umc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 2, 8)
+speed = 0.0
+
+[node name="Enemy13" parent="FirstFloor/EnemiesRoom1" instance=ExtResource("4_e3umc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 2, 24)
+speed = 0.0
 
 [node name="Player" parent="." instance=ExtResource("4_6t4k5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.2392, 3.15479, 42.1203)

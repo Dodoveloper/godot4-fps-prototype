@@ -1,5 +1,8 @@
+class_name Enemy
 extends CharacterBody3D
 
+
+signal destroyed
 
 @export var health := 100
 @export var speed := 7.5
@@ -29,6 +32,11 @@ func _physics_process(delta: float) -> void:
 	velocity.x = direction.x * speed
 	velocity.z = direction.z * speed
 	move_and_slide()
+
+
+func destroy() -> void:
+	destroyed.emit()
+	queue_free()
 
 
 func _set_body_albedo(color: Color) -> void:

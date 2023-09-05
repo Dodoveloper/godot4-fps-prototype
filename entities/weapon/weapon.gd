@@ -86,8 +86,8 @@ func is_mag_full() -> bool:
 func check_collision() -> void:
 	if raycast.is_colliding():
 		var collider := raycast.get_collider()
-		if collider.is_in_group("enemies"):
-			collider.queue_free()
+		if collider is Enemy:
+			collider.destroy()
 
 
 func _on_state_machine_state_changed(states_stack: Array) -> void:
