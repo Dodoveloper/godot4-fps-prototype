@@ -2,7 +2,7 @@ class_name Player
 extends CharacterBody3D
 
 
-signal has_shot(raycast: RayCast3D)
+signal decal_requested(collision_info: Dictionary)
 
 const MAX_X_ROTATION := deg_to_rad(80)
 const DEFAULT_MAX_RECOIL_RANDOMNESS := 2.0
@@ -83,9 +83,10 @@ func _on_weapon_has_shot(spray_curve: Curve2D) -> void:
 	raycast.target_position.y = recoil_offset.y + rand_offset
 	# push the muzzle a bit higher
 	rotation_target.x += recoil_offset.y * weapon.vertical_kick_factor
-	# decal code
-	if raycast.get_collider():
-		has_shot.emit(raycast)
+
+
+func _on_weapon_decal_requested(collider_info: Dictionary) -> void:
+	decal_requested.emit(collider_info)
 
 
 func _on_weapon_heat_changed(value: int) -> void:

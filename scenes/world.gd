@@ -11,8 +11,6 @@ const BULLET_DECAL := preload("res://scenes/bullet_decal/bullet_decal.tscn")
 func _ready() -> void:
 	for enemy in enemies_room1.get_children():
 		(enemy as Enemy).destroyed.connect(_on_Enemy_destroyed)
-#	await get_tree().create_timer(10.0).timeout
-#	$AnimationPlayer.play("open_door2")
 
 
 func _process(_delta: float) -> void:
@@ -26,9 +24,9 @@ func _on_Enemy_destroyed() -> void:
 		$AnimationPlayer.play("open_door1")
 
 
-func _on_player_has_shot(raycast: RayCast3D) -> void:
+func _on_player_decal_requested(collision_info: Dictionary) -> void:
 	var decal := BULLET_DECAL.instantiate()
-	raycast.get_collider().add_child(decal)
-	decal.global_position = raycast.get_collision_point()
-	decal.look_at($Player/Head.global_rotation, raycast.get_collision_normal())
+	decals_container.add_child(decal)
+	decal.global_position = collision_info["position"]
+	decal.look_at(collision_info["normal"])
 	# TODO: keep the number of decals down

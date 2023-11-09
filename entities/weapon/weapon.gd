@@ -9,6 +9,7 @@ signal ammo_changed(ammo: int)
 signal heat_changed(value: int)
 signal shoot_started()
 signal shoot_finished()
+signal decal_requested(collider_info: Dictionary)
 
 const SWAY_TRESHOLD := 5
 const SWAY_LERP := 5
@@ -92,19 +93,24 @@ func check_collision() -> void:
 			collider.destroy()
 
 
-func new_check_collision(collision_pos: Vector3) -> void:
+func check_hitscan_collision() -> void:
+	var collision_pos := _get_camera_collision()
 	var bullet_dir := (collision_pos - bullet_spawn.global_position).normalized()
 	var query := PhysicsRayQueryParameters3D.create(bullet_spawn.global_position,
 			collision_pos + bullet_dir*2)
 	var bullet_collision = get_world_3d().direct_space_state.intersect_ray(query)
 	
 	if bullet_collision:
-		print("bullet colliding")
+		decal_requested.emit(bullet_collision)
+		
 		var collider := bullet_collision["collider"] as Node
 		if collider is Enemy:
 			collider.destroy()
 
 
+## Projects a ray from the weapon's muzzle to the camera center.
+## The ray's length is the weapon's range.
+## Returns the collision's position, if present, otherwise the ray's end position.
 func _get_camera_collision() -> Vector3:
 	var viewport_size := get_viewport().get_visible_rect().size
 	

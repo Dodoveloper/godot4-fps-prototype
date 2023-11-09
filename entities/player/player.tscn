@@ -293,6 +293,7 @@ libraries = {
 [connection signal="exited" from="StateMachine/Sprint" to="StateMachine" method="_on_sprint_exited"]
 [connection signal="timeout" from="StateMachine/Sprint/Duration" to="StateMachine/Sprint" method="_on_duration_timeout"]
 [connection signal="ammo_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_ammo_changed"]
+[connection signal="decal_requested" from="Head/Camera3D/Weapon" to="." method="_on_weapon_decal_requested"]
 [connection signal="has_shot" from="Head/Camera3D/Weapon" to="." method="_on_weapon_has_shot"]
 [connection signal="heat_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_heat_changed"]
 [connection signal="heat_changed" from="Head/Camera3D/Weapon" to="Head/Camera3D/HUD" method="_on_weapon_heat_changed"]

@@ -8,6 +8,8 @@ size = Vector3(0.1, 0.2, 0.1)
 texture_albedo = ExtResource("1_u2v2w")
 albedo_mix = 0.7
 normal_fade = 0.5
+upper_fade = 0.0040807
+lower_fade = 0.00165728
 distance_fade_enabled = true
 script = ExtResource("1_pnwkq")
 

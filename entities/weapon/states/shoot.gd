@@ -33,6 +33,7 @@ func exit() -> void:
 func handle_input(event: InputEvent) -> InputEvent:
 	if event.is_action_pressed("reload") and not weapon.is_mag_full():
 		finished.emit("reload")
+	
 	return super(event)
 
 
@@ -49,10 +50,11 @@ func update(_delta: float) -> void:
 func _shoot() -> void:
 	if not can_shoot:
 		return
+	
 	can_shoot = false
 	weapon.cur_ammo -= 1
 	#weapon.check_collision()
-	weapon.new_check_collision(weapon._get_camera_collision())
+	weapon.check_hitscan_collision()
 	fire_rate_timer.start(weapon.fire_rate)
 	weapon.anim_player.play("firing")
 	# screenshake

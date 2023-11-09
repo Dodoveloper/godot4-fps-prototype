@@ -260,4 +260,4 @@ libraries = {
 "": SubResource("AnimationLibrary_xxkic")
 }
 
-[connection signal="has_shot" from="Player" to="." method="_on_player_has_shot"]
+[connection signal="decal_requested" from="Player" to="." method="_on_player_decal_requested"]
