@@ -17,6 +17,7 @@ const SWAY_LERP := 5
 @export var fire_rate := 0.08
 @export var mag_size := 30
 @export var reload_time := 1.2
+@export var weapon_range := 200
 @export var vertical_kick_factor := 0.006
 @export var raycast_path: NodePath
 @export var camera_path: NodePath
@@ -47,6 +48,7 @@ var heat := 0:
 @onready var heat_tween := create_tween()
 # Nodes
 @onready var fsm := $StateMachine as WeaponStateMachine
+@onready var bullet_spawn := $AKM/BulletSpawn as Marker3D
 @onready var raycast := get_node(raycast_path) as RayCast3D
 @onready var camera := get_node(camera_path) as Camera3D
 @onready var gun_fire := $GunFIre as AudioStreamPlayer
@@ -88,6 +90,31 @@ func check_collision() -> void:
 		var collider := raycast.get_collider()
 		if collider is Enemy:
 			collider.destroy()
+
+
+func new_check_collision(collision_pos: Vector3) -> void:
+	var bullet_dir := (collision_pos - bullet_spawn.global_position).normalized()
+	var query := PhysicsRayQueryParameters3D.create(bullet_spawn.global_position,
+			collision_pos + bullet_dir*2)
+	var bullet_collision = get_world_3d().direct_space_state.intersect_ray(query)
+	
+	if bullet_collision:
+		print("bullet colliding")
+		var collider := bullet_collision["collider"] as Node
+		if collider is Enemy:
+			collider.destroy()
+
+
+func _get_camera_collision() -> Vector3:
+	var viewport_size := get_viewport().get_visible_rect().size
+	
+	var ray_origin := camera.project_ray_origin(viewport_size / 2)
+	var ray_end := ray_origin + camera.project_ray_normal(viewport_size / 2) * weapon_range
+	
+	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
+	var collision := get_world_3d().direct_space_state.intersect_ray(query)
+	
+	return collision.position if not collision.is_empty() else ray_end
 
 
 func _on_state_machine_state_changed(states_stack: Array) -> void:
