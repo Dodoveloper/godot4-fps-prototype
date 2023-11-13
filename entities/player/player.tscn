@@ -242,13 +242,9 @@ noise = SubResource("FastNoiseLite_3aafk")
 
 [node name="HUD" parent="Head/Camera3D" instance=ExtResource("2_wmwnf")]
 
-[node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D"]
-unique_name_in_owner = true
-target_position = Vector3(0, 0, -100)
-collision_mask = 5
-
 [node name="Weapon" parent="Head/Camera3D" instance=ExtResource("3_yiye0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, -0.22, -0.375)
+raycast_path = NodePath("")
 camera_path = NodePath("..")
 
 [node name="Pivot" type="Node3D" parent="."]
@@ -295,7 +291,6 @@ libraries = {
 [connection signal="ammo_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_ammo_changed"]
 [connection signal="decal_requested" from="Head/Camera3D/Weapon" to="." method="_on_weapon_decal_requested"]
 [connection signal="has_shot" from="Head/Camera3D/Weapon" to="." method="_on_weapon_has_shot"]
-[connection signal="heat_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_heat_changed"]
 [connection signal="heat_changed" from="Head/Camera3D/Weapon" to="Head/Camera3D/HUD" method="_on_weapon_heat_changed"]
 [connection signal="shoot_finished" from="Head/Camera3D/Weapon" to="." method="_on_weapon_shoot_finished"]
 [connection signal="shoot_started" from="Head/Camera3D/Weapon" to="." method="_on_weapon_shoot_started"]

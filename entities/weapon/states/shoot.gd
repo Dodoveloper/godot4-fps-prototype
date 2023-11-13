@@ -53,7 +53,6 @@ func _shoot() -> void:
 	
 	can_shoot = false
 	weapon.cur_ammo -= 1
-	#weapon.check_collision()
 	weapon.check_hitscan_collision()
 	fire_rate_timer.start(weapon.fire_rate)
 	weapon.anim_player.play("firing")

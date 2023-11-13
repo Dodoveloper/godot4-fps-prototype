@@ -30,10 +30,10 @@ const SWAY_LERP := 5
 @export var sway_right: Vector3
 @export var sway_default: Vector3
 @export var spray_scene: PackedScene
-@export var max_heat := 13
+@export var max_heat := 29  # WARN: depends on mag_size
 @export var screenshake_amount := 0.2
 
-var cur_ammo := mag_size:
+var cur_ammo: int = mag_size:
 	set(value):
 		cur_ammo = value
 		ammo_changed.emit(cur_ammo)
@@ -43,8 +43,8 @@ var mouse_movement: float
 var spray_curve: Curve2D
 var heat := 0:
 	set(value):
-		heat = value
-		emit_signal("heat_changed", heat)
+		heat = min(value, max_heat)
+		heat_changed.emit(heat)
 
 @onready var heat_tween := create_tween()
 # Nodes
@@ -86,13 +86,6 @@ func is_mag_full() -> bool:
 	return cur_ammo == mag_size
 
 
-func check_collision() -> void:
-	if raycast.is_colliding():
-		var collider := raycast.get_collider()
-		if collider is Enemy:
-			collider.destroy()
-
-
 func check_hitscan_collision() -> void:
 	var collision_pos := _get_camera_collision()
 	var bullet_dir := (collision_pos - bullet_spawn.global_position).normalized()
@@ -112,10 +105,12 @@ func check_hitscan_collision() -> void:
 ## The ray's length is the weapon's range.
 ## Returns the collision's position, if present, otherwise the ray's end position.
 func _get_camera_collision() -> Vector3:
-	var viewport_size := get_viewport().get_visible_rect().size
+	var viewport_center := get_viewport().get_visible_rect().size / 2
 	
-	var ray_origin := camera.project_ray_origin(viewport_size / 2)
-	var ray_end := ray_origin + camera.project_ray_normal(viewport_size / 2) * weapon_range
+	var ray_origin := camera.project_ray_origin(viewport_center)
+	var recoil_offset := spray_curve.get_point_position(heat)
+	var ray_end := ray_origin + camera.project_ray_normal(viewport_center + recoil_offset) \
+			* weapon_range
 	
 	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
 	var collision := get_world_3d().direct_space_state.intersect_ray(query)

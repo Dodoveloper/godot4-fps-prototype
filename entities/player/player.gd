@@ -30,10 +30,7 @@ var bob_time := 0.0
 @onready var camera := $Head/Camera3D as Camera3D
 @onready var anim_player := $AnimationPlayer as AnimationPlayer
 @onready var hud := $Head/Camera3D/HUD as Hud
-@onready var raycast := $"%RayCast3D" as RayCast3D
 @onready var weapon := $Head/Camera3D/Weapon as Weapon
-# Variables
-@onready var default_raycast_target_pos := raycast.target_position
 
 
 func _ready() -> void:
@@ -74,25 +71,17 @@ func _calculate_head_bob(time: float) -> Vector3:
 
 func _on_weapon_has_shot(spray_curve: Curve2D) -> void:
 	# apply recoil
-	var count: int = min(weapon.heat, weapon.max_heat)
-	var spray_position := spray_curve.get_point_position(count)
-	var recoil_offset := Vector3(spray_position.x, -spray_position.y, 0)
-#	print("Recoil offset: ", recoil_offset)
+	var spray_position := spray_curve.get_point_position(weapon.heat)
+	var recoil_offset := Vector2(sign(spray_position.x), -sign(spray_position.y))
+	print("Spray pos: ", spray_position)
 	var rand_offset := rng.randf_range(-max_recoil_randomness, max_recoil_randomness)
-	raycast.target_position.x = recoil_offset.x + rand_offset
-	raycast.target_position.y = recoil_offset.y + rand_offset
 	# push the muzzle a bit higher
-	rotation_target.x += recoil_offset.y * weapon.vertical_kick_factor
+	rotation_target.x += deg_to_rad(1.0)
+	#rotation_target.y += spray_position.x
 
 
 func _on_weapon_decal_requested(collider_info: Dictionary) -> void:
 	decal_requested.emit(collider_info)
-
-
-func _on_weapon_heat_changed(value: int) -> void:
-	if value == 0:
-		raycast.target_position = default_raycast_target_pos
-		raycast.force_raycast_update()
 
 
 func _on_weapon_shoot_started() -> void:
