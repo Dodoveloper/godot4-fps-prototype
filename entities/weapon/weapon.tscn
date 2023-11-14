@@ -219,6 +219,7 @@ default_position = Vector3(0.13, -0.23, -0.36)
 sway_left = Vector3(0, 0.1, 0)
 sway_right = Vector3(0, -0.1, 0)
 spray_scene = ExtResource("2_7hjqu")
+max_heat = 15
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_kcga0")

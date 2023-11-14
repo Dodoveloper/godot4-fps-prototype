@@ -10,12 +10,11 @@ const BOB_FREQUENCY := 1.0  # determines how often footsteps happen
 const BOB_AMPLITUDE := 0.06  # how far the camera will move
 
 @export var acceleration := 4
-@export var mouse_sentitivity := 0.15
+@export var mouse_sentitivity := 0.05
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var direction := Vector3.ZERO
 var gravity: float = ProjectSettings.get("physics/3d/default_gravity")
-var rotation_target = Vector2.ZERO
 var x_rot_before_shoot: float
 var speed: int
 var max_recoil_randomness := DEFAULT_MAX_RECOIL_RANDOMNESS
@@ -28,6 +27,7 @@ var bob_time := 0.0
 @onready var collision := $CollisionShape3D as CollisionShape3D
 @onready var head := $Head as Node3D
 @onready var camera := $Head/Camera3D as Camera3D
+@onready var remote_transform := $Head/Camera3D/RemoteTransform3D as RemoteTransform3D
 @onready var anim_player := $AnimationPlayer as AnimationPlayer
 @onready var hud := $Head/Camera3D/HUD as Hud
 @onready var weapon := $Head/Camera3D/Weapon as Weapon
@@ -41,17 +41,13 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		# mouse movement (left and right)
-		rotation_target.y = deg_to_rad(-event.relative.x * mouse_sentitivity)
+		head.rotate_y(deg_to_rad(-event.relative.x * mouse_sentitivity))
 		# camera x rotation (up and down)
-		rotation_target.x = deg_to_rad(-event.relative.y * mouse_sentitivity)
+		camera.rotate_x(deg_to_rad(-event.relative.y * mouse_sentitivity))
+		camera.rotation.x = clamp(camera.rotation.x, -MAX_X_ROTATION, MAX_X_ROTATION)
 
 
 func _physics_process(delta: float) -> void:
-	var actual_rotation = Vector2.ZERO.lerp(rotation_target, 30 * delta)
-	rotation_target -= actual_rotation
-	head.rotate_y(actual_rotation.y)
-	camera.rotate_x(actual_rotation.x)
-	camera.rotation.x = clamp(camera.rotation.x, -MAX_X_ROTATION, MAX_X_ROTATION)
 	# apply gravity
 	velocity.y -= gravity * delta
 	# head bob animation
@@ -79,7 +75,8 @@ func _on_weapon_has_shot(spray_curve: Curve2D) -> void:
 	camera.rotation.x += deg_to_rad(0.5)
 	camera.rotation.x = clampf(camera.rotation.x, x_rot_before_shoot - deg_to_rad(5.0),
 			x_rot_before_shoot + deg_to_rad(5.0))
-	#rotation_target.y += spray_position.x * 0.001
+	if not weapon.heat == weapon.max_heat:
+		head.rotation.y += deg_to_rad(spray_position.x) * 0.025
 
 
 func _on_weapon_decal_requested(collider_info: Dictionary) -> void:
@@ -88,13 +85,15 @@ func _on_weapon_decal_requested(collider_info: Dictionary) -> void:
 
 func _on_weapon_shoot_started() -> void:
 	x_rot_before_shoot = camera.rotation.x
-	$Head/Camera3D/RemoteTransform3D.update_rotation = false
+	# Prevent the follow camera from following the main camera's vertical recoil.
+	# This is done because the weapon will use it to project the ray used for the recoil pattern
+	remote_transform.update_rotation = false
 
 
 func _on_weapon_shoot_finished() -> void:
 	var tween := create_tween()
 	tween.tween_property(camera, "rotation:x", x_rot_before_shoot, weapon.fire_rate)
-	$Head/Camera3D/RemoteTransform3D.update_rotation = true
+	remote_transform.update_rotation = true
 
 
 func _on_state_machine_state_changed(states_stack: Array) -> void:
