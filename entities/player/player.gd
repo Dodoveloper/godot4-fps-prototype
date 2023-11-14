@@ -72,12 +72,14 @@ func _calculate_head_bob(time: float) -> Vector3:
 func _on_weapon_has_shot(spray_curve: Curve2D) -> void:
 	# apply recoil
 	var spray_position := spray_curve.get_point_position(weapon.heat)
-	var recoil_offset := Vector2(sign(spray_position.x), -sign(spray_position.y))
-	print("Spray pos: ", spray_position)
-	var rand_offset := rng.randf_range(-max_recoil_randomness, max_recoil_randomness)
-	# push the muzzle a bit higher
-	rotation_target.x += deg_to_rad(1.0)
-	#rotation_target.y += spray_position.x
+	#var recoil_offset := Vector2(sign(spray_position.x), -sign(spray_position.y))
+	#print("Spray pos: ", spray_position)
+	#var rand_offset := rng.randf_range(-max_recoil_randomness, max_recoil_randomness)
+	# rotate the camera to obtain a recoil effect
+	camera.rotation.x += deg_to_rad(0.5)
+	camera.rotation.x = clampf(camera.rotation.x, x_rot_before_shoot - deg_to_rad(5.0),
+			x_rot_before_shoot + deg_to_rad(5.0))
+	#rotation_target.y += spray_position.x * 0.001
 
 
 func _on_weapon_decal_requested(collider_info: Dictionary) -> void:
@@ -86,11 +88,13 @@ func _on_weapon_decal_requested(collider_info: Dictionary) -> void:
 
 func _on_weapon_shoot_started() -> void:
 	x_rot_before_shoot = camera.rotation.x
+	$Head/Camera3D/RemoteTransform3D.update_rotation = false
 
 
 func _on_weapon_shoot_finished() -> void:
 	var tween := create_tween()
 	tween.tween_property(camera, "rotation:x", x_rot_before_shoot, weapon.fire_rate)
+	$Head/Camera3D/RemoteTransform3D.update_rotation = true
 
 
 func _on_state_machine_state_changed(states_stack: Array) -> void:

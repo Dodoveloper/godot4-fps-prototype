@@ -232,6 +232,9 @@ shape = SubResource("CapsuleShape3D_bp4pk")
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1, 0)
 
+[node name="FollowCamera" type="Camera3D" parent="Head"]
+cull_mask = 0
+
 [node name="Camera3D" type="Camera3D" parent="Head"]
 cull_mask = 1048573
 current = true
@@ -244,8 +247,10 @@ noise = SubResource("FastNoiseLite_3aafk")
 
 [node name="Weapon" parent="Head/Camera3D" instance=ExtResource("3_yiye0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, -0.22, -0.375)
-raycast_path = NodePath("")
-camera_path = NodePath("..")
+camera_path = NodePath("../../FollowCamera")
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Head/Camera3D"]
+remote_path = NodePath("../../FollowCamera")
 
 [node name="Pivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.45, 0)

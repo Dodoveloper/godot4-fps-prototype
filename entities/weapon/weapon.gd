@@ -20,7 +20,6 @@ const SWAY_LERP := 5
 @export var reload_time := 1.2
 @export var weapon_range := 200
 @export var vertical_kick_factor := 0.006
-@export var raycast_path: NodePath
 @export var camera_path: NodePath
 @export var ads_position: Vector3
 @export var default_position: Vector3
@@ -30,7 +29,7 @@ const SWAY_LERP := 5
 @export var sway_right: Vector3
 @export var sway_default: Vector3
 @export var spray_scene: PackedScene
-@export var max_heat := 29  # WARN: depends on mag_size
+@export var max_heat := 13
 @export var screenshake_amount := 0.2
 
 var cur_ammo: int = mag_size:
@@ -50,7 +49,6 @@ var heat := 0:
 # Nodes
 @onready var fsm := $StateMachine as WeaponStateMachine
 @onready var bullet_spawn := $AKM/BulletSpawn as Marker3D
-@onready var raycast := get_node(raycast_path) as RayCast3D
 @onready var camera := get_node(camera_path) as Camera3D
 @onready var gun_fire := $GunFIre as AudioStreamPlayer
 @onready var anim_player := $AnimationPlayer as AnimationPlayer

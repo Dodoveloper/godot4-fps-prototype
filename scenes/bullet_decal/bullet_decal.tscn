@@ -21,5 +21,8 @@ cast_shadow = 0
 mesh = SubResource("QuadMesh_0vvqg")
 
 [node name="LifeTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
 
 [connection signal="timeout" from="LifeTimer" to="." method="_on_life_timer_timeout"]

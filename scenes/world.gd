@@ -32,4 +32,3 @@ func _on_player_decal_requested(collision_info: Dictionary) -> void:
 	var collision_normal := collision_info["normal"] as Vector3
 	decal.look_at(decal.global_position + collision_normal,
 			Vector3.RIGHT if collision_normal in [Vector3.UP, Vector3.DOWN] else Vector3.UP)
-	# TODO: keep the number of decals down
