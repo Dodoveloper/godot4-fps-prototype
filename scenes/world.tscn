@@ -1,5 +1,6 @@
-[gd_scene load_steps=18 format=3 uid="uid://b2nirh036ket0"]
+[gd_scene load_steps=19 format=3 uid="uid://b2nirh036ket0"]
 
+[ext_resource type="Script" path="res://scenes/world.gd" id="1_aqqlb"]
 [ext_resource type="PackedScene" uid="uid://dkr12d528ypo0" path="res://entities/player/player.tscn" id="1_cnybd"]
 [ext_resource type="Texture2D" uid="uid://dqs0yu35p1nsn" path="res://scenes/assets/texture_08.png" id="2_nkr6u"]
 [ext_resource type="PackedScene" uid="uid://dvw4wy2xvdnxq" path="res://entities/enemy/enemy.tscn" id="3_h1m5e"]
@@ -54,6 +55,7 @@ tonemap_mode = 2
 glow_enabled = true
 
 [node name="World" type="Node3D"]
+script = ExtResource("1_aqqlb")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 collision_mask = 7
@@ -184,3 +186,5 @@ shadow_normal_bias = 0.1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ywp5y")
+
+[connection signal="decal_requested" from="Player" to="." method="_on_player_decal_requested"]

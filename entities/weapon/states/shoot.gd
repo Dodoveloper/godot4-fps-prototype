@@ -56,10 +56,8 @@ func _shoot() -> void:
 	weapon.check_hitscan_collision()
 	fire_rate_timer.start(weapon.fire_rate)
 	weapon.anim_player.play("firing")
-	# FIXME: screenshake
-	#weapon.camera.add_trauma(weapon.screenshake_amount)
 	# recoil
-	weapon.has_shot.emit(weapon.spray_curve)
+	weapon.has_shot.emit(weapon.spray_curve.get_point_position(weapon.heat))
 	# sound
 	weapon.gun_fire.play()
 

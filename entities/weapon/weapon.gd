@@ -3,7 +3,7 @@ extends Node3D
 
 
 signal ads_toggled(enabled: bool)
-signal has_shot(spray_curve: Curve2D)
+signal has_shot(recoil_offset: Vector2)
 signal state_changed(states_stack: Array)
 signal ammo_changed(ammo: int)
 signal heat_changed(value: int)

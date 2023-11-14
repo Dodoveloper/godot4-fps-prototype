@@ -65,18 +65,15 @@ func _calculate_head_bob(time: float) -> Vector3:
 	return camera_pos
 
 
-func _on_weapon_has_shot(spray_curve: Curve2D) -> void:
-	# apply recoil
-	var spray_position := spray_curve.get_point_position(weapon.heat)
-	#var recoil_offset := Vector2(sign(spray_position.x), -sign(spray_position.y))
-	#print("Spray pos: ", spray_position)
-	#var rand_offset := rng.randf_range(-max_recoil_randomness, max_recoil_randomness)
+func _on_weapon_has_shot(recoil_offset: Vector2) -> void:
 	# rotate the camera to obtain a recoil effect
 	camera.rotation.x += deg_to_rad(0.5)
 	camera.rotation.x = clampf(camera.rotation.x, x_rot_before_shoot - deg_to_rad(5.0),
 			x_rot_before_shoot + deg_to_rad(5.0))
 	if not weapon.heat == weapon.max_heat:
-		head.rotation.y += deg_to_rad(spray_position.x) * 0.025
+		head.rotation.y += deg_to_rad(recoil_offset.x) * 0.025
+	# camera screenshake
+	camera.add_trauma(weapon.screenshake_amount)
 
 
 func _on_weapon_decal_requested(collider_info: Dictionary) -> void:
