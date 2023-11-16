@@ -176,7 +176,7 @@ resource_name = "walking"
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/path = NodePath("AKM:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
@@ -188,7 +188,7 @@ tracks/0/keys = {
 }
 tracks/1/type = "value"
 tracks/1/imported = false
-tracks/1/enabled = true
+tracks/1/enabled = false
 tracks/1/path = NodePath("AKM:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
@@ -215,8 +215,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13, -0.23, -0.36)
 script = ExtResource("1_jqdj6")
 ads_position = Vector3(0, -0.165, -0.31)
 default_position = Vector3(0.13, -0.23, -0.36)
-sway_left = Vector3(0, 0.1, 0)
-sway_right = Vector3(0, -0.1, 0)
 spray_scene = ExtResource("2_7hjqu")
 
 [node name="StateMachine" type="Node" parent="."]

@@ -2,7 +2,7 @@ class_name StateMachine
 extends Node
 
 
-signal state_changed(states_stack)
+signal state_changed(states_stack: Array)
 
 @export var start_state_path: NodePath
 @export var states_stack_count := 2

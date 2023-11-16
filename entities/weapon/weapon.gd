@@ -11,8 +11,6 @@ signal shoot_started()
 signal shoot_finished()
 signal decal_requested(collider_info: Dictionary)
 
-const SWAY_TRESHOLD := 5
-const SWAY_LERP := 5
 const DEFAULT_RECOIL_RANDOMNESS := 1.0
 
 @export var damage := 10
@@ -25,12 +23,11 @@ const DEFAULT_RECOIL_RANDOMNESS := 1.0
 @export var default_position: Vector3
 @export var ads_fov := 55.0
 @export var default_fov := 75.0
-@export var sway_left: Vector3
-@export var sway_right: Vector3
-@export var sway_default: Vector3
+@export var sway_amount := 5.0
 @export var spray_scene: PackedScene
 @export var max_heat := 13
 @export var screenshake_amount := 0.2
+@export var rotation_amount := 0.015
 
 var cur_ammo: int = mag_size:
 	set(value):
@@ -38,7 +35,7 @@ var cur_ammo: int = mag_size:
 		ammo_changed.emit(cur_ammo)
 var can_sprint := true
 var is_player_walking := false
-var mouse_movement: float
+var mouse_movement: Vector2
 var spray_curve: Curve2D
 var heat := 0:
 	set(value):
@@ -68,18 +65,24 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
-		mouse_movement = -event.relative.x
+		mouse_movement = event.relative
 
 
 func _process(delta: float) -> void:
-	# sway
-	if mouse_movement != null:
-		if mouse_movement > SWAY_TRESHOLD:
-			rotation = rotation.lerp(sway_left, SWAY_LERP * delta)
-		elif mouse_movement < -SWAY_TRESHOLD:
-			rotation = rotation.lerp(sway_right, SWAY_LERP * delta)
-		else:
-			rotation = rotation.lerp(sway_default, SWAY_LERP * delta)
+	_tilt(delta)
+	_apply_sway(delta)
+
+
+func _tilt(delta: float) -> void:
+	var input_dir := Input.get_vector(&"move_left", &"move_right", &"move_forward", &"move_backwards")
+	rotation.z = lerp(rotation.z, -input_dir.x * rotation_amount, 5 * delta)
+
+
+func _apply_sway(delta: float) -> void:
+	# make it go back to its default position
+	mouse_movement = lerp(mouse_movement, Vector2.ZERO, 10 * delta)
+	rotation.x = lerp(rotation.x, mouse_movement.y * rotation_amount, 10 * delta)
+	rotation.y = lerp(rotation.y, mouse_movement.x * rotation_amount, 10 * delta)
 
 
 func is_mag_full() -> bool:
@@ -91,7 +94,7 @@ func check_hitscan_collision() -> void:
 	var bullet_dir := (collision_pos - bullet_spawn.global_position).normalized()
 	var query := PhysicsRayQueryParameters3D.create(bullet_spawn.global_position,
 			collision_pos + bullet_dir*2)
-	var bullet_collision = get_world_3d().direct_space_state.intersect_ray(query)
+	var bullet_collision := get_world_3d().direct_space_state.intersect_ray(query)
 	
 	if bullet_collision:
 		decal_requested.emit(bullet_collision)

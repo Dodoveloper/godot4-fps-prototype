@@ -2,7 +2,7 @@ class_name State
 extends Node
 
 
-signal finished(next_state_name)
+signal finished(next_state_name: String)
 
 
 # Initialize the state. E.g. change the animation
