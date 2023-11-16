@@ -5,21 +5,18 @@ extends CharacterBody3D
 signal decal_requested(collision_info: Dictionary)
 
 const MAX_X_ROTATION := deg_to_rad(80)
-const DEFAULT_MAX_RECOIL_RANDOMNESS := 2.0
-const BOB_FREQUENCY := 1.0  # determines how often footsteps happen
-const BOB_AMPLITUDE := 0.06  # how far the camera will move
+const BOB_FREQUENCY := 0.01  # determines how often footsteps happen
+const BOB_AMPLITUDE := 0.01  # how far the camera will move
 
-@export var acceleration := 4
+@export var acceleration := 10
 @export var mouse_sentitivity := 0.05
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
-var direction := Vector3.ZERO
 var gravity: float = ProjectSettings.get("physics/3d/default_gravity")
-var x_rot_before_shoot: float
+var direction := Vector3.ZERO
 var speed: int
-var max_recoil_randomness := DEFAULT_MAX_RECOIL_RANDOMNESS
-var rng := RandomNumberGenerator.new()
 var bob_time := 0.0
+var x_rot_before_shoot: float
 
 # Nodes
 @onready var fsm := $StateMachine as PlayerStateMachine
@@ -31,6 +28,8 @@ var bob_time := 0.0
 @onready var anim_player := $AnimationPlayer as AnimationPlayer
 @onready var hud := $Head/Camera3D/HUD as Hud
 @onready var weapon := $Head/Camera3D/Weapon as Weapon
+# Variables
+@onready var def_weapon_pos := weapon.position
 
 
 func _ready() -> void:
@@ -51,27 +50,32 @@ func _physics_process(delta: float) -> void:
 	# apply gravity
 	velocity.y -= gravity * delta
 	# head bob animation
-	bob_time += velocity.length() * delta if is_on_floor() else 0.0
-	camera.position = _calculate_head_bob(bob_time)
+	if is_on_floor():
+		_weapon_bob(delta)
 	
 	move_and_slide()
 
 
-func _calculate_head_bob(time: float) -> Vector3:
-	var camera_pos := Vector3.ZERO
-	camera_pos.y = sin(time * BOB_FREQUENCY) * BOB_AMPLITUDE
-	camera_pos.x = cos(time * BOB_FREQUENCY / 2.0) * BOB_AMPLITUDE
-	
-	return camera_pos
+func _weapon_bob(delta: float) -> void:
+	if velocity.length() < 1.0:
+		weapon.position.y = lerp(weapon.position.y, def_weapon_pos.y, 10 * delta)
+		weapon.position.x = lerp(weapon.position.x, def_weapon_pos.x, 10 * delta)
+	else:
+		weapon.position.y = lerp(weapon.position.y,
+				def_weapon_pos.y + sin(Time.get_ticks_msec() * BOB_FREQUENCY) * BOB_AMPLITUDE,
+				10 * delta)
+		weapon.position.x = lerp(weapon.position.x,
+				def_weapon_pos.x + sin(Time.get_ticks_msec() * BOB_FREQUENCY / 2.0) * BOB_AMPLITUDE,
+				10 * delta)
 
 
-func _on_weapon_has_shot(recoil_offset: Vector2) -> void:
+func _on_weapon_has_shot(_recoil_offset: Vector2) -> void:
 	# rotate the camera to obtain a recoil effect
 	camera.rotation.x += deg_to_rad(0.5)
 	camera.rotation.x = clampf(camera.rotation.x, x_rot_before_shoot - deg_to_rad(5.0),
 			x_rot_before_shoot + deg_to_rad(5.0))
-	if not weapon.heat == weapon.max_heat:
-		head.rotation.y += deg_to_rad(recoil_offset.x) * 0.025
+	# FIXME: horizontal cam recoil
+	#camera.rotation.y += deg_to_rad(recoil_offset.x) * 0.01
 	# camera screenshake
 	camera.add_trauma(weapon.screenshake_amount)
 

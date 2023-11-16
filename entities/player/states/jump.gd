@@ -1,11 +1,11 @@
 extends PlayerState
 
 
-@export var jump_power := 10
+@export var jump_power := 7.5
 
 
 func enter() -> void:
-	player.velocity.y += jump_power
+	player.velocity.y = jump_power
 
 
 func update(delta: float) -> void:

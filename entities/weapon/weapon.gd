@@ -23,11 +23,11 @@ const DEFAULT_RECOIL_RANDOMNESS := 1.0
 @export var default_position: Vector3
 @export var ads_fov := 55.0
 @export var default_fov := 75.0
-@export var sway_amount := 5.0
 @export var spray_scene: PackedScene
 @export var max_heat := 13
 @export var screenshake_amount := 0.2
-@export var rotation_amount := 0.015
+@export var sway_amount := 0.015
+@export var tilt_amount := 0.05
 
 var cur_ammo: int = mag_size:
 	set(value):
@@ -75,14 +75,14 @@ func _process(delta: float) -> void:
 
 func _tilt(delta: float) -> void:
 	var input_dir := Input.get_vector(&"move_left", &"move_right", &"move_forward", &"move_backwards")
-	rotation.z = lerp(rotation.z, -input_dir.x * rotation_amount, 5 * delta)
+	rotation.z = lerp(rotation.z, -input_dir.x * tilt_amount, 5 * delta)
 
 
 func _apply_sway(delta: float) -> void:
 	# make it go back to its default position
 	mouse_movement = lerp(mouse_movement, Vector2.ZERO, 10 * delta)
-	rotation.x = lerp(rotation.x, mouse_movement.y * rotation_amount, 10 * delta)
-	rotation.y = lerp(rotation.y, mouse_movement.x * rotation_amount, 10 * delta)
+	rotation.x = lerp(rotation.x, mouse_movement.y * sway_amount, 10 * delta)
+	rotation.y = lerp(rotation.y, mouse_movement.x * sway_amount, 10 * delta)
 
 
 func is_mag_full() -> bool:
