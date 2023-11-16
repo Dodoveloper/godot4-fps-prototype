@@ -213,13 +213,11 @@ _data = {
 [node name="Weapon" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13, -0.23, -0.36)
 script = ExtResource("1_jqdj6")
-vertical_kick_factor = 0.01
 ads_position = Vector3(0, -0.165, -0.31)
 default_position = Vector3(0.13, -0.23, -0.36)
 sway_left = Vector3(0, 0.1, 0)
 sway_right = Vector3(0, -0.1, 0)
 spray_scene = ExtResource("2_7hjqu")
-max_heat = 15
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_kcga0")

@@ -3,7 +3,8 @@ extends PlayerState
 
 func enter() -> void:
 	player.speed = 0
-	player.max_recoil_randomness = player.DEFAULT_MAX_RECOIL_RANDOMNESS
+	if player.weapon:
+		player.weapon.recoil_randomness = player.weapon.DEFAULT_RECOIL_RANDOMNESS
 
 
 func handle_input(event: InputEvent) -> InputEvent:

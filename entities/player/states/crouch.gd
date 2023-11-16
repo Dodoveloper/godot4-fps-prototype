@@ -7,7 +7,7 @@ extends PlayerState
 func enter() -> void:
 	player.anim_player.play("player/crouch")
 	player.speed = crouch_speed
-	player.max_recoil_randomness /= 2.0
+	player.weapon.recoil_randomness /= 2.0
 
 
 func exit() -> void:

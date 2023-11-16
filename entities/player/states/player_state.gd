@@ -12,19 +12,11 @@ func handle_input(event: InputEvent) -> InputEvent:
 
 
 func _get_normalized_direction() -> Vector3:
-	var direction := Vector3.ZERO
-	if Input.is_action_pressed("move_forward"):
-		direction -= player.head.transform.basis.z
-	elif Input.is_action_pressed("move_backwards"):
-		direction += player.head.transform.basis.z
-	if Input.is_action_pressed("move_left"):
-		direction -= player.head.transform.basis.x
-	elif Input.is_action_pressed("move_right"):
-		direction += player.head.transform.basis.x
-	return direction.normalized()
+	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backwards")
+	return (player.head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 
 
 func _move(delta: float) -> void:
-	var direction := _get_normalized_direction()
-	player.velocity = player.velocity.lerp(direction * player.speed,
+	player.direction = _get_normalized_direction()
+	player.velocity = player.velocity.lerp(player.direction * player.speed,
 			player.acceleration * delta)

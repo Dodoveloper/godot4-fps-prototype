@@ -13,13 +13,13 @@ signal decal_requested(collider_info: Dictionary)
 
 const SWAY_TRESHOLD := 5
 const SWAY_LERP := 5
+const DEFAULT_RECOIL_RANDOMNESS := 1.0
 
 @export var damage := 10
 @export var fire_rate := 0.08
 @export var mag_size := 30
 @export var reload_time := 1.2
 @export var weapon_range := 200
-@export var vertical_kick_factor := 0.006
 @export var camera_path: NodePath
 @export var ads_position: Vector3
 @export var default_position: Vector3
@@ -37,13 +37,16 @@ var cur_ammo: int = mag_size:
 		cur_ammo = value
 		ammo_changed.emit(cur_ammo)
 var can_sprint := true
-var is_player_walking := false  # TODO: consider adding a walk state
+var is_player_walking := false
 var mouse_movement: float
 var spray_curve: Curve2D
 var heat := 0:
 	set(value):
 		heat = min(value, max_heat)
 		heat_changed.emit(heat)
+var rng := RandomNumberGenerator.new()
+var recoil_randomness := DEFAULT_RECOIL_RANDOMNESS
+var shot_index := 0
 
 @onready var heat_tween := create_tween()
 # Nodes
@@ -56,7 +59,6 @@ var heat := 0:
 
 func _ready() -> void:
 	position = default_position
-	
 	heat_tween.stop()
 	
 	if spray_scene != null:
@@ -106,9 +108,12 @@ func _get_camera_collision() -> Vector3:
 	var viewport_center := get_viewport().get_visible_rect().size / 2
 	
 	var ray_origin := camera.project_ray_origin(viewport_center)
-	var recoil_offset := spray_curve.get_point_position(heat)
-	var ray_end := ray_origin + camera.project_ray_normal(viewport_center + recoil_offset) \
-			* weapon_range
+	var recoil_offset := spray_curve.get_point_position(shot_index)  # point on the spray pattern
+	var max_spray := recoil_randomness * heat  # higher heat == higher spread
+	var rand_spray := Vector2(rng.randf_range(-max_spray, max_spray),
+			rng.randf_range(-max_spray, max_spray))
+	var ray_end := ray_origin + camera.project_ray_normal(
+			viewport_center + recoil_offset + rand_spray) * weapon_range
 	
 	var query := PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
 	var collision := get_world_3d().direct_space_state.intersect_ray(query)

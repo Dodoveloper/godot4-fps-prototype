@@ -6,7 +6,7 @@ extends PlayerState
 
 func enter() -> void:
 	player.speed = default_speed
-	player.max_recoil_randomness *= 1.5
+	player.weapon.recoil_randomness *= 1.5
 	player.weapon.is_player_walking = true
 
 

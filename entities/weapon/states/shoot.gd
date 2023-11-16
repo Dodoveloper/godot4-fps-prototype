@@ -21,6 +21,7 @@ func enter() -> void:
 
 # Clean up the state. Reinitialize values like a timer
 func exit() -> void:
+	weapon.shot_index = 0
 	# handle heat
 	var decrease_duration := heat_increase_tween.get_total_elapsed_time()
 	heat_increase_tween.kill()
@@ -54,6 +55,7 @@ func _shoot() -> void:
 	can_shoot = false
 	weapon.cur_ammo -= 1
 	weapon.check_hitscan_collision()
+	weapon.shot_index += 1
 	fire_rate_timer.start(weapon.fire_rate)
 	weapon.anim_player.play("firing")
 	# recoil
