@@ -57,9 +57,10 @@ func _shoot() -> void:
 	weapon.check_hitscan_collision()
 	weapon.shot_index += 1
 	fire_rate_timer.start(weapon.fire_rate)
-	weapon.anim_player.play("firing")
-	# recoil
+	# bullet spray
 	weapon.has_shot.emit(weapon.spray_curve.get_point_position(weapon.heat))
+	# gun recoil
+	weapon.model.apply_recoil()
 	# sound
 	weapon.gun_fire.play()
 

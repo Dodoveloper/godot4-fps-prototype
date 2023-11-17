@@ -1,15 +1,17 @@
-[gd_scene load_steps=18 format=3 uid="uid://hfrop8mvtgwq"]
+[gd_scene load_steps=19 format=3 uid="uid://hfrop8mvtgwq"]
 
 [ext_resource type="Script" path="res://entities/weapon/weapon.gd" id="1_jqdj6"]
 [ext_resource type="PackedScene" uid="uid://hjnl72g4qbay" path="res://entities/weapon/assets/spray_paths/assault_rifle.tscn" id="2_7hjqu"]
 [ext_resource type="Script" path="res://entities/weapon/weapon_fsm.gd" id="2_kcga0"]
 [ext_resource type="Script" path="res://entities/weapon/states/idle.gd" id="3_5otlh"]
+[ext_resource type="Curve" uid="uid://cefw25gc28nry" path="res://entities/weapon/assets/resources/akm_recoil_curve.tres" id="3_nwn2r"]
 [ext_resource type="Script" path="res://entities/weapon/states/reload.gd" id="5_75rk3"]
 [ext_resource type="Script" path="res://entities/weapon/states/shoot.gd" id="5_ltief"]
 [ext_resource type="Script" path="res://entities/weapon/states/sprint.gd" id="7_n4owi"]
 [ext_resource type="PackedScene" uid="uid://lfbaghj22jw7" path="res://entities/weapon/assets/models/AKM.glb" id="7_nqlu6"]
 [ext_resource type="AudioStream" uid="uid://by0mybqfl2lsa" path="res://entities/weapon/assets/sounds/reload.mp3" id="8_5ncij"]
 [ext_resource type="AudioStream" uid="uid://dlj8n8h2c78nj" path="res://entities/weapon/assets/sounds/gun_fire.wav" id="8_c4s3k"]
+[ext_resource type="Script" path="res://entities/weapon/weapon_model.gd" id="9_51n3y"]
 
 [sub_resource type="Animation" id="Animation_1m87s"]
 resource_name = "RESET"
@@ -17,7 +19,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AKM:rotation")
+tracks/0/path = NodePath("Model:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -29,7 +31,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AKM:position")
+tracks/1/path = NodePath("Model:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -42,11 +44,12 @@ tracks/1/keys = {
 [sub_resource type="Animation" id="Animation_kuhos"]
 resource_name = "firing"
 length = 0.08
+loop_mode = 1
 step = 0.01
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AKM:position")
+tracks/0/path = NodePath("Model:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -58,7 +61,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AKM:rotation")
+tracks/1/path = NodePath("Model:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -75,19 +78,19 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AKM:position")
+tracks/0/path = NodePath("Model:position:y")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 1.2, 2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0.01, 0), Vector3(0, 0, 0)]
+"values": [0.0, 0.01, 0.0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AKM:rotation")
+tracks/1/path = NodePath("Model:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -104,7 +107,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AKM:rotation")
+tracks/0/path = NodePath("Model:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -116,7 +119,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AKM:position")
+tracks/1/path = NodePath("Model:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -149,7 +152,7 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AKM:position")
+tracks/0/path = NodePath("Model:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -161,7 +164,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AKM:rotation")
+tracks/1/path = NodePath("Model:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -171,34 +174,6 @@ tracks/1/keys = {
 "values": [Vector3(0, -0.485202, 0.466003), Vector3(0, -0.485202, -0.18675), Vector3(0, -0.485202, 0.466003)]
 }
 
-[sub_resource type="Animation" id="Animation_jqvl8"]
-resource_name = "walking"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = false
-tracks/0/path = NodePath("AKM:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.5, 0.8, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0.01, 0), Vector3(0, 0, 0), Vector3(0, -0.01, 0), Vector3(0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = false
-tracks/1/path = NodePath("AKM:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.2, 1.4, 1.7, 1.9),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, -1.5708, 0), Vector3(-0.0261799, -1.63188, -0.0785398), Vector3(0, -1.5708, 0), Vector3(0.0523599, -1.5708, 0.0680678), Vector3(0, -1.5708, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_32dod"]
 resource_local_to_scene = true
 _data = {
@@ -206,16 +181,15 @@ _data = {
 "firing": SubResource("Animation_kuhos"),
 "idling": SubResource("Animation_fgmfg"),
 "reloading": SubResource("Animation_2tnem"),
-"sprinting": SubResource("Animation_m4b7b"),
-"walking": SubResource("Animation_jqvl8")
+"sprinting": SubResource("Animation_m4b7b")
 }
 
 [node name="Weapon" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13, -0.23, -0.36)
 script = ExtResource("1_jqdj6")
+spray_scene = ExtResource("2_7hjqu")
 ads_position = Vector3(0, -0.165, -0.31)
 default_position = Vector3(0.13, -0.23, -0.36)
-spray_scene = ExtResource("2_7hjqu")
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_kcga0")
@@ -239,13 +213,19 @@ one_shot = true
 [node name="Sprint" type="Node" parent="StateMachine"]
 script = ExtResource("7_n4owi")
 
-[node name="AKM" parent="." instance=ExtResource("7_nqlu6")]
+[node name="Model" parent="." instance=ExtResource("7_nqlu6")]
 transform = Transform3D(-5.42999e-07, 0, -0.15, 0, 0.15, 0, 0.15, 0, -5.42999e-07, 0, 0, 0)
+script = ExtResource("9_51n3y")
+recoil_rotation_x = ExtResource("3_nwn2r")
+recoil_rotation_z = ExtResource("3_nwn2r")
+recoil_position_z = ExtResource("3_nwn2r")
+recoil_amplitude = Vector3(0.1, 0.5, 0.15)
+lerp_speed = 7.5
 
-[node name="AKM_model" parent="AKM/RootNode/Armature/Skeleton3D" index="0"]
+[node name="AKM_model" parent="Model/RootNode/Armature/Skeleton3D" index="0"]
 layers = 2
 
-[node name="BulletSpawn" type="Marker3D" parent="AKM"]
+[node name="BulletSpawn" type="Marker3D" parent="Model"]
 transform = Transform3D(1, 0, 3.86535e-12, 0, 1, 0, -3.86535e-12, 0, 1, -3.4971, 0.700657, 1.26362e-05)
 
 [node name="Test" type="Node" parent="."]
@@ -268,4 +248,4 @@ libraries = {
 [connection signal="timeout" from="StateMachine/Shoot/FireRateTimer" to="StateMachine/Shoot" method="_on_fire_rate_timer_timeout"]
 [connection signal="timeout" from="StateMachine/Reload/ReloadTimer" to="StateMachine/Reload" method="_on_reload_timer_timeout"]
 
-[editable path="AKM"]
+[editable path="Model"]

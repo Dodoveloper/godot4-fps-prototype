@@ -19,15 +19,17 @@ const DEFAULT_RECOIL_RANDOMNESS := 1.0
 @export var reload_time := 1.2
 @export var weapon_range := 200
 @export var camera_path: NodePath
-@export var ads_position: Vector3
-@export var default_position: Vector3
-@export var ads_fov := 55.0
-@export var default_fov := 75.0
 @export var spray_scene: PackedScene
 @export var max_heat := 13
 @export var screenshake_amount := 0.2
 @export var sway_amount := 0.015
 @export var tilt_amount := 0.05
+@export_category("ADS")
+@export var ads_position: Vector3
+@export var default_position: Vector3
+@export var ads_fov := 55.0
+@export var default_fov := 75.0
+
 
 var cur_ammo: int = mag_size:
 	set(value):
@@ -48,7 +50,8 @@ var shot_index := 0
 @onready var heat_tween := create_tween()
 # Nodes
 @onready var fsm := $StateMachine as WeaponStateMachine
-@onready var bullet_spawn := $AKM/BulletSpawn as Marker3D
+@onready var model := $Model as Node3D
+@onready var bullet_spawn := $Model/BulletSpawn as Marker3D
 @onready var camera := get_node(camera_path) as Camera3D
 @onready var gun_fire := $GunFIre as AudioStreamPlayer
 @onready var anim_player := $AnimationPlayer as AnimationPlayer
@@ -71,18 +74,6 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	_tilt(delta)
 	_apply_sway(delta)
-
-
-func _tilt(delta: float) -> void:
-	var input_dir := Input.get_vector(&"move_left", &"move_right", &"move_forward", &"move_backwards")
-	rotation.z = lerp(rotation.z, -input_dir.x * tilt_amount, 5 * delta)
-
-
-func _apply_sway(delta: float) -> void:
-	# make it go back to its default position
-	mouse_movement = lerp(mouse_movement, Vector2.ZERO, 10 * delta)
-	rotation.x = lerp(rotation.x, mouse_movement.y * sway_amount, 10 * delta)
-	rotation.y = lerp(rotation.y, mouse_movement.x * sway_amount, 10 * delta)
 
 
 func is_mag_full() -> bool:
@@ -122,6 +113,18 @@ func _get_camera_collision() -> Vector3:
 	var collision := get_world_3d().direct_space_state.intersect_ray(query)
 	
 	return collision.position if not collision.is_empty() else ray_end
+
+
+func _tilt(delta: float) -> void:
+	var input_dir := Input.get_vector(&"move_left", &"move_right", &"move_forward", &"move_backwards")
+	rotation.z = lerp(rotation.z, -input_dir.x * tilt_amount, 5 * delta)
+
+
+func _apply_sway(delta: float) -> void:
+	# make it go back to its default position
+	mouse_movement = lerp(mouse_movement, Vector2.ZERO, 10 * delta)
+	rotation.x = lerp(rotation.x, mouse_movement.y * sway_amount, 10 * delta)
+	rotation.y = lerp(rotation.y, mouse_movement.x * sway_amount, 10 * delta)
 
 
 func _on_state_machine_state_changed(states_stack: Array) -> void:

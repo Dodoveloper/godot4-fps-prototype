@@ -16,9 +16,3 @@ func handle_input(event: InputEvent) -> InputEvent:
 		finished.emit("reload")
 	
 	return super(event)
-
-
-func update(delta: float) -> void:
-	super(delta)
-	(weapon.get_node("AnimationPlayer") as AnimationPlayer).speed_scale = 1.0 \
-			if not weapon.is_player_walking else 2.0
