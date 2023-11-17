@@ -14,7 +14,7 @@ func _process(_delta: float) -> void:
 
 func _on_player_decal_requested(collision_info: Dictionary) -> void:
 	var decal := BULLET_DECAL.instantiate()
-	decals_container.add_child(decal)
+	(collision_info["collider"] as Node).add_child(decal)
 	decal.global_position = collision_info["position"]
 	var collision_normal := collision_info["normal"] as Vector3
 	decal.look_at(decal.global_position + collision_normal,
