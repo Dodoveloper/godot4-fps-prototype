@@ -300,3 +300,4 @@ libraries = {
 [connection signal="shoot_finished" from="Head/Camera3D/Weapon" to="." method="_on_weapon_shoot_finished"]
 [connection signal="shoot_started" from="Head/Camera3D/Weapon" to="." method="_on_weapon_shoot_started"]
 [connection signal="state_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_state_changed"]
+[connection signal="tracer_requested" from="Head/Camera3D/Weapon" to="." method="_on_weapon_tracer_requested"]

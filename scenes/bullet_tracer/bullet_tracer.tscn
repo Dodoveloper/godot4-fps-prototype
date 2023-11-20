@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://47jg26mlh53q"]
+
+[ext_resource type="Script" path="res://scenes/bullet_tracer/bullet_tracer.gd" id="1_pl2yi"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7e1ff"]
+transparency = 1
+albedo_color = Color(0.85098, 0.596078, 0.247059, 1)
+emission_enabled = true
+emission = Color(0.823529, 0.403922, 0.32549, 1)
+emission_energy_multiplier = 3.5
+
+[node name="BulletTracer" type="MeshInstance3D"]
+material_override = SubResource("StandardMaterial3D_7e1ff")
+script = ExtResource("1_pl2yi")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

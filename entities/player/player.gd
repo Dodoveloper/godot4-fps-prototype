@@ -3,6 +3,7 @@ extends CharacterBody3D
 
 
 signal decal_requested(collision_info: Dictionary)
+signal tracer_requested(from: Vector3, to: Vector3)
 
 const MAX_X_ROTATION := deg_to_rad(80)
 const BOB_FREQUENCY := 0.01  # determines how often footsteps happen
@@ -80,10 +81,6 @@ func _on_weapon_has_shot(_recoil_offset: Vector2) -> void:
 	camera.add_trauma(weapon.screenshake_amount)
 
 
-func _on_weapon_decal_requested(collider_info: Dictionary) -> void:
-	decal_requested.emit(collider_info)
-
-
 func _on_weapon_shoot_started() -> void:
 	x_rot_before_shoot = camera.rotation.x
 	# Prevent the follow camera from following the main camera's vertical recoil.
@@ -95,6 +92,14 @@ func _on_weapon_shoot_finished() -> void:
 	var tween := create_tween()
 	tween.tween_property(camera, "rotation:x", x_rot_before_shoot, weapon.fire_rate)
 	remote_transform.update_rotation = true
+
+
+func _on_weapon_decal_requested(collider_info: Dictionary) -> void:
+	decal_requested.emit(collider_info)
+
+
+func _on_weapon_tracer_requested(from: Vector3, to: Vector3) -> void:
+	tracer_requested.emit(from, to)
 
 
 func _on_state_machine_state_changed(states_stack: Array) -> void:
