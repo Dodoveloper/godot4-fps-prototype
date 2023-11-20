@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dkr12d528ypo0"]
+[gd_scene load_steps=21 format=3 uid="uid://dkr12d528ypo0"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_sbhg4"]
 [ext_resource type="Script" path="res://entities/player/player_fsm.gd" id="2_mmcdy"]
@@ -116,27 +116,7 @@ _data = {
 "RESET": SubResource("Animation_t7flm")
 }
 
-[sub_resource type="Animation" id="Animation_5qxeg"]
-resource_name = "head_bobbing"
-length = 0.6
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = false
-tracks/0/path = NodePath("Head/Camera3D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.402, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0.1, 0), Vector3(0, 0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ltetk"]
-_data = {
-"head_bobbing": SubResource("Animation_5qxeg")
-}
 
 [sub_resource type="Animation" id="Animation_evt8v"]
 length = 0.3

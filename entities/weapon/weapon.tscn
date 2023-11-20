@@ -59,7 +59,7 @@ tracks/0/keys = {
 }
 tracks/1/type = "value"
 tracks/1/imported = false
-tracks/1/enabled = true
+tracks/1/enabled = false
 tracks/1/path = NodePath("Model:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
@@ -188,8 +188,8 @@ script = ExtResource("9_51n3y")
 recoil_rotation_x = ExtResource("3_nwn2r")
 recoil_rotation_z = ExtResource("3_nwn2r")
 recoil_position_z = ExtResource("3_nwn2r")
-recoil_amplitude = Vector3(0.1, 0.5, 0.15)
-lerp_speed = 7.5
+recoil_amplitude = Vector3(0.6, 0.75, 0.15)
+lerp_speed = 4.5
 
 [node name="AKM_model" parent="Model/RootNode/Armature/Skeleton3D" index="0"]
 layers = 2
