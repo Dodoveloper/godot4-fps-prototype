@@ -179,6 +179,8 @@ transform = Transform3D(-0.154072, 0, 0.98806, 0, 1, 0, -0.98806, 0, -0.154072, 
 
 [node name="Tracers" type="Node3D" parent="."]
 
+[node name="Impacts" type="Node3D" parent="."]
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.0218772, -0.464997, 0.885042, 0.0114907, 0.885312, 0.464855, -0.999695, 9.30435e-10, 0.0247113, 48.7779, 22.5789, 1.87348)
 shadow_enabled = true
@@ -188,4 +190,5 @@ shadow_normal_bias = 0.1
 environment = SubResource("Environment_ywp5y")
 
 [connection signal="decal_requested" from="Player" to="." method="_on_player_decal_requested"]
+[connection signal="impact_requested" from="Player" to="." method="_on_player_impact_requested"]
 [connection signal="tracer_requested" from="Player" to="." method="_on_player_tracer_requested"]

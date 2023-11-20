@@ -277,6 +277,7 @@ libraries = {
 [connection signal="decal_requested" from="Head/Camera3D/Weapon" to="." method="_on_weapon_decal_requested"]
 [connection signal="has_shot" from="Head/Camera3D/Weapon" to="." method="_on_weapon_has_shot"]
 [connection signal="heat_changed" from="Head/Camera3D/Weapon" to="Head/Camera3D/HUD" method="_on_weapon_heat_changed"]
+[connection signal="impact_requested" from="Head/Camera3D/Weapon" to="." method="_on_weapon_impact_requested"]
 [connection signal="shoot_finished" from="Head/Camera3D/Weapon" to="." method="_on_weapon_shoot_finished"]
 [connection signal="shoot_started" from="Head/Camera3D/Weapon" to="." method="_on_weapon_shoot_started"]
 [connection signal="state_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_state_changed"]

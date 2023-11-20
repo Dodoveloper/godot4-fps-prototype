@@ -11,6 +11,7 @@ signal shoot_started()
 signal shoot_finished()
 signal decal_requested(collider_info: Dictionary)
 signal tracer_requested(from: Vector3, to: Vector3)
+signal impact_requested(pos: Vector3, weapon_pos: Vector3)
 
 const DEFAULT_RECOIL_RANDOMNESS := 1.0
 
@@ -91,6 +92,7 @@ func check_hitscan_collision() -> void:
 	if bullet_collision:
 		decal_requested.emit(bullet_collision)
 		tracer_requested.emit(bullet_spawn.global_position, collision_pos)
+		impact_requested.emit(collision_pos, bullet_spawn.global_position)
 		
 		var collider := bullet_collision["collider"] as Node
 		if collider is Enemy:

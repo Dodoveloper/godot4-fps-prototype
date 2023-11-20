@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://c1yreg1av753n"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f06xa"]
+albedo_color = Color(0.156863, 0.156863, 0.156863, 1)
+roughness = 0.3
+emission_enabled = true
+emission = Color(0.654902, 0.654902, 0.654902, 1)
+emission_energy_multiplier = 0.2
+
+[sub_resource type="Curve" id="Curve_iblgo"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_c066i"]
+curve = SubResource("Curve_iblgo")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_aodgs"]
+emission_shape = 1
+emission_sphere_radius = 0.5
+direction = Vector3(0, 0, -1)
+spread = 20.0
+initial_velocity_min = 6.0
+initial_velocity_max = 8.0
+gravity = Vector3(0, -20, 0)
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_c066i")
+
+[sub_resource type="SphereMesh" id="SphereMesh_t7qt5"]
+radius = 0.03
+height = 0.06
+
+[node name="BulletImpact" type="GPUParticles3D"]
+material_override = SubResource("StandardMaterial3D_f06xa")
+cast_shadow = 0
+emitting = false
+amount = 4
+one_shot = true
+explosiveness = 1.0
+randomness = 0.25
+process_material = SubResource("ParticleProcessMaterial_aodgs")
+draw_pass_1 = SubResource("SphereMesh_t7qt5")
