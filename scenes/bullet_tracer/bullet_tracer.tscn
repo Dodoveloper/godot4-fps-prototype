@@ -12,6 +12,7 @@ emission_energy_multiplier = 3.5
 [node name="BulletTracer" type="MeshInstance3D"]
 material_override = SubResource("StandardMaterial3D_7e1ff")
 script = ExtResource("1_pl2yi")
+max_length = 0.5
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
