@@ -3,7 +3,6 @@ extends CharacterBody3D
 
 
 signal decal_requested(collision_info: Dictionary)
-signal tracer_requested(from: Vector3, to: Vector3)
 signal impact_requested(pos: Vector3, weapon_pos: Vector3)
 
 const MAX_X_ROTATION := deg_to_rad(80)
@@ -99,10 +98,6 @@ func _on_weapon_shoot_finished() -> void:
 
 func _on_weapon_decal_requested(collider_info: Dictionary) -> void:
 	decal_requested.emit(collider_info)
-
-
-func _on_weapon_tracer_requested(from: Vector3, to: Vector3) -> void:
-	tracer_requested.emit(from, to)
 
 
 func _on_weapon_impact_requested(pos: Vector3, weapon_pos: Vector3) -> void:

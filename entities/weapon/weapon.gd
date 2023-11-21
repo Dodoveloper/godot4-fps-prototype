@@ -10,7 +10,6 @@ signal heat_changed(value: int)
 signal shoot_started()
 signal shoot_finished()
 signal decal_requested(collider_info: Dictionary)
-signal tracer_requested(from: Vector3, to: Vector3)
 signal impact_requested(pos: Vector3, weapon_pos: Vector3)
 
 const DEFAULT_RECOIL_RANDOMNESS := 1.0
@@ -49,14 +48,17 @@ var rng := RandomNumberGenerator.new()
 var recoil_randomness := DEFAULT_RECOIL_RANDOMNESS
 var shot_index := 0
 
-@onready var heat_tween := create_tween()
 # Nodes
 @onready var fsm := $StateMachine as WeaponStateMachine
 @onready var model := $Model as Node3D
 @onready var bullet_spawn := $Model/BulletSpawn as Marker3D
 @onready var camera := get_node(camera_path) as Camera3D
+@onready var tracer: MeshInstance3D = $Model/BulletSpawn/Tracer
 @onready var gun_fire := $GunFIre as AudioStreamPlayer
 @onready var anim_player := $AnimationPlayer as AnimationPlayer
+# Other variables
+@onready var heat_tween := create_tween()
+@onready var tracer_position := tracer.position
 
 
 func _ready() -> void:
@@ -91,7 +93,6 @@ func check_hitscan_collision() -> void:
 	
 	if bullet_collision:
 		decal_requested.emit(bullet_collision)
-		tracer_requested.emit(bullet_spawn.global_position, collision_pos)
 		impact_requested.emit(collision_pos, bullet_spawn.global_position)
 		
 		var collider := bullet_collision["collider"] as Node

@@ -4,6 +4,7 @@ extends WeaponAimable
 var can_shoot := true
 var heat_increase_tween: Tween
 var heat_decrease_tween: Tween
+var tracer_speed := 1000
 
 @onready var rng := RandomNumberGenerator.new()
 @onready var fire_rate_timer := $FireRateTimer as Timer
@@ -38,7 +39,10 @@ func handle_input(event: InputEvent) -> InputEvent:
 	return super(event)
 
 
-func update(_delta: float) -> void:
+func update(delta: float) -> void:
+	# move the bullet tracer
+	weapon.tracer.position += Vector3.FORWARD * tracer_speed * delta
+	
 	if Input.is_action_pressed("fire1"):
 		if weapon.cur_ammo:
 			_shoot()
@@ -63,6 +67,10 @@ func _shoot() -> void:
 	weapon.model.apply_recoil()
 	# sound
 	weapon.gun_fire.play()
+	# tracer
+	weapon.tracer.position = weapon.tracer_position
+	create_tween().tween_property(weapon.tracer,
+			^"material_override:albedo_color:a", 0.0, weapon.fire_rate).from(1.0)
 
 
 func _on_fire_rate_timer_timeout() -> void:
