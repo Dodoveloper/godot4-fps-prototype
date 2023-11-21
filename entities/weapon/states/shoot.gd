@@ -71,6 +71,8 @@ func _shoot() -> void:
 	weapon.tracer.position = weapon.tracer_position
 	create_tween().tween_property(weapon.tracer,
 			^"material_override:albedo_color:a", 0.0, weapon.fire_rate).from(1.0)
+	# muzzle flash
+	weapon.muzzle_flash.emitting = true
 
 
 func _on_fire_rate_timer_timeout() -> void:

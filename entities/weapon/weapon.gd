@@ -53,6 +53,7 @@ var shot_index := 0
 @onready var model := $Model as Node3D
 @onready var bullet_spawn := $Model/BulletSpawn as Marker3D
 @onready var camera := get_node(camera_path) as Camera3D
+@onready var muzzle_flash: GPUParticles3D = $Model/BulletSpawn/MuzzleFlash
 @onready var tracer: MeshInstance3D = $Model/BulletSpawn/Tracer
 @onready var gun_fire := $GunFIre as AudioStreamPlayer
 @onready var anim_player := $AnimationPlayer as AnimationPlayer
