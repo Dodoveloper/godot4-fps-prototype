@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://hjnl72g4qbay"]
 
-[ext_resource type="Curve2D" uid="uid://tfks2n55dk16" path="res://entities/weapon/assets/spray_paths/ak.tres" id="1_yi2dl"]
+[ext_resource type="Curve2D" uid="uid://tfks2n55dk16" path="res://entities/weapon/assets/resources/ak.tres" id="1_o0t6m"]
 
 [node name="AssaultRiflePath" type="Path2D"]
-curve = ExtResource("1_yi2dl")
+curve = ExtResource("1_o0t6m")
