@@ -1,4 +1,8 @@
 extends State
+## Weapon's sprint state.
+## This state is an exception, because it's not triggered by other weapon states,
+## but it's forced by the state machine, which in turn gets notified by the
+## player script about when to toggle this state.
 
 
 @export var bob_frequency_multiplier := 2
@@ -13,10 +17,3 @@ func enter() -> void:
 func exit() -> void:
 	(owner as Weapon).bob_frequency /= bob_frequency_multiplier
 	(owner as Weapon).bob_amplitude /= bob_amplitude_multiplier
-
-
-func handle_input(event: InputEvent) -> InputEvent:
-	if event.is_action_released("sprint"):
-		finished.emit("idle")
-	
-	return super(event)

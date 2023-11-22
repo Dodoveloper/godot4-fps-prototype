@@ -17,4 +17,5 @@ func update(delta: float) -> void:
 				finished.emit("walk")
 		else:
 			finished.emit("idle")
+	
 	_move(delta)

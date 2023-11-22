@@ -11,11 +11,13 @@ signal exited(wait_time: float, time_left: float)  # used for sprint cooldown
 func enter() -> void:
 	player.speed = sprint_speed
 	duration_timer.start()
+	player.weapon.fsm.force_toggle_sprint(true)
 
 
 func exit() -> void:
 	exited.emit(duration_timer.wait_time, duration_timer.time_left)
 	duration_timer.stop()
+	player.weapon.fsm.force_toggle_sprint(false)
 
 
 func handle_input(event: InputEvent) -> InputEvent:
@@ -23,12 +25,14 @@ func handle_input(event: InputEvent) -> InputEvent:
 		finished.emit("crouch")
 	elif event.is_action_released("sprint"):
 		finished.emit("walk")
+	
 	return super(event)
 
 
 func update(delta: float) -> void:
 	if not _get_normalized_direction():
 		finished.emit("idle")
+	
 	_move(delta)
 
 
