@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bg75febfxs3h"
-path.s3tc="res://.godot/imported/m_4.png-2a474f18bdd04b958d817cfa507cd242.s3tc.ctex"
+path.s3tc="res://.godot/imported/muzzle_flash.png-d062330fcdb645e0ffee76758b916844.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://entities/weapon/assets/textures/m_4.png"
-dest_files=["res://.godot/imported/m_4.png-2a474f18bdd04b958d817cfa507cd242.s3tc.ctex"]
+source_file="res://entities/weapon/assets/textures/muzzle_flash.png"
+dest_files=["res://.godot/imported/muzzle_flash.png-d062330fcdb645e0ffee76758b916844.s3tc.ctex"]
 
 [params]
 

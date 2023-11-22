@@ -46,7 +46,11 @@ var heat := 0:
 		heat_changed.emit(heat)
 var rng := RandomNumberGenerator.new()
 var recoil_randomness := DEFAULT_RECOIL_RANDOMNESS
-var shot_index := 0
+var shot_index := 0:
+	set(value):
+		shot_index = min(value, mag_size)
+var bob_frequency := 0.01  # can be used to determine how often footsteps happen
+var bob_amplitude := 0.01
 
 # Nodes
 @onready var fsm := $StateMachine as WeaponStateMachine
@@ -83,6 +87,19 @@ func _process(delta: float) -> void:
 
 func is_mag_full() -> bool:
 	return cur_ammo == mag_size
+
+
+func apply_bob(velocity: Vector3, delta: float) -> void:
+	if velocity.length() < 1.0:
+		position.y = lerp(position.y, default_position.y, 10 * delta)
+		position.x = lerp(position.x, default_position.x, 10 * delta)
+	else:
+		position.y = lerp(position.y,
+				default_position.y + sin(Time.get_ticks_msec() * bob_frequency) * bob_amplitude,
+				10 * delta)
+		position.x = lerp(position.x,
+				default_position.x + sin(Time.get_ticks_msec() * bob_frequency / 2.0) * bob_amplitude,
+				10 * delta)
 
 
 func check_hitscan_collision() -> void:

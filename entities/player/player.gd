@@ -6,8 +6,6 @@ signal decal_requested(collision_info: Dictionary)
 signal impact_requested(pos: Vector3, weapon_pos: Vector3)
 
 const MAX_X_ROTATION := deg_to_rad(80)
-const BOB_FREQUENCY := 0.01  # determines how often footsteps happen
-const BOB_AMPLITUDE := 0.01  # how far the camera will move
 
 @export var acceleration := 10
 @export var mouse_sentitivity := 0.05
@@ -17,7 +15,6 @@ const BOB_AMPLITUDE := 0.01  # how far the camera will move
 var gravity: float = ProjectSettings.get("physics/3d/default_gravity")
 var direction := Vector3.ZERO
 var speed: int
-var bob_time := 0.0
 var x_rot_before_shoot: float
 
 # Nodes
@@ -30,8 +27,6 @@ var x_rot_before_shoot: float
 @onready var anim_player := $AnimationPlayer as AnimationPlayer
 @onready var hud := $Head/Camera3D/HUD as Hud
 @onready var weapon := $Head/Camera3D/Weapon as Weapon
-# Variables
-@onready var def_weapon_pos := weapon.position
 
 
 func _ready() -> void:
@@ -51,24 +46,11 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	# apply gravity
 	velocity.y -= gravity * delta
-	# head bob animation
+	# bob animation
 	if is_on_floor():
-		_weapon_bob(delta)
+		weapon.apply_bob(velocity, delta)
 	
 	move_and_slide()
-
-
-func _weapon_bob(delta: float) -> void:
-	if velocity.length() < 1.0:
-		weapon.position.y = lerp(weapon.position.y, def_weapon_pos.y, 10 * delta)
-		weapon.position.x = lerp(weapon.position.x, def_weapon_pos.x, 10 * delta)
-	else:
-		weapon.position.y = lerp(weapon.position.y,
-				def_weapon_pos.y + sin(Time.get_ticks_msec() * BOB_FREQUENCY) * BOB_AMPLITUDE,
-				10 * delta)
-		weapon.position.x = lerp(weapon.position.x,
-				def_weapon_pos.x + sin(Time.get_ticks_msec() * BOB_FREQUENCY / 2.0) * BOB_AMPLITUDE,
-				10 * delta)
 
 
 func _on_weapon_has_shot(_recoil_offset: Vector2) -> void:
