@@ -9,7 +9,6 @@ const MAX_X_ROTATION := deg_to_rad(80)
 
 @export var acceleration := 10
 @export var mouse_sentitivity := 0.05
-@export var max_x_recoil_rotation := 5.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: float = ProjectSettings.get("physics/3d/default_gravity")
@@ -57,8 +56,8 @@ func _on_weapon_has_shot(_recoil_offset: Vector2) -> void:
 	# rotate the camera to obtain a recoil effect
 	camera.rotation.x += deg_to_rad(0.5)
 	camera.rotation.x = clampf(camera.rotation.x,
-			x_rot_before_shoot - deg_to_rad(max_x_recoil_rotation),
-			x_rot_before_shoot + deg_to_rad(max_x_recoil_rotation))
+			x_rot_before_shoot - deg_to_rad(weapon.max_x_recoil_rotation),
+			x_rot_before_shoot + deg_to_rad(weapon.max_x_recoil_rotation))
 	# FIXME: horizontal cam recoil
 	#camera.rotation.y += deg_to_rad(recoil_offset.x) * 0.01
 	# camera screenshake
@@ -74,7 +73,7 @@ func _on_weapon_shoot_started() -> void:
 
 func _on_weapon_shoot_finished() -> void:
 	var tween := create_tween()
-	tween.tween_property(camera, "rotation:x", x_rot_before_shoot, weapon.fire_rate)
+	tween.tween_property(camera, ^"rotation:x", x_rot_before_shoot, weapon.fire_rate)
 	remote_transform.update_rotation = true
 
 

@@ -8,14 +8,14 @@ func enter() -> void:
 
 
 func handle_input(event: InputEvent) -> InputEvent:
-	if event.is_action_pressed("crouch"):
+	if event.is_action_pressed(&"crouch"):
 		finished.emit("crouch")
 	return super(event)
 
 
 func update(delta: float) -> void:
 	if _get_normalized_direction():
-		if Input.is_action_pressed("sprint") and player.weapon.can_sprint:
+		if Input.is_action_pressed(&"sprint") and player.weapon.can_sprint:
 			finished.emit("sprint")
 		else:
 			finished.emit("walk")

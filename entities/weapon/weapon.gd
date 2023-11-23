@@ -23,6 +23,7 @@ const DEFAULT_RECOIL_RANDOMNESS := 1.0
 @export var spray_scene: PackedScene
 @export var max_heat := 13
 @export var screenshake_amount := 0.2
+@export var max_x_recoil_rotation := 5.0  # degrees
 @export var sway_amount := 0.015
 @export var tilt_amount := 0.05
 @export_category("ADS")
@@ -47,7 +48,7 @@ var rng := RandomNumberGenerator.new()
 var recoil_randomness := DEFAULT_RECOIL_RANDOMNESS
 var shot_index := 0:
 	set(value):
-		shot_index = min(value, mag_size)
+		shot_index = min(value, mag_size - 1)
 var bob_frequency := 0.01  # can be used to determine how often footsteps happen
 var bob_amplitude := 0.01
 

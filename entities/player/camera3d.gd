@@ -27,9 +27,10 @@ func add_trauma(trauma_amount: float) -> void:
 
 
 func _get_shake_intensity() -> float:
-	return trauma * trauma
+	return pow(trauma, 2)
 
 
 func _get_noise_from_seed(_seed: int) -> float:
 	noise.seed = _seed
+	
 	return noise.get_noise_1d(time * noise_speed)

@@ -11,7 +11,7 @@ func enter() -> void:
 func update(delta: float) -> void:
 	if player.is_on_floor():
 		if _get_normalized_direction():
-			if Input.is_action_pressed("sprint") and player.weapon.can_sprint:
+			if Input.is_action_pressed(&"sprint") and player.weapon.can_sprint:
 				finished.emit("sprint")
 			else:
 				finished.emit("walk")

@@ -8,7 +8,7 @@ const ADS_LERP_SPEED := 20
 
 
 func update(delta: float) -> void:
-	if Input.is_action_pressed("ads"):
+	if Input.is_action_pressed(&"ads"):
 		weapon.ads_toggled.emit(true)
 #		weapon.position = weapon.position.lerp(weapon.ads_position,
 #				ADS_LERP_SPEED * delta)

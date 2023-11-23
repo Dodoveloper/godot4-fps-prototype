@@ -21,9 +21,9 @@ func exit() -> void:
 
 
 func handle_input(event: InputEvent) -> InputEvent:
-	if event.is_action_pressed("crouch"):
+	if event.is_action_pressed(&"crouch"):
 		finished.emit("crouch")
-	elif event.is_action_released("sprint"):
+	elif event.is_action_released(&"sprint"):
 		finished.emit("walk")
 	
 	return super(event)

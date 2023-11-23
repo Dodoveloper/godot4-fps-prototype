@@ -228,6 +228,7 @@ noise = SubResource("FastNoiseLite_3aafk")
 [node name="Weapon" parent="Head/Camera3D" instance=ExtResource("3_yiye0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, -0.22, -0.375)
 camera_path = NodePath("../../FollowCamera")
+max_x_recoil_rotation = 6.5
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="Head/Camera3D"]
 remote_path = NodePath("../../FollowCamera")

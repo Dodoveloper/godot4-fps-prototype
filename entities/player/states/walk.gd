@@ -10,9 +10,9 @@ func enter() -> void:
 
 
 func handle_input(event: InputEvent) -> InputEvent:
-	if event.is_action_pressed("crouch"):
+	if event.is_action_pressed(&"crouch"):
 		finished.emit("crouch")
-	elif event.is_action_pressed("sprint") and player.weapon.can_sprint:
+	elif event.is_action_pressed(&"sprint") and player.weapon.can_sprint:
 		finished.emit("sprint")
 	
 	return super(event)
