@@ -48,6 +48,8 @@ func _physics_process(delta: float) -> void:
 	# bob animation
 	if is_on_floor():
 		weapon.apply_bob(velocity, delta)
+	# weapon tilt
+	weapon.tilt(velocity, delta)
 	
 	move_and_slide()
 

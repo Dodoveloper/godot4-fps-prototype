@@ -80,8 +80,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		mouse_movement = event.relative
 
 
-func _process(delta: float) -> void:
-	_tilt(delta)
+func _physics_process(delta: float) -> void:
 	_apply_sway(delta)
 
 
@@ -100,6 +99,14 @@ func apply_bob(velocity: Vector3, delta: float) -> void:
 		position.x = lerp(position.x,
 				default_position.x + sin(Time.get_ticks_msec() * bob_frequency / 2.0) * bob_amplitude,
 				10 * delta)
+
+
+func tilt(velocity: Vector3, delta: float) -> void:
+	# horizontal tilt
+	var input_dir := Input.get_vector(&"move_left", &"move_right", &"move_forward", &"move_backwards")
+	rotation.z = lerp(rotation.z, -input_dir.x * tilt_amount, 5 * delta)
+	# vertical tilt
+	rotation.x = lerp(rotation.x, -velocity.y * tilt_amount, 5 * delta)
 
 
 func check_hitscan_collision() -> void:
@@ -136,11 +143,6 @@ func _get_camera_collision() -> Vector3:
 	var collision := get_world_3d().direct_space_state.intersect_ray(query)
 	
 	return collision.position if not collision.is_empty() else ray_end
-
-
-func _tilt(delta: float) -> void:
-	var input_dir := Input.get_vector(&"move_left", &"move_right", &"move_forward", &"move_backwards")
-	rotation.z = lerp(rotation.z, -input_dir.x * tilt_amount, 5 * delta)
 
 
 func _apply_sway(delta: float) -> void:
