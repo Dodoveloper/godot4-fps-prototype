@@ -26,12 +26,7 @@ const DEFAULT_RECOIL_RANDOMNESS := 1.0
 @export var max_x_recoil_rotation := 5.0  # degrees
 @export var sway_amount := 0.015
 @export var tilt_amount := 0.05
-@export_category("ADS")
-@export var ads_position: Vector3
 @export var default_position: Vector3
-@export var ads_fov := 55.0
-@export var default_fov := 75.0
-
 
 var cur_ammo: int = mag_size:
 	set(value):

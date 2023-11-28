@@ -1,4 +1,7 @@
-extends WeaponAimable
+extends State
+
+
+@onready var weapon: Weapon = owner
 
 
 func enter() -> void:

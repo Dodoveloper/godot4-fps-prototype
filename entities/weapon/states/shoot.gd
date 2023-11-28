@@ -1,4 +1,4 @@
-extends WeaponAimable
+extends State
 
 
 var can_shoot := true
@@ -6,6 +6,7 @@ var heat_increase_tween: Tween
 var heat_decrease_tween: Tween
 var tracer_speed := 1000
 
+@onready var weapon: Weapon = owner
 @onready var rng := RandomNumberGenerator.new()
 @onready var fire_rate_timer := $FireRateTimer as Timer
 
