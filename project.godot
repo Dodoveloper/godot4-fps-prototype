@@ -69,8 +69,6 @@ crouch={
 
 [layer_names]
 
-3d_render/layer_1="World"
-3d_render/layer_2="Weapons"
 3d_physics/layer_1="World"
 3d_physics/layer_2="Player"
 3d_physics/layer_3="Enemy"
@@ -83,5 +81,5 @@ crouch={
 
 viewmodel_fov={
 "type": "float",
-"value": 55.0
+"value": 75.0
 }

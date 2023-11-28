@@ -1,4 +1,6 @@
 extends Node3D
+## Weapon model script.
+## Takes care of implementing procedural visual recoil when shooting.
 
 
 @export var recoil_rotation_x: Curve

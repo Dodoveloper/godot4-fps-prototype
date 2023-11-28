@@ -1,11 +1,10 @@
-[gd_scene load_steps=21 format=3 uid="uid://dkr12d528ypo0"]
+[gd_scene load_steps=20 format=3 uid="uid://dkr12d528ypo0"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_sbhg4"]
 [ext_resource type="Script" path="res://entities/player/player_fsm.gd" id="2_mmcdy"]
 [ext_resource type="PackedScene" uid="uid://g0wap7e024se" path="res://interfaces/hud/hud.tscn" id="2_wmwnf"]
 [ext_resource type="Script" path="res://entities/player/states/idle.gd" id="3_sdfdx"]
 [ext_resource type="PackedScene" uid="uid://hfrop8mvtgwq" path="res://entities/weapon/weapon.tscn" id="3_yiye0"]
-[ext_resource type="Script" path="res://entities/player/gun_camera/gun_camera.gd" id="4_e2r84"]
 [ext_resource type="Script" path="res://entities/player/states/walk.gd" id="4_wg1ks"]
 [ext_resource type="Script" path="res://entities/player/states/sprint.gd" id="5_4taip"]
 [ext_resource type="Script" path="res://entities/player/states/jump.gd" id="5_rtd2e"]
@@ -216,7 +215,6 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1, 
 cull_mask = 0
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
-cull_mask = 1048573
 current = true
 script = ExtResource("8_r6wnb")
 max_y = 2.5
@@ -241,26 +239,6 @@ collision_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/Feet"]
 shape = SubResource("CylinderShape3D_0pspf")
-
-[node name="GunViewportContainer" type="SubViewportContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="SubViewport" type="SubViewport" parent="GunViewportContainer"]
-transparent_bg = true
-handle_input_locally = false
-size = Vector2i(1152, 648)
-render_target_update_mode = 4
-
-[node name="GunCamera3D" type="Camera3D" parent="GunViewportContainer/SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-cull_mask = 2
-current = true
-script = ExtResource("4_e2r84")
-camera_path = NodePath("../../../Head/Camera3D")
 
 [node name="Timer" type="Timer" parent="."]
 
