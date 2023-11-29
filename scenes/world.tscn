@@ -1,41 +1,35 @@
-[gd_scene load_steps=19 format=3 uid="uid://b2nirh036ket0"]
+[gd_scene load_steps=18 format=3 uid="uid://b2nirh036ket0"]
 
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_aqqlb"]
 [ext_resource type="PackedScene" uid="uid://dkr12d528ypo0" path="res://entities/player/player.tscn" id="1_cnybd"]
-[ext_resource type="Texture2D" uid="uid://dqs0yu35p1nsn" path="res://scenes/assets/texture_08.png" id="2_nkr6u"]
+[ext_resource type="Material" uid="uid://dqyggwkbhvu1l" path="res://scenes/assets/floor_material.tres" id="2_cmo5a"]
 [ext_resource type="PackedScene" uid="uid://dvw4wy2xvdnxq" path="res://entities/enemy/enemy.tscn" id="3_h1m5e"]
-[ext_resource type="Texture2D" uid="uid://bfj7r6t8t674d" path="res://scenes/assets/texture_12.png" id="3_yckwj"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2ngr2"]
-albedo_texture = ExtResource("2_nkr6u")
-uv1_scale = Vector3(8, 6, 1)
+[ext_resource type="Material" uid="uid://cmrq1lp2x1tmt" path="res://scenes/assets/wall_material.tres" id="3_kxtie"]
+[ext_resource type="Material" uid="uid://cgbjgxlm3fo42" path="res://scenes/assets/obstacle_material.tres" id="4_4klao"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ccynb"]
-material = SubResource("StandardMaterial3D_2ngr2")
+material = ExtResource("2_cmo5a")
 size = Vector3(64, 0.5, 64)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_50tbi"]
 points = PackedVector3Array(-32, -0.25, -32, -32, 0.25, -32, 32, -0.25, -32, -32, -0.25, 32, -32, 0.25, 32, 32, 0.25, -32, 32, -0.25, 32, 32, 0.25, 32)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57ghv"]
-albedo_color = Color(0.866667, 0.890196, 0.698039, 1)
-albedo_texture = ExtResource("3_yckwj")
-uv1_scale = Vector3(128, 6, 1)
-
 [sub_resource type="BoxMesh" id="BoxMesh_hq2rc"]
-material = SubResource("StandardMaterial3D_57ghv")
+material = ExtResource("3_kxtie")
 size = Vector3(64, 6, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pe1oo"]
 size = Vector3(64, 6, 0.5)
 
 [sub_resource type="PrismMesh" id="PrismMesh_tul5f"]
+material = ExtResource("4_4klao")
 size = Vector3(8, 4, 4)
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_a07vn"]
 data = PackedVector3Array(0, 2, 2, 4, -2, 2, -4, -2, 2, 0, 2, -2, -4, -2, -2, 4, -2, -2, 0, 2, 2, 0, 2, -2, 4, -2, 2, 0, 2, -2, 4, -2, -2, 4, -2, 2, 0, 2, -2, 0, 2, 2, -4, -2, -2, 0, 2, 2, -4, -2, 2, -4, -2, -2, -4, -2, 2, 4, -2, 2, -4, -2, -2, 4, -2, 2, 4, -2, -2, -4, -2, -2)
 
 [sub_resource type="BoxMesh" id="BoxMesh_let4w"]
+material = ExtResource("3_kxtie")
 size = Vector3(20, 6, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_n2has"]
@@ -180,9 +174,9 @@ transform = Transform3D(-0.154072, 0, 0.98806, 0, 1, 0, -0.98806, 0, -0.154072, 
 [node name="Impacts" type="Node3D" parent="."]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.0218772, -0.464997, 0.885042, 0.0114907, 0.885312, 0.464855, -0.999695, 9.30435e-10, 0.0247113, 48.7779, 22.5789, 1.87348)
+transform = Transform3D(0.0229774, -0.367979, 0.92955, 0.00909326, 0.929834, 0.367867, -0.999695, 2.51528e-08, 0.0247113, 48.7779, 22.5789, 1.87348)
+light_color = Color(1, 0.854902, 0.87451, 1)
 shadow_enabled = true
-shadow_normal_bias = 0.1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ywp5y")

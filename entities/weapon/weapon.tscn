@@ -509,7 +509,6 @@ bones/3/rotation = Quaternion(-1.09425e-06, 1.33993e-07, 1, -0.000868992)
 bones/3/scale = Vector3(1, 1, 1)
 
 [node name="AKM_model" type="MeshInstance3D" parent="Model/RootNode/Armature/Skeleton3D"]
-layers = 2
 mesh = SubResource("ArrayMesh_n0igb")
 skin = SubResource("Skin_vu4sr")
 script = ExtResource("11_b86aw")

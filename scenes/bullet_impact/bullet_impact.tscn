@@ -4,7 +4,7 @@
 albedo_color = Color(0.156863, 0.156863, 0.156863, 1)
 roughness = 0.3
 emission_enabled = true
-emission = Color(0.654902, 0.654902, 0.654902, 1)
+emission = Color(0.372549, 0.372549, 0.372549, 1)
 emission_energy_multiplier = 0.2
 
 [sub_resource type="Curve" id="Curve_iblgo"]
