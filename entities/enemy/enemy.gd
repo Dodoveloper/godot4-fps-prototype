@@ -14,6 +14,12 @@ var target: Node3D
 @onready var body_mesh := $Body as MeshInstance3D
 
 
+func _ready() -> void:
+	# ensure the material is unique for each instance
+	var duplicated_material := body_mesh.get_active_material(0).duplicate()
+	body_mesh.set_surface_override_material(0, duplicated_material)
+
+
 func _physics_process(delta: float) -> void:
 	var direction := Vector3.ZERO
 	# apply gravity
