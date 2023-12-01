@@ -16,7 +16,6 @@ var time := 0.0
 func _process(delta: float) -> void:
 	time += delta
 	trauma = max(trauma - delta * trauma_reduction_rate, 0.0)
-	
 	rotation_degrees.y = initial_rotation.y + max_y \
 			* _get_shake_intensity() * _get_noise_from_seed(1)
 	rotation_degrees.z = initial_rotation.z + max_z \
@@ -28,9 +27,10 @@ func add_trauma(trauma_amount: float) -> void:
 
 
 func _get_shake_intensity() -> float:
-	return trauma * trauma
+	return pow(trauma, 2)
 
 
 func _get_noise_from_seed(_seed: int) -> float:
 	noise.seed = _seed
+	
 	return noise.get_noise_1d(time * noise_speed)

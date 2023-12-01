@@ -1,15 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://c5p36felxduqr"]
+[gd_scene load_steps=5 format=3 uid="uid://c5p36felxduqr"]
 
 [ext_resource type="Script" path="res://scenes/bullet_decal/bullet_decal.gd" id="1_pnwkq"]
-[ext_resource type="Texture2D" uid="uid://df306svw7a0tu" path="res://scenes/bullet_decal/assets/bullet_stain.png" id="1_u2v2w"]
+[ext_resource type="Texture2D" uid="uid://df306svw7a0tu" path="res://scenes/bullet_decal/assets/bullet_stain.png" id="1_wr0m6"]
 
-[node name="BulletDecal" type="Decal"]
-size = Vector3(0.1, 0.2, 0.1)
-texture_albedo = ExtResource("1_u2v2w")
-albedo_mix = 0.7
-normal_fade = 0.5
-distance_fade_enabled = true
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cm0ft"]
+transparency = 1
+albedo_color = Color(0.188235, 0.188235, 0.188235, 1)
+albedo_texture = ExtResource("1_wr0m6")
+
+[sub_resource type="QuadMesh" id="QuadMesh_0vvqg"]
+material = SubResource("StandardMaterial3D_cm0ft")
+size = Vector2(0.3, 0.3)
+
+[node name="BulletDecal" type="Node3D"]
 script = ExtResource("1_pnwkq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.25, 0, -3.7749e-08, 0, 0.25, 0, 3.7749e-08, 0, -0.25, 0, 0, -0.02)
+cast_shadow = 0
+mesh = SubResource("QuadMesh_0vvqg")
 
 [node name="LifeTimer" type="Timer" parent="."]
 wait_time = 10.0

@@ -1,11 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://dkr12d528ypo0"]
+[gd_scene load_steps=20 format=3 uid="uid://dkr12d528ypo0"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_sbhg4"]
 [ext_resource type="Script" path="res://entities/player/player_fsm.gd" id="2_mmcdy"]
 [ext_resource type="PackedScene" uid="uid://g0wap7e024se" path="res://interfaces/hud/hud.tscn" id="2_wmwnf"]
 [ext_resource type="Script" path="res://entities/player/states/idle.gd" id="3_sdfdx"]
 [ext_resource type="PackedScene" uid="uid://hfrop8mvtgwq" path="res://entities/weapon/weapon.tscn" id="3_yiye0"]
-[ext_resource type="Script" path="res://entities/player/gun_camera/gun_camera.gd" id="4_e2r84"]
 [ext_resource type="Script" path="res://entities/player/states/walk.gd" id="4_wg1ks"]
 [ext_resource type="Script" path="res://entities/player/states/sprint.gd" id="5_4taip"]
 [ext_resource type="Script" path="res://entities/player/states/jump.gd" id="5_rtd2e"]
@@ -77,34 +76,22 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Head/Camera3D:position")
+tracks/4/path = NodePath("Head/Camera3D/Weapon:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 0, 0)]
+"values": [Vector3(0.18, -0.22, -0.375)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Head/Camera3D/Weapon:position")
+tracks/5/path = NodePath("Head/Camera3D/Weapon:rotation")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.18, -0.22, -0.375)]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("Head/Camera3D/Weapon:rotation")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -116,27 +103,7 @@ _data = {
 "RESET": SubResource("Animation_t7flm")
 }
 
-[sub_resource type="Animation" id="Animation_5qxeg"]
-resource_name = "head_bobbing"
-length = 0.6
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = false
-tracks/0/path = NodePath("Head/Camera3D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.402, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0.1, 0), Vector3(0, 0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ltetk"]
-_data = {
-"head_bobbing": SubResource("Animation_5qxeg")
-}
 
 [sub_resource type="Animation" id="Animation_evt8v"]
 length = 0.3
@@ -209,9 +176,11 @@ script = ExtResource("3_sdfdx")
 
 [node name="Walk" type="Node" parent="StateMachine"]
 script = ExtResource("4_wg1ks")
+default_speed = 8
 
 [node name="Jump" type="Node" parent="StateMachine"]
 script = ExtResource("5_rtd2e")
+jump_power = 9.0
 
 [node name="Sprint" type="Node" parent="StateMachine"]
 script = ExtResource("5_4taip")
@@ -230,10 +199,14 @@ mesh = SubResource("CapsuleMesh_i3sya")
 shape = SubResource("CapsuleShape3D_bp4pk")
 
 [node name="Head" type="Node3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="FollowCamera" type="Camera3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.4)
+cull_mask = 0
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
-cull_mask = 1048573
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.4)
 current = true
 script = ExtResource("8_r6wnb")
 max_y = 2.5
@@ -242,14 +215,13 @@ noise = SubResource("FastNoiseLite_3aafk")
 
 [node name="HUD" parent="Head/Camera3D" instance=ExtResource("2_wmwnf")]
 
-[node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D"]
-unique_name_in_owner = true
-target_position = Vector3(0, 0, -100)
-collision_mask = 5
-
 [node name="Weapon" parent="Head/Camera3D" instance=ExtResource("3_yiye0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, -0.22, -0.375)
-camera_path = NodePath("..")
+camera_path = NodePath("../../FollowCamera")
+max_x_recoil_rotation = 6.5
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Head/Camera3D"]
+remote_path = NodePath("../../FollowCamera")
 
 [node name="Pivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.45, 0)
@@ -259,26 +231,6 @@ collision_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot/Feet"]
 shape = SubResource("CylinderShape3D_0pspf")
-
-[node name="GunViewportContainer" type="SubViewportContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="SubViewport" type="SubViewport" parent="GunViewportContainer"]
-transparent_bg = true
-handle_input_locally = false
-size = Vector2i(1152, 648)
-render_target_update_mode = 4
-
-[node name="GunCamera3D" type="Camera3D" parent="GunViewportContainer/SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-cull_mask = 2
-current = true
-script = ExtResource("4_e2r84")
-camera_path = NodePath("../../../Head/Camera3D")
 
 [node name="Timer" type="Timer" parent="."]
 
@@ -293,9 +245,10 @@ libraries = {
 [connection signal="exited" from="StateMachine/Sprint" to="StateMachine" method="_on_sprint_exited"]
 [connection signal="timeout" from="StateMachine/Sprint/Duration" to="StateMachine/Sprint" method="_on_duration_timeout"]
 [connection signal="ammo_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_ammo_changed"]
+[connection signal="decal_requested" from="Head/Camera3D/Weapon" to="." method="_on_weapon_decal_requested"]
 [connection signal="has_shot" from="Head/Camera3D/Weapon" to="." method="_on_weapon_has_shot"]
-[connection signal="heat_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_heat_changed"]
 [connection signal="heat_changed" from="Head/Camera3D/Weapon" to="Head/Camera3D/HUD" method="_on_weapon_heat_changed"]
+[connection signal="impact_requested" from="Head/Camera3D/Weapon" to="." method="_on_weapon_impact_requested"]
 [connection signal="shoot_finished" from="Head/Camera3D/Weapon" to="." method="_on_weapon_shoot_finished"]
 [connection signal="shoot_started" from="Head/Camera3D/Weapon" to="." method="_on_weapon_shoot_started"]
 [connection signal="state_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_state_changed"]

@@ -7,7 +7,7 @@ extends PlayerState
 func enter() -> void:
 	player.anim_player.play("player/crouch")
 	player.speed = crouch_speed
-	player.max_recoil_randomness /= 2.0
+	player.weapon.recoil_randomness /= 2.0
 
 
 func exit() -> void:
@@ -15,10 +15,11 @@ func exit() -> void:
 
 
 func handle_input(event: InputEvent) -> InputEvent:
-	if event.is_action_pressed("crouch"):
+	if event.is_action_pressed(&"crouch"):
 		finished.emit("idle" if not _get_normalized_direction() else "walk")
-	elif event.is_action_pressed("sprint") and player.weapon.can_sprint:
+	elif event.is_action_pressed(&"sprint") and player.weapon.can_sprint:
 		finished.emit("sprint")
+	
 	return super(event)
 
 
