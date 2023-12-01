@@ -117,7 +117,7 @@ func check_hitscan_collision() -> void:
 		
 		var collider := bullet_collision["collider"] as Node
 		if collider is Enemy:
-			collider.destroy()
+			collider.take_damage(damage)
 		# FIXME
 		#elif collider is RigidBody3D:
 			#collider.apply_impulse(bullet_dir, bullet_collision["position"])

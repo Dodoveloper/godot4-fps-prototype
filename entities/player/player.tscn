@@ -180,6 +180,7 @@ default_speed = 8
 
 [node name="Jump" type="Node" parent="StateMachine"]
 script = ExtResource("5_rtd2e")
+jump_power = 9.0
 
 [node name="Sprint" type="Node" parent="StateMachine"]
 script = ExtResource("5_4taip")

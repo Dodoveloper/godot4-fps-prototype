@@ -24,6 +24,16 @@ gdscript/warnings/untyped_declaration=1
 
 enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg")
 
+[file_customization]
+
+folder_colors={
+"res://addons/": "orange",
+"res://entities/": "pink",
+"res://interfaces/": "green",
+"res://scenes/": "blue",
+"res://script_templates/": "gray"
+}
+
 [input]
 
 move_forward={

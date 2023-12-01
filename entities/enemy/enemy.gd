@@ -27,9 +27,9 @@ func _physics_process(delta: float) -> void:
 	# look at the player while checking if there is a line of sight
 	if target:
 		var result := space_state.intersect_ray(PhysicsRayQueryParameters3D.create(
-				global_transform.origin, target.global_transform.origin))
+				global_position, target.global_position))
 		if result.collider is Player:
-			look_at(target.global_transform.origin)
+			look_at(target.global_position)
 			_set_body_albedo(Color.RED)
 			# move to target
 			direction = (target.transform.origin - transform.origin).normalized()
@@ -37,12 +37,19 @@ func _physics_process(delta: float) -> void:
 			_set_body_albedo(Color.GREEN)
 	velocity.x = direction.x * speed
 	velocity.z = direction.z * speed
+	
 	move_and_slide()
 
 
-func destroy() -> void:
-	destroyed.emit()
-	queue_free()
+func take_damage(amount: int) -> void:
+	health = max(health - amount, 0)
+	if health:
+		# TODO: stagger
+		pass
+	else:
+		# destroy
+		destroyed.emit()
+		queue_free()
 
 
 func _set_body_albedo(color: Color) -> void:
