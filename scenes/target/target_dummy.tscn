@@ -701,13 +701,10 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_8mksc")
 
-[node name="TargetDummy" type="RigidBody3D"]
+[node name="TargetDummy" type="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 collision_layer = 8
 collision_mask = 9
-mass = 10.0
-center_of_mass_mode = 1
-linear_damp = 50.0
 
 [node name="group1463207155" type="MeshInstance3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1.47621, 0)
