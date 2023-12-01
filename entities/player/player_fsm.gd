@@ -27,11 +27,8 @@ func _change_state(state_name: String) -> void:
 
 func _on_sprint_cooldown_timeout() -> void:
 	can_sprint = true
-	# TODO: remove prints
-	print("sprint cooldown timeout")
 
 
 func _on_sprint_exited(wait_time: float, time_left: float) -> void:
 	can_sprint = false
 	sprint_cooldown.start(wait_time - time_left)
-	print("sprint cooldown: ", sprint_cooldown.wait_time)

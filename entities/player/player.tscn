@@ -176,6 +176,7 @@ script = ExtResource("3_sdfdx")
 
 [node name="Walk" type="Node" parent="StateMachine"]
 script = ExtResource("4_wg1ks")
+default_speed = 8
 
 [node name="Jump" type="Node" parent="StateMachine"]
 script = ExtResource("5_rtd2e")
@@ -197,7 +198,7 @@ mesh = SubResource("CapsuleMesh_i3sya")
 shape = SubResource("CapsuleShape3D_bp4pk")
 
 [node name="Head" type="Node3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="FollowCamera" type="Camera3D" parent="Head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.4)

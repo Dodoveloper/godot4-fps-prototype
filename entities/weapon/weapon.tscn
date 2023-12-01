@@ -440,6 +440,7 @@ _data = {
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13, -0.23, -0.36)
 script = ExtResource("1_jqdj6")
 spray_scene = ExtResource("2_7hjqu")
+sway_amount = 0.02
 default_position = Vector3(0.13, -0.23, -0.36)
 
 [node name="StateMachine" type="Node" parent="."]

@@ -118,6 +118,9 @@ func check_hitscan_collision() -> void:
 		var collider := bullet_collision["collider"] as Node
 		if collider is Enemy:
 			collider.destroy()
+		# FIXME
+		#elif collider is RigidBody3D:
+			#collider.apply_impulse(bullet_dir, bullet_collision["position"])
 
 
 ## Projects a ray from the weapon's muzzle to the camera center.
@@ -138,7 +141,6 @@ func _get_camera_collision() -> Vector3:
 	var collision := get_world_3d().direct_space_state.intersect_ray(query)
 	
 	return collision.position if not collision.is_empty() else ray_end
-
 
 func _apply_sway(delta: float) -> void:
 	# make it go back to its default position
