@@ -1,7 +1,7 @@
 [gd_scene load_steps=35 format=3 uid="uid://hfrop8mvtgwq"]
 
 [ext_resource type="Script" path="res://entities/weapon/weapon.gd" id="1_jqdj6"]
-[ext_resource type="PackedScene" uid="uid://hjnl72g4qbay" path="res://entities/weapon/assets/spray_paths/assault_rifle.tscn" id="2_7hjqu"]
+[ext_resource type="PackedScene" uid="uid://hjnl72g4qbay" path="res://entities/weapon/assets/tools/spray_path_designer.tscn" id="2_7bbbm"]
 [ext_resource type="Script" path="res://entities/weapon/weapon_fsm.gd" id="2_kcga0"]
 [ext_resource type="Script" path="res://entities/weapon/states/idle.gd" id="3_5otlh"]
 [ext_resource type="Curve" uid="uid://cefw25gc28nry" path="res://entities/weapon/assets/resources/akm_recoil_curve.tres" id="3_nwn2r"]
@@ -439,7 +439,7 @@ _data = {
 [node name="Weapon" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13, -0.23, -0.36)
 script = ExtResource("1_jqdj6")
-spray_scene = ExtResource("2_7hjqu")
+spray_scene = ExtResource("2_7bbbm")
 sway_amount = 0.02
 default_position = Vector3(0.13, -0.23, -0.36)
 
