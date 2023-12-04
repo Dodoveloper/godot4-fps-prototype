@@ -165,7 +165,7 @@ _data = {
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_sbhg4")
-mouse_sentitivity = 0.25
+mouse_sentitivity = 0.2
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("2_mmcdy")

@@ -43,10 +43,7 @@ func _physics_process(delta: float) -> void:
 
 func take_damage(amount: int) -> void:
 	health = max(health - amount, 0)
-	if health:
-		# TODO: stagger
-		pass
-	else:
+	if health == 0:
 		# destroy
 		destroyed.emit()
 		queue_free()
