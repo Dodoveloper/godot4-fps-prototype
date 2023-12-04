@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b2nirh036ket0"]
+[gd_scene load_steps=25 format=3 uid="uid://b2nirh036ket0"]
 
 [ext_resource type="Script" path="res://scenes/world.gd" id="1_aqqlb"]
 [ext_resource type="PackedScene" uid="uid://dkr12d528ypo0" path="res://entities/player/player.tscn" id="1_cnybd"]
@@ -52,6 +52,13 @@ height = 6.0
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ocp42"]
 height = 6.0
 radius = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_51ujv"]
+material = ExtResource("4_4klao")
+size = Vector3(8, 1.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_81mxv"]
+size = Vector3(8, 1.5, 0.5)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_g5nm4"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -239,6 +246,36 @@ mesh = SubResource("CylinderMesh_3r8ri")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Obstacles/Pillar6"]
 shape = SubResource("CylinderShape3D_ocp42")
+
+[node name="Obstacle1" type="StaticBody3D" parent="Room/Obstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.5, 1, 19.75)
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Room/Obstacles/Obstacle1"]
+mesh = SubResource("BoxMesh_51ujv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Obstacles/Obstacle1"]
+shape = SubResource("BoxShape3D_81mxv")
+
+[node name="Obstacle2" type="StaticBody3D" parent="Room/Obstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 12.5, 1, 19.75)
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Room/Obstacles/Obstacle2"]
+mesh = SubResource("BoxMesh_51ujv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Obstacles/Obstacle2"]
+shape = SubResource("BoxShape3D_81mxv")
+
+[node name="Obstacle3" type="StaticBody3D" parent="Room/Obstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 19.75, 1, 19.75)
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Room/Obstacles/Obstacle3"]
+mesh = SubResource("BoxMesh_51ujv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Obstacles/Obstacle3"]
+shape = SubResource("BoxShape3D_81mxv")
 
 [node name="Player" parent="." instance=ExtResource("1_cnybd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.4388, 1.75, 20.0927)
