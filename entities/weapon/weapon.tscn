@@ -397,7 +397,7 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.15, 0.25, 0.9, 1, 1.1, 1.2),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 0,
+"update": 2,
 "values": [Vector3(0, -1.5708, 0), Vector3(0, -1.26013, 0.644027), Vector3(-0.466003, -1.26013, 0.644027), Vector3(-0.466003, -1.26013, 0.644027), Vector3(0, -1.26013, 0.644027), Vector3(0.0872665, -1.5708, 0), Vector3(0, -1.5708, 0)]
 }
 tracks/1/type = "value"
@@ -409,7 +409,7 @@ tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.15, 0.25, 0.9, 1, 1.2),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
+"update": 2,
 "values": [Vector3(0, 0, 0), Vector3(0, -0.13, 0), Vector3(0, -0.14, 0), Vector3(0, -0.14, 0), Vector3(0, -0.13, 0), Vector3(0, 0, 0)]
 }
 tracks/2/type = "audio"
@@ -509,19 +509,20 @@ bones/3/position = Vector3(-0.00110576, -0.00530994, -1.40437e-09)
 bones/3/rotation = Quaternion(-1.09425e-06, 1.33993e-07, 1, -0.000868992)
 bones/3/scale = Vector3(1, 1, 1)
 
-[node name="AKM_model" type="MeshInstance3D" parent="Model/RootNode/Armature/Skeleton3D"]
+[node name="Mesh" type="MeshInstance3D" parent="Model/RootNode/Armature/Skeleton3D"]
 mesh = SubResource("ArrayMesh_n0igb")
 skin = SubResource("Skin_vu4sr")
 script = ExtResource("11_b86aw")
 
 [node name="BulletSpawn" type="Marker3D" parent="Model"]
-transform = Transform3D(1, 0, 4.09273e-12, 0, 1, 0, -4.09273e-12, 0, 1, -3.4971, 0.700657, 1.26362e-05)
+transform = Transform3D(1, 0, 5.00222e-12, 0, 1, 0, -5.00222e-12, 0, 1, -3.4971, 0.772271, 1.26362e-05)
 
 [node name="MuzzleFlash" type="GPUParticles3D" parent="Model/BulletSpawn"]
 emitting = false
 amount = 5
 lifetime = 0.05
 one_shot = true
+local_coords = true
 process_material = SubResource("ParticleProcessMaterial_rgwm8")
 draw_pass_1 = SubResource("QuadMesh_un2iw")
 

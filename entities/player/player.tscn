@@ -201,10 +201,6 @@ shape = SubResource("CapsuleShape3D_bp4pk")
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
-[node name="FollowCamera" type="Camera3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.4)
-cull_mask = 0
-
 [node name="Camera3D" type="Camera3D" parent="Head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.4)
 current = true
@@ -217,11 +213,8 @@ noise = SubResource("FastNoiseLite_3aafk")
 
 [node name="Weapon" parent="Head/Camera3D" instance=ExtResource("3_yiye0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, -0.22, -0.375)
-camera_path = NodePath("../../FollowCamera")
+camera_path = NodePath("..")
 max_x_recoil_rotation = 6.5
-
-[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Head/Camera3D"]
-remote_path = NodePath("../../FollowCamera")
 
 [node name="Pivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.45, 0)
@@ -249,6 +242,4 @@ libraries = {
 [connection signal="has_shot" from="Head/Camera3D/Weapon" to="." method="_on_weapon_has_shot"]
 [connection signal="heat_changed" from="Head/Camera3D/Weapon" to="Head/Camera3D/HUD" method="_on_weapon_heat_changed"]
 [connection signal="impact_requested" from="Head/Camera3D/Weapon" to="." method="_on_weapon_impact_requested"]
-[connection signal="shoot_finished" from="Head/Camera3D/Weapon" to="." method="_on_weapon_shoot_finished"]
-[connection signal="shoot_started" from="Head/Camera3D/Weapon" to="." method="_on_weapon_shoot_started"]
 [connection signal="state_changed" from="Head/Camera3D/Weapon" to="." method="_on_weapon_state_changed"]

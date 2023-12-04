@@ -2,13 +2,10 @@ class_name Weapon
 extends Node3D
 
 
-signal ads_toggled(enabled: bool)
 signal has_shot(recoil_offset: Vector2)
 signal state_changed(states_stack: Array)
 signal ammo_changed(ammo: int)
 signal heat_changed(value: int)
-signal shoot_started()
-signal shoot_finished()
 signal decal_requested(collider_info: Dictionary)
 signal impact_requested(pos: Vector3, weapon_pos: Vector3)
 
@@ -52,6 +49,7 @@ var bob_amplitude := 0.01
 @onready var model := $Model as Node3D
 @onready var bullet_spawn := $Model/BulletSpawn as Marker3D
 @onready var camera := get_node(camera_path) as Camera3D
+@onready var weapon_mesh: MeshInstance3D = $Model/RootNode/Armature/Skeleton3D/Mesh
 @onready var muzzle_flash: GPUParticles3D = $Model/BulletSpawn/MuzzleFlash
 @onready var tracer: MeshInstance3D = $Model/BulletSpawn/Tracer
 @onready var gun_fire := $GunFIre as AudioStreamPlayer
@@ -64,6 +62,8 @@ var bob_amplitude := 0.01
 func _ready() -> void:
 	position = default_position
 	heat_tween.stop()
+	# set the camera FOV to the model shader
+	weapon_mesh.viewmodel_fov = camera.fov
 	
 	if spray_scene != null:
 		var spray := spray_scene.instantiate() as Path2D
@@ -106,7 +106,7 @@ func tilt(velocity: Vector3, delta: float) -> void:
 
 func check_hitscan_collision() -> void:
 	var collision_pos := _get_camera_collision()
-	var bullet_dir := (collision_pos - bullet_spawn.global_position).normalized()
+	var bullet_dir := bullet_spawn.global_position.direction_to(collision_pos)
 	var query := PhysicsRayQueryParameters3D.create(bullet_spawn.global_position,
 			collision_pos + bullet_dir*2)
 	var bullet_collision := get_world_3d().direct_space_state.intersect_ray(query)
@@ -141,6 +141,7 @@ func _get_camera_collision() -> Vector3:
 	var collision := get_world_3d().direct_space_state.intersect_ray(query)
 	
 	return collision.position if not collision.is_empty() else ray_end
+
 
 func _apply_sway(delta: float) -> void:
 	# make it go back to its default position
