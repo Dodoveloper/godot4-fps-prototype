@@ -1,6 +1,7 @@
 # Godot 4 FPS Prototype
-This project is a 3D FPS developed in Godot 4.2, showcasing various gameplay mechanics and aiming to implement a spray pattern system with the Godot game engine.
-Its primary objective is to serve as both a demonstration of advanced gameplay mechanics and a learning resource.
+This project is a 3D FPS developed in Godot 4.2, showcasing various features and aiming to implement a spray pattern system with the Godot game engine.
+
+Its primary objective is to serve as both a demonstration of advanced gameplay mechanics and a learning resource, since I haven't been able to find many implementations of this particular recoil system in Godot.
 
 ![gif](./imgs/clip.gif)
 
